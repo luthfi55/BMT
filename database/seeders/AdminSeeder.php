@@ -17,14 +17,14 @@ class AdminSeeder extends Seeder
     {
         $admins = [
             [
-                'name' => 'Luthfi',
-                'username' => 'luthfi',
+                'name' => 'Tes',
+                'username' => 'Tes',
                 'email' => 'tes@gmail.com',
                 'password' => Hash::make('11111111')
             ],
             [
-                'name' => 'Tes',
-                'username' => 'tess',
+                'name' => 'Tes1',
+                'username' => 'tes1',
                 'email' => 'tes1@gmail.com',
                 'password' => Hash::make('11111111')
             ],
