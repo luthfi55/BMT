@@ -171,7 +171,7 @@
                                 <span>Loan Fund</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">                    
-                                <li><a href="calendar.html">Create Loan</a></li>
+                                <li><a href="/admin/loanfund-form">Create Loan</a></li>
                                 <li><a href="calendar.html">Active Loan</a></li>
                                 <li><a href="apps-chat.html">Loan History</a></li>                
                             </ul>
