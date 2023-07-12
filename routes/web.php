@@ -41,6 +41,9 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
         Route::get('user-form','UserController@index')->name('user-form');
         Route::post('create-user','UserController@create')->name('create-user');
         Route::get('list-user','UserController@list')->name('list-user');
+        Route::get('user-update/{id}/edit', 'UserController@edit')->name('edit-user');
+        Route::put('user-update/{id}', 'UserController@update')->name('user-update');
+        Route::delete('user-destroy/{id}', 'UserController@destroy')->name('user-destroy');
     });
     Route::post('logout','Auth\AuthenticatedSessionController@destroy')->name('logout');
 });

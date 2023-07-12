@@ -45,6 +45,7 @@ $title = "User List";
                                     <th scope="col">Address</th>
                                     <th scope="col">Birth Date</th>
                                     <th scope="col">Phone Number</th>
+                                    <th scope="col">Job</th>
                                     <th scope="col">Mandatory Savings</th>
                                     <th scope="col">Pin</th>
                                     <th scope="col" style="width: 200px;">Action</th>
@@ -53,6 +54,7 @@ $title = "User List";
                                 <tbody>
                                     @foreach ($users as $user)                                    
                                     <tr>
+                                        <!-- User data -->
                                         <td>                                            
                                             <a href="users-list.html#" class="text-body">{{ $user->name }}</a>
                                         </td>
@@ -60,16 +62,27 @@ $title = "User List";
                                         <td>{{ $user->address }}</td>
                                         <td>{{ $user->birth_date }}</td>
                                         <td>{{ $user->phone_number }}</td>
+                                        <td>{{ $user->job }}</td>
                                         <td>{{ $user->mandatory_savings }}</td>
                                         <td>{{ $user->pin }}</td>
                                         <td>
+                                            <!-- Edit and Delete buttons -->
                                             <ul class="list-inline mb-0">
                                                 <li class="list-inline-item">
-                                                    <a href="javascript:void(0);" class="px-2 text-primary"><i class="ri-pencil-line font-size-18"></i></a>
+                                                    <div class="d-flex">
+                                                        <a href="{{ route('admin.edit-user', $user->id) }}" class="px-2 text-primary">
+                                                            <i class="ri-pencil-line font-size-18"></i>
+                                                        </a>
+                                                        <form action="{{ route('admin.user-destroy', $user->id) }}" method="POST" class="px-2">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn text-danger p-0" onclick="return confirm('Are you sure you want to delete this user?')">
+                                                                <i class="ri-delete-bin-line font-size-18"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
                                                 </li>
-                                                <li class="list-inline-item">
-                                                    <a href="javascript:void(0);" class="px-2 text-danger"><i class="ri-delete-bin-line font-size-18"></i></a>
-                                                </li>
+                                                
                                                 <li class="list-inline-item dropdown">
                                                     <a class="dropdown-toggle font-size-18 px-2" href="users-list.html#" role="button" data-bs-toggle="dropdown" aria-haspopup="true">
                                                         <i class="ri-more-2-fill"></i>
@@ -85,37 +98,8 @@ $title = "User List";
                                         </td>
                                     </tr>
                                     @endforeach
-                                      
                                 </tbody>
                             </table>
-                        </div>
-                        <div class="row mt-4">
-                            <div class="col-sm-6">
-                                <div>
-                                    <p class="mb-sm-0">Showing 1 to 10 of 12 entries</p>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="float-sm-end">
-                                    <ul class="pagination mb-sm-0">
-                                        <li class="page-item disabled">
-                                            <a href="users-list.html#" class="page-link"><i class="mdi mdi-chevron-left"></i></a>
-                                        </li>
-                                        <li class="page-item active">
-                                            <a href="users-list.html#" class="page-link">1</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a href="users-list.html#" class="page-link">2</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a href="users-list.html#" class="page-link">3</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a href="users-list.html#" class="page-link"><i class="mdi mdi-chevron-right"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
