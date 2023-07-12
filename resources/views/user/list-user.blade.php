@@ -16,6 +16,11 @@ $title = "User List";
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
+                    @if(session('success'))
+                        <div class="alert alert-success alert-solid" role="alert">
+                            <span class="fw-medium">Create User Account Successfully </span>
+                            </div>
+                    @endif
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-inline float-md-start mb-3">
@@ -60,7 +65,7 @@ $title = "User List";
                                     <tr>
                                         <!-- User data -->
                                         <td>                                            
-                                            <a href="users-list.html#" class="text-body">{{ $user->name }}</a>
+                                            <a href="#" class="text-body">{{ $user->name }}</a>
                                         </td>
                                         <td>{{ $user->email }}</td>
                                         <td>{{ $user->address }}</td>
@@ -88,14 +93,14 @@ $title = "User List";
                                                 </li>
                                                 
                                                 <li class="list-inline-item dropdown">
-                                                    <a class="dropdown-toggle font-size-18 px-2" href="users-list.html#" role="button" data-bs-toggle="dropdown" aria-haspopup="true">
+                                                    <a class="dropdown-toggle font-size-18 px-2" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true">
                                                         <i class="ri-more-2-fill"></i>
                                                     </a>
                                                 
                                                     <div class="dropdown-menu dropdown-menu-end">
-                                                        <a class="dropdown-item" href="users-list.html#">Action</a>
-                                                        <a class="dropdown-item" href="users-list.html#">Another action</a>
-                                                        <a class="dropdown-item" href="users-list.html#">Something else here</a>
+                                                        <a class="dropdown-item" href="#">Action</a>
+                                                        <a class="dropdown-item" href="#">Another action</a>
+                                                        <a class="dropdown-item" href="#">Something else here</a>
                                                     </div>
                                                 </li>
                                             </ul>
@@ -104,6 +109,7 @@ $title = "User List";
                                     @endforeach
                                 </tbody>
                             </table>
+
                         </div>
                     </div>
                 </div>
@@ -115,46 +121,6 @@ $title = "User List";
 </div>
 <!-- End Page-content -->
 
- <!-- Modal -->
- <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <!-- end modalheader -->
-            <div class="modal-body p-4">
-                <div>
-                    <div class="mb-3">
-                        <label for="addcontact-name-input" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="addcontact-name-input" placeholder="Enter Name">
-                    </div>
-                    <div class="mb-3">
-                        <label for="addcontact-designation-input" class="form-label">Designation</label>
-                        <input type="text" class="form-control" id="addcontact-designation-input" placeholder="Enter Designation">
-                    </div>
-                    <div class="mb-3">
-                        <label for="addcontact-file-input" class="form-label">User Image</label>
-                        <input type="file" class="form-control" id="addcontact-file-input">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="addcontact-email-input" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="addcontact-email-input" placeholder="Enter Email">
-                    </div>
-                </div>
-            </div>
-            <!-- end modalbody -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light w-sm" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary w-sm">Add</button>
-            </div>
-            <!-- end modalfooter -->
-        </div><!-- end content -->
-    </div>
-</div>
-<!-- end modal -->
 
 <footer class="footer">
     <div class="container-fluid">
