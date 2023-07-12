@@ -29,7 +29,7 @@ require __DIR__.'/auth.php';
 
 //admin
 Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
-    Route::namespace(('Auth'))->group(function(){
+    Route::namespace(('Auth'))->middleware('guest:admin')->group(function(){
         Route::get('login','AuthenticatedSessionController@create')->name('login');
         Route::post('login','AuthenticatedSessionController@store')->name('adminlogin');
     });
@@ -49,6 +49,9 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
         Route::get('loanfund-form','LoanFundController@index')->name('loanfund-form');
         Route::post('create-loanfund','LoanFundController@create')->name('create-loanfund');
         Route::get('list-loanfund','LoanFundController@list')->name('list-loan');
+
+        //loan bills
+        Route::post('create-loanbills','LoanBillsController@create')->name('create-loanbills');
     });
     Route::post('logout','Auth\AuthenticatedSessionController@destroy')->name('logout');
 });

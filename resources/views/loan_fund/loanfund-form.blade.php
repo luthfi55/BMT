@@ -25,11 +25,11 @@ $title = "Loan Fund Form";
                                         <form method="POST" action="{{ route('admin.create-loanfund') }}">
                                         @csrf
                                         <div class="row mb-3">
-                                            <label for="nominal" class="col-sm-2 col-form-label">User Id</label>
+                                            <label for="pin" class="col-sm-2 col-form-label">PIN</label>
                                             <div class="col-sm-10">
-                                                <input name="user_id" id="user_id" class="form-control" type="number" placeholder="User Id" required>
+                                                <input name="pin" id="pin" class="form-control" type="number" placeholder="PIN" required>
                                             </div>
-                                        </div>                                      
+                                        </div>                                   
                                         <!-- end row -->
                                         <div class="row mb-3">
                                             <label for="nominal" class="col-sm-2 col-form-label">Nominal</label>
