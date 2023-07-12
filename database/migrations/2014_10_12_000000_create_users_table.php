@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('address');
             $table->date('birth_date');
-            $table->integer('phone_number');
+            $table->string('phone_number');
             $table->string('job');
             $table->integer('mandatory_savings');
             $table->boolean('mandatory_savings_status');            
