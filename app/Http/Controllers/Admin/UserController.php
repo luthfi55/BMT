@@ -14,10 +14,23 @@ class UserController extends Controller
         return view('user/user-form');
     }
 
-    public function list()
+    public function list(Request $request)
     {
         $users = User::all();
         $users = User::paginate(10);
+        $search = $request->input('search');
+    
+        // Fetch users based on the search query
+        $users = User::where('name', 'LIKE', "%$search%")
+                ->orWhere('email', 'LIKE', "%$search%")
+                ->orWhere('address', 'LIKE', "%$search%")
+                ->orWhere('birth_date', 'LIKE', "%$search%")
+                ->orWhere('phone_number', 'LIKE', "%$search%")
+                ->orWhere('job', 'LIKE', "%$search%")
+                ->orWhere('mandatory_savings', 'LIKE', "%$search%")
+                ->orWhere('pin', 'LIKE', "%$search%")
+                ->paginate(11);
+    
         return view('user.list-user', ['users' => $users]);
     }
 

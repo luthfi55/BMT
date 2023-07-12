@@ -20,10 +20,14 @@ $title = "User List";
                             <div class="col-md-6">
                                 <div class="form-inline float-md-start mb-3">
                                     <div class="search-box me-2">
-                                        <div class="position-relative">
-                                            <input type="text" class="form-control border" placeholder="Search...">
-                                            <i class="ri-search-line search-icon"></i>
-                                        </div>
+                                        <form method="GET" action="{{ route('admin.list-user') }}" class="d-flex">
+                                            <div class="position-relative me-2">
+                                                <input type="text" class="form-control border" id="search" name="search" placeholder="Search...">
+                                                <i class="ri-search-line search-icon"></i>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary me-2">Search</button>
+                                            <button type="button" class="btn btn-secondary" onclick="resetSearch()">Reset</button>
+                                        </form>                                                                               
                                     </div>
                                 </div>
                             </div>
