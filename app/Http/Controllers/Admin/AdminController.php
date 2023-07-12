@@ -24,7 +24,7 @@ class AdminController extends Controller
             'email' => 'required',
             'password' => 'required',
         ]);  
-
+        
         $admin = new Admin();
         $admin->name = $request->input('name');
         $admin->username = $request->input('username');
