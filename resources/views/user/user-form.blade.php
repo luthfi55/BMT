@@ -72,14 +72,7 @@ $title = "User Form";
                                                 <input name="mandatory_savings" id="mandatory_savings" class="form-control" type="text" placeholder="Mandatory Savings">
                                             </div>
                                         </div>                                             
-                                        <!-- end row -->
-                                        <div class="row mb-3">
-                                            <label for="example-password-input" class="col-sm-2 col-form-label">Pin</label>
-                                            <div class="col-sm-10">
-                                                <input name="pin" id="pin" class="form-control" type="number" placeholder="Pin">
-                                            </div>
-                                        </div>      
-                                        <!-- end row -->
+                                        <!-- end row -->                                        
                                                                         
                                         <!-- end row -->
                                             <div class="col-12">
