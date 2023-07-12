@@ -29,7 +29,7 @@ $title = "User List";
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3 float-end">
-                                    <a href="users-list.html#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                                    <a href="{{ route('admin.user-form') }}" class="btn btn-primary">
                                         <i class="mdi mdi-plus me-1"></i> Add User
                                     </a>
                                 </div>
@@ -46,17 +46,22 @@ $title = "User List";
                                     <th scope="col">Birth Date</th>
                                     <th scope="col">Phone Number</th>
                                     <th scope="col">Mandatory Savings</th>
+                                    <th scope="col">Pin</th>
                                     <th scope="col" style="width: 200px;">Action</th>
                                   </tr>
                                 </thead>
-                                <tbody>                                    
+                                <tbody>
+                                    @foreach ($users as $user)                                    
                                     <tr>
                                         <td>                                            
-                                            <a href="users-list.html#" class="text-body">Marion Walker</a>
+                                            <a href="users-list.html#" class="text-body">{{ $user->name }}</a>
                                         </td>
-                                        <td>Frontend Developer</td>
-                                        <td>MarionWalker@Tocly.com</td>
-                                        <td>523</td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>{{ $user->address }}</td>
+                                        <td>{{ $user->birth_date }}</td>
+                                        <td>{{ $user->phone_number }}</td>
+                                        <td>{{ $user->mandatory_savings }}</td>
+                                        <td>{{ $user->pin }}</td>
                                         <td>
                                             <ul class="list-inline mb-0">
                                                 <li class="list-inline-item">
@@ -79,7 +84,7 @@ $title = "User List";
                                             </ul>
                                         </td>
                                     </tr>
-                                    
+                                    @endforeach
                                       
                                 </tbody>
                             </table>

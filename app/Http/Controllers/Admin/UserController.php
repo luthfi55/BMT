@@ -16,7 +16,8 @@ class UserController extends Controller
 
     public function list()
     {
-        return view('user/list-user');
+        $users = User::all();
+        return view('user.list-user', ['users' => $users]);
     }
 
     public function create(Request $request)
