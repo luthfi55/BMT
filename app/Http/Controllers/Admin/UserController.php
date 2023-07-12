@@ -29,7 +29,7 @@ class UserController extends Controller
                 ->orWhere('job', 'LIKE', "%$search%")
                 ->orWhere('mandatory_savings', 'LIKE', "%$search%")
                 ->orWhere('pin', 'LIKE', "%$search%")
-                ->paginate(11);
+                ->paginate(10);
     
         return view('user.list-user', ['users' => $users]);
     }
