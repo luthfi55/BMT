@@ -326,6 +326,15 @@
 
         <!-- App js -->
         <script src="/assets/js/app.js"></script>
+
+        <script>
+        function resetSearch() {
+            document.getElementById('search').value = ''; // Clear the search input field
+            document.getElementById('search').focus(); // Set focus back to the search input field
+            window.location.href = "{{ route('admin.list-user') }}"; // Redirect to the list page to display all data
+        }
+        </script>
+        
 </body>
 
 </body>
