@@ -27,7 +27,7 @@ $title = "Dashboard";
                                                 </span>
                                             </div>
                                             <div class="flex-grow-1 overflow-hidden ms-4">
-                                                <p class="text-muted text-truncate font-size-15 mb-2"> Total Earnings</p>
+                                                <p class="text-muted text-truncate font-size-15 mb-2"> Saldo</p>
                                                 <h3 class="fs-4 flex-grow-1 mb-3">34,123.20 <span class="text-muted font-size-16">USD</span></h3>
                                                 <p class="text-muted mb-0 text-truncate"><span class="badge bg-subtle-success text-success font-size-12 fw-normal me-1"><i class="mdi mdi-arrow-top-right"></i> 2.8% Increase</span> vs last month</p>
                                             </div>

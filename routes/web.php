@@ -36,7 +36,11 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
     Route::middleware('admin')->group(function(){
         // Route::get('dashboard', [App\Http\Controllers\Admin\HomeController::class, 'index'])->name('dashboard');          
         Route::get('dashboard','HomeController@index')->name('dashboard');
-        Route::get('admin-form','AdminController@showAdminForm')->name('dashboard');
+        Route::get('admin-form','AdminController@index')->name('admin-form');
+        Route::post('create-admin','AdminController@create')->name('create-admin');
+        Route::get('user-form','UserController@index')->name('user-form');
+        Route::post('create-user','UserController@create')->name('create-user');
+        Route::get('list-user','UserController@list')->name('list-user');
     });
     Route::post('logout','Auth\AuthenticatedSessionController@destroy')->name('logout');
 });

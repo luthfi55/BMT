@@ -15,40 +15,45 @@ $title = "Admin Form";
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-
+                                        @if(session('success'))
+                                        <div class="alert alert-success alert-solid" role="alert">
+                                                <span class="fw-medium">Create Admin Account Successfully </span>
+                                            </div>
+                                        @endif
                                         <h4 class="card-title">Create Admin Account</h4>
                                         <br>
-                                        <form method="POST" action="">
+                                        <form method="POST" action="{{ route('admin.create-admin') }}">
                                         @csrf
                                         <div class="row mb-3">
                                             <label for="example-text-input" class="col-sm-2 col-form-label">Name</label>
                                             <div class="col-sm-10">
-                                                <input id="name" class="form-control" type="text" placeholder="Name">
+                                                <input name="name" id="name" class="form-control" type="text" placeholder="Name">
+                                            </div>
+                                        </div>      
+                                        <div class="row mb-3">
+                                            <label for="example-text-input" class="col-sm-2 col-form-label">Username</label>
+                                            <div class="col-sm-10">
+                                                <input name="username" id="username" class="form-control" type="text" placeholder="Username">
                                             </div>
                                         </div>                                        
                                         <!-- end row -->
                                         <div class="row mb-3">
                                             <label for="example-email-input" class="col-sm-2 col-form-label">Email</label>
                                             <div class="col-sm-10">
-                                                <input id="email" class="form-control" type="email" placeholder="Email">
+                                                <input name="email" id="email" class="form-control" type="email" placeholder="Email">
                                             </div>
                                         </div>                                        
                                         <!-- end row -->
                                         <div class="row mb-3">
                                             <label for="example-password-input" class="col-sm-2 col-form-label">Password</label>
                                             <div class="col-sm-10">
-                                                <input id="password" class="form-control" type="password" placeholder="Password">
+                                                <input name="password" id="password" class="form-control" type="password" placeholder="Password">
                                             </div>
                                         </div>      
                                         <!-- end row -->
-                                        <div class="row mb-3">
-                                            <label for="example-password-input" class="col-sm-2 col-form-label">Password</label>
-                                            <div class="col-sm-10">
-                                                <input id="password-confirm" class="form-control" type="password" placeholder="Password">
-                                            </div>
-                                        </div>                                                                                
+                                                                        
                                         <!-- end row -->
-                                        <div class="col-12">
+                                            <div class="col-12">
                                                 <button type="submit" class="btn btn-primary w-lg">Submit</button>
                                             </div>
                                         </form>
