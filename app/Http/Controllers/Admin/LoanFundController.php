@@ -38,11 +38,38 @@ class LoanFundController extends Controller
         return view('loan_fund/loanfund-form', ['users' => $users]);
     }
 
-    public function list()
+    public function list(Request $request)
     {
-        $loanFunds = LoanFund::with('user')->paginate(10);
+        $search = $request->input('search');        
 
-        return view('loan_fund.list-loanfund', ['loanFunds' => $loanFunds]);             
+        $loanFunds = LoanFund::latest()            
+            ->with('user')
+            ->whereHas('user', function ($query) use ($search) {
+                $query->where('name', 'LIKE', "%$search%");
+            })
+            ->orWhere('nominal', 'LIKE', "%$search%")
+            ->orWhere('infaq', 'LIKE', "%$search%")
+            ->orWhere('infaq_type', 'LIKE', "%$search%")            
+            ->orWhere('infaq_status', 'LIKE', "%$search%")
+            ->orWhere('installment', 'LIKE', "%$search%")
+            ->orWhere('month', 'LIKE', "%$search%")
+            ->paginate(10);
+    
+        $loanFunds->appends(['search' => $search]); // Preserve the search term in pagination links
+    
+        return view('loan_fund.list-loanfund', ['loanFunds' => $loanFunds, 'search' => $search]);
+    }
+
+    public function detail($id)
+    {
+        $loanFunds = LoanFund::find($id);
+        if (!$loanFunds) {
+            return redirect()->route('admin/list-loanfund')->with('error', 'Loan bill not found.');
+        }
+
+        $loanBills = LoanBills::where('loan_fund_id', $loanFunds->id)->get();
+
+        return view('loan_fund.detail-loanfund', ['loanFund' => $loanFunds, 'loanBills' => $loanBills]);
     }
     
     public function create(Request $request)
@@ -131,17 +158,5 @@ class LoanFundController extends Controller
             return response()->json(['message' => 'Failed to create LoanFund.'], 500);
         }
     }    
-
-    public function detail($id)
-    {
-        $loanFunds = LoanFund::find($id);
-        if (!$loanFunds) {
-            return redirect()->route('admin/list-loanfund')->with('error', 'Loan bill not found.');
-        }
-
-        $loanBills = LoanBills::where('loan_fund_id', $loanFunds->id)->get();
-
-        return view('loan_fund.detail-loanfund', ['loanFund' => $loanFunds, 'loanBills' => $loanBills]);
-    }
     
 }

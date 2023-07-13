@@ -25,7 +25,7 @@ $title = "Loan Fund List";
                                 <div class="col-md-6">
                                     <div class="form-inline float-md-start mb-3">
                                         <div class="search-box me-2">
-                                            <form method="GET" action="{{ route('admin.list-user') }}" class="d-flex">
+                                            <form method="GET" action="{{ route('admin.list-loanfund') }}" class="d-flex">
                                                 <div class="position-relative me-2">
                                                     <input type="text" class="form-control border" id="search"
                                                         name="search" placeholder="Search...">
@@ -33,7 +33,7 @@ $title = "Loan Fund List";
                                                 </div>
                                                 <button type="submit" class="btn btn-primary me-2">Search</button>
                                                 <button type="button" class="btn btn-secondary"
-                                                    onclick="resetSearch()">Reset</button>
+                                                    onclick="resetSearchListLoandFund()">Reset</button>
                                             </form>
                                         </div>
                                     </div>
