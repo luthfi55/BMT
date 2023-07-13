@@ -15,14 +15,11 @@ class UserController extends Controller
     }
 
     public function list(Request $request)
-    {
-
-        $users = User::all();
-        $users = User::paginate(10);
+    {        
+        $users = User::latest();        
         $search = $request->input('search');
     
-        // Fetch users based on the search query
-        $users = User::where('name', 'LIKE', "%$search%")
+        $users = User::latest()->where('name', 'LIKE', "%$search%")
                 ->orWhere('email', 'LIKE', "%$search%")
                 ->orWhere('address', 'LIKE', "%$search%")
                 ->orWhere('birth_date', 'LIKE', "%$search%")
@@ -32,7 +29,7 @@ class UserController extends Controller
                 ->orWhere('pin', 'LIKE', "%$search%")
                 ->paginate(10);
     
-        return view('user.list-user', ['users' => $users]);
+        return view('user.list-user', ['users' => $users]);        
     }
 
     
