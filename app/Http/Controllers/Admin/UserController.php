@@ -108,7 +108,7 @@ class UserController extends Controller
         $user->pin = $request->input('pin');
         $user->save();
 
-        Session::flash('success', 'Successfully updated the user account');
+        Session::flash('updateSuccess');
 
         return redirect()->route('admin.list-user');
     }
@@ -118,7 +118,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        Session::flash('success', 'Successfully deleted the user account');
+        Session::flash('deleteSuccess');
 
         return redirect()->route('admin.list-user');
     }
