@@ -84,10 +84,9 @@ class LoanFundController extends Controller
             'infaq_type' => 'required',            
             'installment' => 'required',                    
         ]); 
-        if ($request->fails()) {
-            return redirect()->route('admin.loanfund-form')->withErrors($request->errors())->withInput();
-
-        }        
+        if (!$request->has('infaq_type')) {
+            return redirect()->route('admin.loanfund-form')->withErrors(['infaq_type' => 'Infaq Type harus dipilih.'])->withInput();
+        }     
         $pin = $request->input('pin');
         $user = User::where('pin', $pin)->first();
 
