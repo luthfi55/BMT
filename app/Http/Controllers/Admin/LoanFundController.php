@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
 
 class LoanFundController extends Controller
@@ -83,7 +84,10 @@ class LoanFundController extends Controller
             'infaq_type' => 'required',            
             'installment' => 'required',                    
         ]); 
+        if ($request->fails()) {
+            return redirect()->route('admin.loanfund-form')->withErrors($request->errors())->withInput();
 
+        }        
         $pin = $request->input('pin');
         $user = User::where('pin', $pin)->first();
 
@@ -92,7 +96,7 @@ class LoanFundController extends Controller
             return redirect()->route('admin.loanfund-form');
         }
 
-        // Buat data LoanFund
+        // Generate LoanFund Data
         $loanFund = new LoanFund();
         $loanFund->user_id = $user->id;             
         $loanFund->nominal = $request->input('nominal');
@@ -116,7 +120,6 @@ class LoanFundController extends Controller
         } elseif ($loanFund->infaq_type == 'last'){
             $loanBill = new LoanBills();
             $loanBill->loan_fund_id = $loanFund->id;
-            // $loanBill->goods_loan_id = $request->input('goods_loan_id');
             $loanBill->month = $loanFund->installment;
             $loanBill->installment = 0;
             $loanBill->installment_amount = $loanFund->nominal * $loanFund->infaq / 100;            
@@ -133,29 +136,31 @@ class LoanFundController extends Controller
         $totalLoanFund = $loanFund->nominal + $nominalInfaq;
 
         $monthlength = $loanFund->installment;
-        $installmentAmount = floor($totalLoanFund / $monthlength); // Menghitung jumlah cicilan per bulan
-        $lastInstallmentAmount = $totalLoanFund - ($installmentAmount * ($monthlength - 1)); // Menyesuaikan cicilan terakhir
+        $installmentAmount = floor($totalLoanFund / $monthlength);
+        $lastInstallmentAmount = $totalLoanFund - ($installmentAmount * ($monthlength - 1));
+
+        $currentMonth = Carbon::now()->timezone('Asia/Jakarta')->startOfMonth();
+
 
         for ($monthnow = 1; $monthnow <= $monthlength; $monthnow++) {            
+            $currentMonth->addMonth();
             $loanBill = new LoanBills();
-            $loanBill->loan_fund_id = $loanFund->id;
-            // $loanBill->goods_loan_id = $request->input('goods_loan_id');
+            $loanBill->loan_fund_id = $loanFund->id;            
             $loanBill->month = $monthnow;
             $loanBill->installment = 1;
             $loanBill->installment_amount = ($monthnow == $monthlength) ? $lastInstallmentAmount : $installmentAmount;
-            $loanBill->date = now();
+            $loanBill->date = $currentMonth->format('Y-m-d');
             $loanBill->status = false;
             $loanBill->save();
         } 
-
-        // Kirim respon berhasil
+        
         Session::flash('success', 'Successfully created a user account');
         return redirect()->route('admin.loanfund-form');
         } catch (ModelNotFoundException $e) {
-            Session::flash('success', 'Successfully created a user account');
-            return response()->json(['message' => 'Failed to create LoanFund. User not found.'], 422);
+            Session::flash('failed', 'Successfully created a user account');
+            return redirect()->route('admin.loanfund-form');
         } catch (QueryException $e) {
-            return response()->json(['message' => 'Failed to create LoanFund.'], 500);
+            return redirect()->route('admin.loanfund-form');
         }
     }    
     

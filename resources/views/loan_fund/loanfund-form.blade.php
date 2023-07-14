@@ -160,15 +160,17 @@ $title = "Loan Fund Form";
                                     <div class="row mb-3">
                                             <label class="col-sm-2 col-form-label">Infaq Type</label>
                                             <div class="col-sm-10">
-                                                <select class="form-select" name="infaq_type" id="infaq_type" aria-label="Default select example">
-                                                    <option selected="">Open this select menu</option>
+                                                <select class="form-select" name="infaq_type" id="infaq_type" aria-label="Default select example" required>
+                                                    <option selected disabled>Open this select menu</option>
                                                     <option value="first">Firts</option>
                                                     <option value="installment">Installment</option>
                                                     <option value="last">Last</option>
-                                                    </select>
-                                            </div>
-                                        </div>
-
+                                                    </select>                                                    
+                                            </div>                                            
+                                            @error('infaq_type')
+                                            <div class="text-danger">{{ $message }}</div>
+                                            @enderror                                            
+                                        </div>                                        
                                     <div class="row mb-3">
                                         <label for="installment" class="col-sm-2 col-form-label">Installment</label>
                                         <div class="col-sm-10">
