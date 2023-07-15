@@ -172,7 +172,7 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="true">                    
                                 <li><a href="/admin/loanfund-form">Create Loan</a></li>
-                                <li><a href="calendar.html">Active Loan</a></li>
+                                <li><a href="/admin/list-loanfund">Active Loan</a></li>
                                 <li><a href="apps-chat.html">Loan History</a></li>                
                             </ul>
                         </li>      
@@ -329,9 +329,19 @@
 
         <script>
         function resetSearch() {
-            document.getElementById('search').value = ''; // Clear the search input field
-            document.getElementById('search').focus(); // Set focus back to the search input field
-            window.location.href = "{{ route('admin.list-user') }}"; // Redirect to the list page to display all data
+            document.getElementById('search').value = '';
+            document.getElementById('search').focus(); 
+            window.location.href = "{{ route('admin.list-user') }}";
+        }
+        function resetSearchLoanFund() {
+            document.getElementById('search').value = '';
+            document.getElementById('search').focus(); 
+            window.location.href = "{{ route('admin.loanfund-form') }}";
+        }
+        function resetSearchListLoandFund() {
+            document.getElementById('search').value = '';
+            document.getElementById('search').focus(); 
+            window.location.href = "{{ route('admin.list-loanfund') }}";
         }
         </script>
         

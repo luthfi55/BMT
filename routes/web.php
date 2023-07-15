@@ -52,7 +52,9 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
         //loan fund
         Route::get('loanfund-form','LoanFundController@index')->name('loanfund-form');
         Route::post('create-loanfund','LoanFundController@create')->name('create-loanfund');
-        Route::get('list-loanfund','LoanFundController@list')->name('list-loan');
+        Route::get('list-loanfund','LoanFundController@list')->name('list-loanfund');
+        
+        Route::get('detail-loanfund/{id}/detail', 'LoanFundController@detail')->name('detail-loanfund');
 
         //loan bills
         Route::post('create-loanbills','LoanBillsController@create')->name('create-loanbills');
