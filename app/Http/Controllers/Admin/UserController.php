@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Savings;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Session;
@@ -32,7 +33,18 @@ class UserController extends Controller
         return view('user.list-user', ['users' => $users]);        
     }
 
-    
+    public function detail($id)
+    {
+        $users = User::find($id);
+        if (!$users) {
+            return redirect()->route('admin/list-user')->with('error', 'User not found.');
+        }
+
+        $savings = Savings::where('user_id', $users->id)->get();
+
+        return view('user.detail-user', ['users' => $users, 'savings' => $savings]);
+    }
+
     public function create(Request $request)
     {
         $request->validate([
