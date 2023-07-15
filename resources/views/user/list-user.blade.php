@@ -18,7 +18,7 @@ $title = "User List";
                     <div class="card-body">
                     @if(session('success'))
                         <div class="alert alert-success alert-solid" role="alert">
-                            <span class="fw-medium">Create User Account Successfully </span>
+                            <span class="fw-medium">Edit User Account Successfully </span>
                             </div>
                     @endif
                         <div class="row mb-2">
