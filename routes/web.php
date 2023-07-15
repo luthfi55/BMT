@@ -49,6 +49,8 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
         Route::put('user-update/{id}', 'UserController@update')->name('user-update');
         Route::delete('user-destroy/{id}', 'UserController@destroy')->name('user-destroy');
 
+        Route::get('detail-user/{id}/detail', 'UserController@detail')->name('detail-user');
+
         //loan fund
         Route::get('loanfund-form','LoanFundController@index')->name('loanfund-form');
         Route::post('create-loanfund','LoanFundController@create')->name('create-loanfund');
