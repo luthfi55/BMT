@@ -33,27 +33,27 @@ $title = "User List";
                                             <button type="submit" class="btn btn-primary me-2">Search</button>
                                             <button type="button" class="btn btn-secondary" onclick="resetSearch()">Reset</button>
                                         </form>                                                                               
-
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3 float-end">
-                                        <a href="{{ route('admin.user-form') }}" class="btn btn-primary">
-                                            <i class="mdi mdi-plus me-1"></i> Add User
-                                        </a>
                                     </div>
                                 </div>
                             </div>
-
-                            @if(session('success'))
+                            <div class="col-md-6">
+                                <div class="mb-3 float-end">
+                                    <a href="{{ route('admin.user-form') }}" class="btn btn-primary">
+                                        <i class="mdi mdi-plus me-1"></i> Add User
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        @if(session('success'))
                             <div class="alert alert-success alert-solid" role="alert">
                                 <span class="fw-medium">Create User Account Successfully </span>
                             </div>
-                            @elseif(session('updateSuccess'))
+                        @elseif(session('updateSuccess'))
                             <div class="alert alert-success alert-solid" role="alert">
                                 <span class="fw-medium">Update Account Successfully </span>
-                            </div>
-                            @elseif(session('deleteSuccess'))
+                            </div>            
+                        @elseif(session('deleteSuccess'))                        
                             <div class="alert alert-success alert-solid" role="alert">
                                 <span class="fw-medium">Delete Account Successfully </span>
                             </div>                        
@@ -134,89 +134,32 @@ $title = "User List";
                                 </tbody>
                             </table>
 
-
-
-
-                                                    <li class="list-inline-item dropdown">
-                                                        <a class="dropdown-toggle font-size-18 px-2" href="#"
-                                                            role="button" data-bs-toggle="dropdown"
-                                                            aria-haspopup="true">
-                                                            <i class="ri-more-2-fill"></i>
-                                                        </a>
-
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href="#">Action</a>
-                                                            <a class="dropdown-item" href="#">Another action</a>
-                                                            <a class="dropdown-item" href="#">Something else here</a>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-
-                            </div>
-                            <div class="row mt-4">
-                                <div class="col-sm-6">
-                                    <div>
-                                        <p class="mb-sm-0">Showing 1 to 10 of 12 entries</p>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="float-sm-end">
-                                        <ul class="pagination mb-sm-0">
-                                            <li class="page-item disabled">
-                                                <a href="users-list.html#" class="page-link"><i
-                                                        class="mdi mdi-chevron-left"></i></a>
-                                            </li>
-                                            <li class="page-item active">
-                                                <a href="users-list.html#" class="page-link">1</a>
-                                            </li>
-                                            <li class="page-item">
-                                                <a href="users-list.html#" class="page-link">2</a>
-                                            </li>
-                                            <li class="page-item">
-                                                <a href="users-list.html#" class="page-link">3</a>
-                                            </li>
-                                            <li class="page-item">
-                                                <a href="users-list.html#" class="page-link"><i
-                                                        class="mdi mdi-chevron-right"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <!-- end row -->
 
-            <!-- end row -->
-
-        </div> <!-- container-fluid -->
-    </div>
-    <!-- End Page-content -->
+    </div> <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
 
 
-    <footer class="footer">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-6">
-                    <script>
-                        document.write(new Date().getFullYear())
-
-                    </script> © Tocly.
-                </div>
-                <div class="col-sm-6">
-                    <div class="text-sm-end d-none d-sm-block">
-                        Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesdesign
-                    </div>
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <script>document.write(new Date().getFullYear())</script> © Tocly.
+            </div>
+            <div class="col-sm-6">
+                <div class="text-sm-end d-none d-sm-block">
+                    Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesdesign
                 </div>
             </div>
         </div>
-    </footer>
+    </div>
+</footer>
 
 </div>
 <!-- end main content-->
