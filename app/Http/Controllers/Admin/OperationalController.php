@@ -13,7 +13,8 @@ class OperationalController extends Controller
 {
     public function index()
     {
-        return view('operational/operational-form');
+        $balance = Balance::first();
+        return view('operational/operational-form',compact('balance'));
     }
 
     public function create(Request $request)
@@ -44,7 +45,8 @@ class OperationalController extends Controller
 
     public function list()
     {
+        $balance = Balance::first();
         $operationals = Operational::all();
-        return view('operational.list-operational', compact('operationals'));
+        return view('operational.list-operational', compact('operationals', 'balance'));
     }
 }
