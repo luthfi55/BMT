@@ -16,8 +16,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('loanfund:update-month')->daily()->withoutOverlapping();
-    } 
+        $schedule->command('loanfund:update-month')->everyMinute();
+    }
 
     /**
      * Register the commands for the application.

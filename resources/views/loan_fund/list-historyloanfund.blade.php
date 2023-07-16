@@ -1,6 +1,6 @@
 @extends('layouts.sidebar')
 <?php
-$title = "Loan Fund List";
+$title = "Loan Fund History";
 ?>
 @section('content')
 
@@ -103,6 +103,12 @@ $title = "Loan Fund List";
                                                                 data-bs-target="#updateModal{{ $loanFund->id }}">
                                                                 <i class="ri-pencil-line font-size-18"></i>
                                                             </button>
+
+                                                            <!-- Update button -->
+                                                            <!-- <a href="{{ route('admin.edit-loanfund', $loanFund->id) }}"
+                                                                class="px-2 text-primary">
+                                                                <i class="ri-pencil-line font-size-18"></i>
+                                                            </a> -->
 
                                                             <!-- Delete button -->
                                                             <form
