@@ -27,9 +27,8 @@ $title = "Dashboard";
                                                 </span>
                                             </div>
                                             <div class="flex-grow-1 overflow-hidden ms-4">
-                                                <p class="text-muted text-truncate font-size-15 mb-2"> Saldo</p>
-                                                <h3 class="fs-4 flex-grow-1 mb-3">34,123.20 <span class="text-muted font-size-16">USD</span></h3>
-                                                <p class="text-muted mb-0 text-truncate"><span class="badge bg-subtle-success text-success font-size-12 fw-normal me-1"><i class="mdi mdi-arrow-top-right"></i> 2.8% Increase</span> vs last month</p>
+                                                <p class="text-muted text-truncate font-size-15 mb-2"> Saldo BMT</p>
+                                                <h3 class="fs-4 flex-grow-1 mb-3">Rp.{{ number_format($balance->nominal, 2, ',', '.') }}</h3>
                                             </div>
                                             <div class="flex-shrink-0 align-self-start">
                                                 <div class="dropdown">
@@ -61,9 +60,8 @@ $title = "Dashboard";
                                                 </span>
                                             </div>
                                             <div class="flex-grow-1 overflow-hidden ms-4">
-                                                <p class="text-muted text-truncate font-size-15 mb-2"> Total Orders</p>
-                                                <h3 class="fs-4 flex-grow-1 mb-3">63,234 <span class="text-muted font-size-16">NOU</span></h3>
-                                                <p class="text-muted mb-0 text-truncate"><span class="badge bg-subtle-danger text-danger font-size-12 fw-normal me-1"><i class="mdi mdi-arrow-bottom-left"></i> 7.8% Loss</span> vs last month</p>
+                                                <p class="text-muted text-truncate font-size-15 mb-2"> Total Users</p>
+                                                <h3 class="fs-4 flex-grow-1 mb-3">{{ $userCount }}<span class="text-muted font-size-16"> Users</span></h3>                                                
                                             </div>
                                             <div class="flex-shrink-0 align-self-start">
                                                 <div class="dropdown">
@@ -95,9 +93,8 @@ $title = "Dashboard";
                                                 </span>
                                             </div>
                                             <div class="flex-grow-1 overflow-hidden ms-4">
-                                                <p class="text-muted text-truncate font-size-15 mb-2"> Today Visitor</p>
-                                                <h3 class="fs-4 flex-grow-1 mb-3">425,34 <span class="text-muted font-size-16">NOU</span></h3>
-                                                <p class="text-muted mb-0 text-truncate"><span class="badge bg-subtle-success text-success font-size-12 fw-normal me-1"><i class="mdi mdi-arrow-top-right"></i> 4.6% Growth</span> vs last month</p>
+                                                <p class="text-muted text-truncate font-size-15 mb-2"> Total Loan Fund Active</p>
+                                                <h3 class="fs-4 flex-grow-1 mb-3">{{ $loanFundCount }} <span class="text-muted font-size-16">Loan Active</span></h3>                                            
                                             </div>
                                             <div class="flex-shrink-0 align-self-start">
                                                 <div class="dropdown">
@@ -129,9 +126,8 @@ $title = "Dashboard";
                                                 </span>
                                             </div>
                                             <div class="flex-grow-1 overflow-hidden ms-4">
-                                                <p class="text-muted text-truncate font-size-15 mb-2"> Total Expense</p>
-                                                <h3 class="fs-4 flex-grow-1 mb-3">26,482.46 <span class="text-muted font-size-16">USD</span></h3>
-                                                <p class="text-muted mb-0 text-truncate"><span class="badge bg-subtle-success text-success font-size-12 fw-normal me-1"><i class="mdi mdi-arrow-top-right"></i> 23% Increase</span> vs last month</p>
+                                                <p class="text-muted text-truncate font-size-15 mb-2"> Total Goods Loan Active</p>
+                                                <h3 class="fs-4 flex-grow-1 mb-3">26,482.46 <span class="text-muted font-size-16">USD</span></h3>                                             
                                             </div>
                                             <div class="flex-shrink-0 align-self-start">
                                                 <div class="dropdown">
