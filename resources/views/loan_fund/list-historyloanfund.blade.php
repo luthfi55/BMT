@@ -16,11 +16,16 @@ $title = "Loan Fund History";
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            @if(session('success'))
+                            @if(session('updateSuccess'))
                             <div class="alert alert-success alert-solid" role="alert">
-                                <span class="fw-medium">Create User Account Successfully </span>
+                                <span class="fw-medium">Update Loan Fund History Status Successfully </span>
                             </div>
                             @endif
+                            @if(session('deleteSuccess'))
+                            <div class="alert alert-success alert-solid" role="alert">
+                                <span class="fw-medium">Delete Loan Fund Successfully </span>
+                            </div>
+                            @endif     
                             <div class="row mb-2">
                                 <div class="col-md-6">
                                     <div class="form-inline float-md-start mb-3">
@@ -142,7 +147,7 @@ $title = "Loan Fund History";
                                                         </div>
                                                         <div class="modal-body">
                                                             <form
-                                                                action="{{ route('admin.loanfund-update', $loanFund->id) }}"
+                                                                action="{{ route('admin.historyloanfund-update', $loanFund->id) }}"
                                                                 method="POST">
                                                                 @csrf
                                                                 @method('PUT')
@@ -171,36 +176,7 @@ $title = "Loan Fund History";
                                                     </div>
                                                 </div>
                                             </div>
-                            </div>
-
-                            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog"
-                                aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="myLargeModalLabel">Large modal
-                                            </h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p>Cras mattis consectetur purus sit amet fermentum.
-                                                Cras justo odio, dapibus ac facilisis in,
-                                                egestas eget quam. Morbi leo risus, porta ac
-                                                consectetur ac, vestibulum at eros.</p>
-                                            <p>Praesent commodo cursus magna, vel scelerisque
-                                                nisl consectetur et. Vivamus sagittis lacus vel
-                                                augue laoreet rutrum faucibus dolor auctor.</p>
-                                            <p class="mb-0">Aenean lacinia bibendum nulla sed
-                                                consectetur.
-                                                Praesent commodo cursus magna, vel scelerisque
-                                                nisl consectetur et. Donec sed odio dui. Donec
-                                                ullamcorper nulla non metus auctor
-                                                fringilla.</p>
-                                        </div>
-                                    </div><!-- /.modal-content -->
-                                </div><!-- /.modal-dialog -->
-                            </div>
+                            </div>                            
 
                             <!-- Delete Modal -->
                             <div class="modal fade" id="deleteModal{{ $loanFund->id }}" tabindex="-1" role="dialog"
@@ -220,7 +196,7 @@ $title = "Loan Fund History";
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-light waves-effect"
                                                 data-bs-dismiss="modal">Cancel</button>
-                                            <form action="{{ route('admin.loanfund-destroy', $loanFund->id) }}"
+                                            <form action="{{ route('admin.historyloanfund-destroy', $loanFund->id) }}"
                                                 method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')

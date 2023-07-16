@@ -191,10 +191,10 @@ class LoanFundController extends Controller
             $loanBill->save();
         } 
         
-        Session::flash('success', 'Successfully created a user account');
-        return redirect()->route('admin.loanfund-form');
+        Session::flash('success');
+        return redirect()->route('admin.list-loanfund');
         } catch (ModelNotFoundException $e) {
-            Session::flash('failed', 'Successfully created a user account');
+            Session::flash('failed');
             return redirect()->route('admin.loanfund-form');
         } catch (QueryException $e) {
             return redirect()->route('admin.loanfund-form');
@@ -222,33 +222,74 @@ class LoanFundController extends Controller
 
         Session::flash('updateSuccess');
 
-        return redirect()->route('admin.list-user');
+        return redirect()->route('admin.list-loanfund');
+    }
+
+    public function updateStatusHistory(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required',
+        ]);
+
+        $loanFund = LoanFund::findOrFail($id);                          
+        $loanFund->status =  $request->input('status');
+        $loanFund->save();
+
+        Session::flash('updateSuccess');
+
+        return redirect()->route('admin.list-historyloanfund');
     }
     
     public function destroy($id)
-{
-    try {
-        // Cari data loan_fund berdasarkan ID
-        $loanFund = LoanFund::findOrFail($id);
+    {
+        try {
+            // Cari data loan_fund berdasarkan ID
+            $loanFund = LoanFund::findOrFail($id);
 
-        // Cari data loan_bills yang memiliki loan_fund_id yang sama dengan $id
-        $loanBills = LoanBills::where('loan_fund_id', $id)->get();
+            // Cari data loan_bills yang memiliki loan_fund_id yang sama dengan $id
+            $loanBills = LoanBills::where('loan_fund_id', $id)->get();
 
-        // Hapus data loan_bills yang terkait dengan loan_fund_id
-        foreach ($loanBills as $loanBill) {
-            $loanBill->delete();
+            // Hapus data loan_bills yang terkait dengan loan_fund_id
+            foreach ($loanBills as $loanBill) {
+                $loanBill->delete();
+            }
+
+            // Hapus data loan_fund
+            $loanFund->delete();
+
+            Session::flash('deleteSuccess');
+
+            return redirect()->route('admin.list-loanfund');
+        } catch (ModelNotFoundException $e) {
+            Session::flash('deleteFailed');
+
+            return redirect()->route('admin.list-loanfund');
         }
-
-        // Hapus data loan_fund
-        $loanFund->delete();
-
-        Session::flash('deleteSuccess');
-
-        return redirect()->route('admin.list-loanfund');
-    } catch (ModelNotFoundException $e) {
-        Session::flash('deleteFailed');
-
-        return redirect()->route('admin.list-loanfund');
     }
-}
+    public function destroyHistory($id)
+    {
+        try {
+            // Cari data loan_fund berdasarkan ID
+            $loanFund = LoanFund::findOrFail($id);
+
+            // Cari data loan_bills yang memiliki loan_fund_id yang sama dengan $id
+            $loanBills = LoanBills::where('loan_fund_id', $id)->get();
+
+            // Hapus data loan_bills yang terkait dengan loan_fund_id
+            foreach ($loanBills as $loanBill) {
+                $loanBill->delete();
+            }
+
+            // Hapus data loan_fund
+            $loanFund->delete();
+
+            Session::flash('deleteSuccess');
+
+            return redirect()->route('admin.list-historyloanfund');
+        } catch (ModelNotFoundException $e) {
+            Session::flash('deleteFailed');
+
+            return redirect()->route('admin.list-historyloanfund');
+        }
+    }
 }
