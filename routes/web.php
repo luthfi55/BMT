@@ -69,6 +69,11 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
         Route::delete('loanfund-destroy/{id}', 'LoanFundController@destroy')->name('loanfund-destroy');
         Route::delete('historyloanfund-destroy/{id}', 'LoanFundController@destroyHistory')->name('historyloanfund-destroy');
         
+        //Operational
+        Route::get('operational-form','OperationalController@index')->name('operational-form');
+        Route::get('list-operational','OperationalController@list')->name('list-operational');
+        Route::post('create-operational','OperationalController@create')->name('create-operational');
+
         //Balance
         Route::get('balance-form','BalanceController@index')->name('balance-form');
         Route::get('list-historybalance','BalanceController@listHistory')->name('list-historybalance');

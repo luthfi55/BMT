@@ -23,7 +23,7 @@ class BalanceController extends Controller
             'description' => 'required',            
         ]);  
         
-        $currentTime = $currentMonth = Carbon::now()->timezone('Asia/Jakarta');
+        $currentTime = Carbon::now()->timezone('Asia/Jakarta');
 
         $balanceHistory = new BalanceHistory();
         $balanceHistory->nominal = $request->input('nominal');
