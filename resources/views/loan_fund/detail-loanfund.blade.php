@@ -137,6 +137,7 @@ $title = "Loan Fund Detail";
                                                     <tr>
                                                         <th scope="col">Month</th>
                                                         <th scope="col">Installment Month</th>
+                                                        <th scope="col">Installment Date</th>
                                                         <th scope="col">Type</th>
                                                         <th scope="col">Status</th>
                                                         <th scope="col" style="width: 120px;">Action</th>
@@ -148,6 +149,7 @@ $title = "Loan Fund Detail";
                                                         <td>{{ $loanBill->month }}</td>
                                                         <td>Rp.{{ number_format($loanBill->installment_amount, 2, ',', '.') }}
                                                         </td>
+                                                        <td>{{ $loanBill->date }}</td>
                                                         <td>
                                                             @if ($loanBill->installment == 1)
                                                             Installment

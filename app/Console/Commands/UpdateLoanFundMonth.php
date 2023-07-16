@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\LoanBills;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use App\Models\LoanFund;
@@ -18,22 +19,31 @@ class UpdateLoanFundMonth extends Command
     }
 
     public function handle()
-    {
-        // $loanFunds = LoanFund::all();
+    {              
+        $loanBills = LoanBills::all();
 
-        // foreach ($loanFunds as $loanFund) {
-        //     $currentMonth = Carbon::now()->timezone('Asia/Jakarta')->startOfMonth();
+        foreach ($loanBills as $loanBill) {
+            $currentDateTime = Carbon::now()->timezone('Asia/Jakarta');
+            
+            // pengkondisian menggunakan waktu harian
+            // if ($currentDateTime->isSameDay(Carbon::parse($loanBill->date)->timezone('Asia/Jakarta'))) {
+                
+            if ($currentDateTime->format('H:i') == Carbon::parse($loanBill->date)->timezone('Asia/Jakarta')->format('H:i')) {                
+                //ubah status
+                $loanBill->status = true;
+                $loanBill->save();
+                //ubah month
+                $loanFund = LoanFund::find($loanBill->loan_fund_id);
 
-        //     $loanBill = $loanFund->loanBills()->orderBy('month', 'desc')->first();
-        //     if ($loanBill && $currentMonth->isAfter($loanBill->date)) {
-        //         $loanFund->month = $loanBill->month + 1;
-        //     } else {
-        //         $loanFund->month = 1;
-        //     }
+                if ($loanFund && $loanFund->month < $loanFund->installment) {                    
+                    $loanFund->month += 1;
+                    $loanFund->save();
 
-        //     $loanFund->save();
-        // }
-
-        // $this->info('Loan fund months updated successfully.');
+                    $this->info("Updated month for LoanFund ID: {$loanFund->id}");
+                }        
+            }
+            
+            $this->info('Loan bills checked.');
+        }
     }
 }

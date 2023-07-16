@@ -173,7 +173,7 @@
                             <ul class="sub-menu" aria-expanded="true">                    
                                 <li><a href="/admin/loanfund-form">Create Loan</a></li>
                                 <li><a href="/admin/list-loanfund">Active Loan</a></li>
-                                <li><a href="apps-chat.html">Loan History</a></li>                
+                                <li><a href="/admin/list-historyloanfund">Loan History</a></li>                
                             </ul>
                         </li>      
 
