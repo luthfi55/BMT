@@ -82,7 +82,7 @@ class UserController extends Controller
         $user->save();
         // dd($user);  
         Session::flash('success', 'Successfully created a user account');
-        // Tambahkan logika tambahan jika diperlukan            
+          
         return redirect()->route('admin.list-user');
 
     }

@@ -14,13 +14,13 @@ class CreateBalanceHistoryTable extends Migration
     public function up()
     {
         Schema::create('balance_history', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('balance_id')->constrained('balance');    
-            $table->foreignId('operational_id')->constrained('operational');    
-            $table->foreignId('loans_bills_id')->constrained('loan_bills');    
-            $table->foreignId('savings_id')->constrained('savings');    
+            $table->id();            
+            $table->foreignId('operational_id')->nullable()->constrained('operational');    
+            $table->foreignId('loan_bills_id')->nullable()->constrained('loan_bills');    
+            $table->foreignId('savings_id')->nullable()->constrained('savings');    
             $table->integer('nominal');
-            $table->date('date');
+            $table->string('description');
+            $table->datetime('date');
             $table->timestamps();
         });
     }

@@ -17,7 +17,8 @@ class CreateOperationalTable extends Migration
             $table->id();
             $table->string('goods');
             $table->string('description');
-            $table->string('nominal');            
+            $table->string('nominal');    
+            $table->datetime('date');
             $table->timestamps();
         });
     }

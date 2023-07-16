@@ -183,8 +183,29 @@ $title = "Loan Fund Form";
 
                                     <!-- end row -->
                                     <div class="col-12">
-                                        <button type="submit" class="btn btn-primary w-lg">Submit</button>
-                                    </div>
+                                    <button type="button" class="btn btn-primary waves-effect waves-light w-lg"
+                                        data-bs-toggle="modal" data-bs-target=".bs-example-modal-center">Submit</button>
+                                </div>
+                                <div class="modal fade bs-example-modal-center" tabindex="-1" role="dialog"
+                                    aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Confirmation</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Make sure to verify whether the entered data is correct or not beforehand.</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-light waves-effect"
+                                                    data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal-dialog -->
+                                </div>
                                 </form>
                             </div>
                         </div>
@@ -193,25 +214,7 @@ $title = "Loan Fund Form";
                 <!-- end row -->
 
 
-                <!-- End Page-content -->
-
-                <footer class="footer">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <script>
-                                    document.write(new Date().getFullYear())
-
-                                </script> © Tocly.
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="text-sm-end d-none d-sm-block">
-                                    Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesdesign
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
+                <!-- End Page-content -->                
 
             </div>
             <!-- end main content-->

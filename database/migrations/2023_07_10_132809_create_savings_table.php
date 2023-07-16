@@ -18,7 +18,7 @@ class CreateSavingsTable extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->string('type');
             $table->integer('nominal');
-            $table->date('date');
+            $table->datetime('date');
             $table->boolean('status');
             $table->timestamps();
         });
