@@ -50,13 +50,15 @@
                         </a>
 
                         <a href="index.html" class="logo logo-light">
-                            <span class="logo-sm">
-                                <img src="/assets/images/logo-light.png" alt="logo-sm-light" height="24">
-                            </span>
-                            <span class="logo-lg">
-                                <img src="/assets/images/logo-sm-light.png" alt="logo-light" height="25">
-                            </span>
-                        </a>
+                        <span class="logo-sm">
+                            <!-- <img src="/assets/images/logo-sm-light.png" alt="logo-sm-light" height="24"> -->
+                            <h2 style="color: #086070; padding-top: 20px;">BMT</h2>
+                        </span>
+                        <span class="logo-lg">
+                            <!-- <img src="/assets/images/logo-light.png" alt="logo-light" height="22"> -->
+                            <h2 style="color: #086070; padding-top: 20px;">BMT</h2>
+                        </span>
+                    </a>
                     </div>
 
                     <button type="button"
@@ -117,7 +119,27 @@
         <div class="vertical-menu">
 
             <!-- LOGO -->
+            <div class="navbar-brand-box">
+                    <a href="index.html" class="logo logo-dark">
+                        <span class="logo-sm">
+                            <!-- <img src="/assets/images/logo-sm-dark.png" alt="logo-sm-dark" height="24"> -->
+                        </span>
+                        <span class="logo-lg">
+                            <!-- <img src="/assets/images/logo-dark.png" alt="logo-dark" height="22"> -->
+                        </span>
+                    </a>
 
+                    <a href="index.html" class="logo logo-light">
+                        <span class="logo-sm">
+                            <!-- <img src="/assets/images/logo-sm-light.png" alt="logo-sm-light" height="24"> -->
+                            <h2 style="color: white; padding-top: 20px;">BMT</h2>
+                        </span>
+                        <span class="logo-lg">
+                            <!-- <img src="/assets/images/logo-light.png" alt="logo-light" height="22"> -->
+                            <h2 style="color: white; padding-top: 20px;">BMT</h2>
+                        </span>
+                    </a>
+                </div>
 
             <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect vertical-menu-btn"
                 id="vertical-menu-btn">
@@ -195,8 +217,8 @@
                                 <span>Operational</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">                    
-                                <li><a href="calendar.html">Create Operational</a></li>
-                                <li><a href="apps-chat.html">History</a></li>                
+                                <li><a href="/admin/operational-form">Create Operational</a></li>
+                                <li><a href="/admin/list-operational">History</a></li>                
                             </ul>
                         </li>    
 
@@ -281,11 +303,7 @@
                         <div class="dropdown-divider"></div> -->
                     <a class="dropdown-item" href="pages-profile.html"><i
                             class="mdi mdi-wallet text-muted font-size-16 align-middle me-1"></i> <span
-                            class="align-middle">Balance : <b>$5971.67</b></span></a>
-                    <a class="dropdown-item" href="index.html#"><span
-                            class="badge bg-primary mt-1 float-end">New</span><i
-                            class="mdi mdi-cog-outline text-muted font-size-16 align-middle me-1"></i> <span
-                            class="align-middle">Settings</span></a>
+                            class="align-middle">Rp.{{ number_format($balance->nominal, 2, ',', '.') }}</span></a>                    
                     <a class="dropdown-item" href="{{ route('admin.logout') }}" onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();"><i
                             class="mdi mdi-logout text-muted font-size-16 align-middle me-1"></i>
