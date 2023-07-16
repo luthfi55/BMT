@@ -206,8 +206,8 @@
                                 <span>Balance</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">                    
-                                <li><a href="calendar.html">Add Balance</a></li>
-                                <li><a href="apps-chat.html">History</a></li>                
+                                <li><a href="/admin/balance-form">Add Balance</a></li>
+                                <li><a href="/admin/list-historybalance">History</a></li>                
                             </ul>
                         </li>                                   
                         <!-- <li>
@@ -298,6 +298,19 @@
             </div>
 
         </div>
+
+        <footer class="footer">
+                    <div class="container-fluid">
+                        <div class="row">                            
+                            <div class="col-sm-6">
+                                <div class="text-sm-end d-none d-sm-block">
+                                    Create by BMT Cerebrum
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+
 
         <!-- Left Sidebar End -->
 
