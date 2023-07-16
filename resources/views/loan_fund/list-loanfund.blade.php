@@ -18,9 +18,19 @@ $title = "Loan Fund List";
                         <div class="card-body">
                             @if(session('success'))
                             <div class="alert alert-success alert-solid" role="alert">
-                                <span class="fw-medium">Create User Account Successfully </span>
+                                <span class="fw-medium">Create Loan Fund Successfully </span>
                             </div>
                             @endif
+                            @if(session('updateSuccess'))
+                            <div class="alert alert-success alert-solid" role="alert">
+                                <span class="fw-medium">Update Loan Fund Status Successfully </span>
+                            </div>
+                            @endif
+                            @if(session('deleteSuccess'))
+                            <div class="alert alert-success alert-solid" role="alert">
+                                <span class="fw-medium">Delete Loan Fund Successfully </span>
+                            </div>
+                            @endif                            
                             <div class="row mb-2">
                                 <div class="col-md-6">
                                     <div class="form-inline float-md-start mb-3">
@@ -165,36 +175,7 @@ $title = "Loan Fund List";
                                                     </div>
                                                 </div>
                                             </div>
-                            </div>
-
-                            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog"
-                                aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="myLargeModalLabel">Large modal
-                                            </h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p>Cras mattis consectetur purus sit amet fermentum.
-                                                Cras justo odio, dapibus ac facilisis in,
-                                                egestas eget quam. Morbi leo risus, porta ac
-                                                consectetur ac, vestibulum at eros.</p>
-                                            <p>Praesent commodo cursus magna, vel scelerisque
-                                                nisl consectetur et. Vivamus sagittis lacus vel
-                                                augue laoreet rutrum faucibus dolor auctor.</p>
-                                            <p class="mb-0">Aenean lacinia bibendum nulla sed
-                                                consectetur.
-                                                Praesent commodo cursus magna, vel scelerisque
-                                                nisl consectetur et. Donec sed odio dui. Donec
-                                                ullamcorper nulla non metus auctor
-                                                fringilla.</p>
-                                        </div>
-                                    </div><!-- /.modal-content -->
-                                </div><!-- /.modal-dialog -->
-                            </div>
+                            </div>                            
 
                             <!-- Delete Modal -->
                             <div class="modal fade" id="deleteModal{{ $loanFund->id }}" tabindex="-1" role="dialog"
