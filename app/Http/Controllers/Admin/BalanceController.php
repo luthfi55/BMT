@@ -13,7 +13,8 @@ class BalanceController extends Controller
 {
     public function index()
     {
-        return view('balance/balancehistory-form');
+        $balance = Balance::first();
+        return view('balance/balancehistory-form' ,compact('balance'));
     }
 
     public function create(Request $request)
@@ -42,7 +43,8 @@ class BalanceController extends Controller
 
     public function listHistory()
     {
+        $balance = Balance::first();
         $balanceHistories = BalanceHistory::all();
-        return view('balance.list-balancehistory', compact('balanceHistories'));
+        return view('balance.list-balancehistory', compact('balanceHistories', 'balance'));
     }
 }

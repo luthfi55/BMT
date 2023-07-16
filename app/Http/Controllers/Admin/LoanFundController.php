@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Balance;
 use App\Models\LoanBills;
 use App\Models\LoanFund;
 use App\Models\User;
@@ -16,6 +17,7 @@ class LoanFundController extends Controller
 {
     public function index(Request $request)
     {
+        $balance = Balance::first();
         $search = $request->input('search');
         $users = User::latest();
     
@@ -36,11 +38,12 @@ class LoanFundController extends Controller
     
         $users = $users->paginate(10);
     
-        return view('loan_fund/loanfund-form', ['users' => $users]);
+        return view('loan_fund/loanfund-form', ['users' => $users],compact('balance'));
     }
 
     public function list(Request $request)
     {
+        $balance = Balance::first();
         $search = $request->input('search');        
 
         $loanFunds = LoanFund::latest()            
@@ -63,11 +66,12 @@ class LoanFundController extends Controller
 
         $loanFunds->appends(['search' => $search]); // Preserve the search term in pagination links
 
-        return view('loan_fund.list-loanfund', ['loanFunds' => $loanFunds, 'search' => $search]);
+        return view('loan_fund.list-loanfund', ['loanFunds' => $loanFunds, 'search' => $search],compact('balance'));
     }
 
     public function listHistory(Request $request)
     {
+        $balance = Balance::first();
         $search = $request->input('search');        
 
         $loanFunds = LoanFund::latest()            
@@ -90,11 +94,12 @@ class LoanFundController extends Controller
 
         $loanFunds->appends(['search' => $search]); // Preserve the search term in pagination links
 
-        return view('loan_fund.list-historyloanfund', ['loanFunds' => $loanFunds, 'search' => $search]);
+        return view('loan_fund.list-historyloanfund', ['loanFunds' => $loanFunds, 'search' => $search],compact('balance'));
     }
 
     public function detail($id)
     {
+        $balance = Balance::first();
         $loanFunds = LoanFund::find($id);
         if (!$loanFunds) {
             return redirect()->route('admin/list-loanfund')->with('error', 'Loan bill not found.');
@@ -102,7 +107,7 @@ class LoanFundController extends Controller
 
         $loanBills = LoanBills::where('loan_fund_id', $loanFunds->id)->get();
 
-        return view('loan_fund.detail-loanfund', ['loanFund' => $loanFunds, 'loanBills' => $loanBills]);
+        return view('loan_fund.detail-loanfund', ['loanFund' => $loanFunds, 'loanBills' => $loanBills],compact('balance'));
     }
     
     public function create(Request $request)

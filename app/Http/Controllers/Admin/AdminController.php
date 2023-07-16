@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Balance;
 use Illuminate\Http\Request;
 use App\Models\Admin;
 use App\Http\Controllers\Admin\Hash;
@@ -13,7 +14,8 @@ class AdminController extends Controller
 {
     public function index()
     {
-        return view('admin/admin-form');
+        $balance = Balance::first();
+        return view('admin/admin-form', compact('balance'));
     }
 
     public function create(Request $request)
