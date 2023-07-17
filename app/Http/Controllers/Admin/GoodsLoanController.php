@@ -4,16 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Balance;
+use App\Models\GoodsLoan;
 use App\Models\LoanBills;
-use App\Models\LoanFund;
-use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Database\QueryException;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
 
-class LoanFundController extends Controller
+class GoodsLoanController extends Controller
 {
     public function index(Request $request)
     {
@@ -33,12 +32,12 @@ class LoanFundController extends Controller
                     ->orWhere('pin', 'LIKE', "%$search%");
             });
         } else {
-            $users = $users->whereRaw('1 = 0'); // No users should be found when no search term is provided
+            $users = $users->whereRaw('1 = 0');
         }
     
         $users = $users->paginate(10);
     
-        return view('loan_fund/loanfund-form', ['users' => $users],compact('balance'));
+        return view('goods_loan/goodsloan-form', ['users' => $users],compact('balance'));
     }
 
     public function list(Request $request)
@@ -46,12 +45,13 @@ class LoanFundController extends Controller
         $balance = Balance::first();
         $search = $request->input('search');        
 
-        $loanFunds = LoanFund::latest()            
+        $goodsLoans = GoodsLoan::latest()            
             ->with('user')
-            ->where('status', false) // Filter based on status
+            ->where('status', false) 
             ->where(function ($query) use ($search) {
                 $query->where(function ($query) use ($search) {
-                    $query->where('nominal', 'LIKE', "%$search%")
+                    $query->where('goods', 'LIKE', "%$search%")
+                        ->orwhere('nominal', 'LIKE', "%$search%")
                         ->orWhere('infaq', 'LIKE', "%$search%")
                         ->orWhere('infaq_type', 'LIKE', "%$search%")            
                         ->orWhere('infaq_status', 'LIKE', "%$search%")
@@ -64,9 +64,9 @@ class LoanFundController extends Controller
             })
             ->paginate(10);
 
-        $loanFunds->appends(['search' => $search]); // Preserve the search term in pagination links
+        $goodsLoans->appends(['search' => $search]); // Preserve the search term in pagination links
 
-        return view('loan_fund.list-loanfund', ['loanFunds' => $loanFunds, 'search' => $search],compact('balance'));
+        return view('goods_loan.list-goodsloan', ['goodsLoans' => $goodsLoans, 'search' => $search],compact('balance'));
     }
 
     public function listHistory(Request $request)
@@ -74,12 +74,13 @@ class LoanFundController extends Controller
         $balance = Balance::first();
         $search = $request->input('search');        
 
-        $loanFunds = LoanFund::latest()            
+        $goodsLoans = GoodsLoan::latest()            
             ->with('user')
-            ->where('status', true) // Filter based on status
+            ->where('status', true) 
             ->where(function ($query) use ($search) {
                 $query->where(function ($query) use ($search) {
-                    $query->where('nominal', 'LIKE', "%$search%")
+                    $query->where('goods', 'LIKE', "%$search%")
+                        ->orwhere('nominal', 'LIKE', "%$search%")
                         ->orWhere('infaq', 'LIKE', "%$search%")
                         ->orWhere('infaq_type', 'LIKE', "%$search%")            
                         ->orWhere('infaq_status', 'LIKE', "%$search%")
@@ -92,30 +93,32 @@ class LoanFundController extends Controller
             })
             ->paginate(10);
 
-        $loanFunds->appends(['search' => $search]); // Preserve the search term in pagination links
+        $goodsLoans->appends(['search' => $search]); // Preserve the search term in pagination links
 
-        return view('loan_fund.list-historyloanfund', ['loanFunds' => $loanFunds, 'search' => $search],compact('balance'));
+        return view('goods_loan.list-historygoodsloan', ['goodsLoans' => $goodsLoans, 'search' => $search],compact('balance'));
     }
+    
 
     public function detail($id)
     {
         $balance = Balance::first();
-        $loanFunds = LoanFund::find($id);
-        if (!$loanFunds) {
+        $goodsLoan = GoodsLoan::find($id);
+        if (!$goodsLoan) {
             return redirect()->route('admin/list-loanfund')->with('error', 'Loan bill not found.');
         }
 
-        $loanBills = LoanBills::where('loan_fund_id', $loanFunds->id)->get();
+        $loanBills = LoanBills::where('goods_loan_id', $goodsLoan->id)->get();
 
-        return view('loan_fund.detail-loanfund', ['loanFund' => $loanFunds, 'loanBills' => $loanBills],compact('balance'));
+        return view('goods_loan.detail-goodsloan', ['goodsLoan' => $goodsLoan, 'loanBills' => $loanBills],compact('balance'));
     }
-    
+
     public function create(Request $request)
     {        
         try {
         // Validasi request
         $request->validate([
             'pin' => 'required',
+            'goods' => 'required',
             'nominal' => 'required',
             'infaq' => 'required',
             'infaq_type' => 'required',            
@@ -132,54 +135,55 @@ class LoanFundController extends Controller
             return redirect()->route('admin.loanfund-form');
         }
 
-        // Generate LoanFund Data
-        $loanFund = new LoanFund();
-        $loanFund->user_id = $user->id;             
-        $loanFund->nominal = $request->input('nominal');
-        $loanFund->infaq = $request->input('infaq');
-        $loanFund->infaq_type = $request->input('infaq_type');
+        // Generate GoodsLoan Data
+        $goodsLoan = new GoodsLoan();
+        $goodsLoan->user_id = $user->id;     
+        $goodsLoan->goods = $request->input('goods');        
+        $goodsLoan->nominal = $request->input('nominal');
+        $goodsLoan->infaq = $request->input('infaq');
+        $goodsLoan->infaq_type = $request->input('infaq_type');
 
-        if ($loanFund->infaq_type == 'first') {
-            $loanFund->infaq_status = true;
+        if ($goodsLoan->infaq_type == 'first') {
+            $goodsLoan->infaq_status = true;
         } else {
-            $loanFund->infaq_status = false;
+            $goodsLoan->infaq_status = false;
         }
 
-        $loanFund->installment = $request->input('installment');
-        $loanFund->installment_amount = 0;
-        $loanFund->month = 1;
-        $loanFund->status = false;
-        $loanFund->save();
+        $goodsLoan->installment = $request->input('installment');
+        $goodsLoan->installment_amount = 0;
+        $goodsLoan->month = 1;
+        $goodsLoan->status = false;
+        $goodsLoan->save();
 
-        if ($loanFund->infaq_type == 'first'){
+        if ($goodsLoan->infaq_type == 'first'){
             $nominalInfaq = 0;     
-        } elseif ($loanFund->infaq_type == 'last'){
-            $monthlength = $loanFund->installment;
+        } elseif ($goodsLoan->infaq_type == 'last'){
+            $monthlength = $goodsLoan->installment;
             $currentMonth = Carbon::now()->timezone('Asia/Jakarta');
             for ($monthnow = 1; $monthnow <= $monthlength; $monthnow++) {
                 $currentMonth->addMonth();
             }
             
             $loanBill = new LoanBills();
-            $loanBill->loan_fund_id = $loanFund->id;
-            $loanBill->month = $loanFund->installment;
+            $loanBill->goods_loan_id = $goodsLoan->id;
+            $loanBill->month = $goodsLoan->installment;
             $loanBill->installment = 0;
-            $loanBill->installment_amount = $loanFund->nominal * $loanFund->infaq / 100;            
+            $loanBill->installment_amount = $goodsLoan->nominal * $goodsLoan->infaq / 100;            
             $loanBill->date = $currentMonth;
             $loanBill->status = false;
             $loanBill->save();       
             $nominalInfaq = 0;     
-        } else if ($loanFund->infaq_type == 'installment'){
-            $nominalInfaq =  $loanFund->nominal * $loanFund->infaq / 100;
+        } else if ($goodsLoan->infaq_type == 'installment'){
+            $nominalInfaq =  $goodsLoan->nominal * $goodsLoan->infaq / 100;
         } 
 
         //Generate loan bills
 
-        $totalLoanFund = $loanFund->nominal + $nominalInfaq;
+        $totalgoodsLoan = $goodsLoan->nominal + $nominalInfaq;
 
-        $monthlength = $loanFund->installment;
-        $installmentAmount = floor($totalLoanFund / $monthlength);
-        $lastInstallmentAmount = $totalLoanFund - ($installmentAmount * ($monthlength - 1));
+        $monthlength = $goodsLoan->installment;
+        $installmentAmount = floor($totalgoodsLoan / $monthlength);
+        $lastInstallmentAmount = $totalgoodsLoan - ($installmentAmount * ($monthlength - 1));
 
         $currentMonth = Carbon::now()->timezone('Asia/Jakarta');
 
@@ -187,7 +191,7 @@ class LoanFundController extends Controller
             // $currentMonth->addMonth();
             $currentMonth->addMinutes(1);
             $loanBill = new LoanBills();
-            $loanBill->loan_fund_id = $loanFund->id;            
+            $loanBill->goods_loan_id = $goodsLoan->id;            
             $loanBill->month = $monthnow;
             $loanBill->installment = 1;
             $loanBill->installment_amount = ($monthnow == $monthlength) ? $lastInstallmentAmount : $installmentAmount;
@@ -197,22 +201,13 @@ class LoanFundController extends Controller
         } 
         
         Session::flash('success');
-        return redirect()->route('admin.list-loanfund');
+        return redirect()->route('admin.list-goodsloan');
         } catch (ModelNotFoundException $e) {
             Session::flash('failed');
-            return redirect()->route('admin.loanfund-form');
+            return redirect()->route('admin.goodsloan-form');
         } catch (QueryException $e) {
-            return redirect()->route('admin.loanfund-form');
+            return redirect()->route('admin.goodsloan-form');
         }
-    }    
-
-    public function edit($id)
-    {
-        $loanFunds = LoanFund::find($id);
-        if (!$loanFunds) {
-            return redirect()->route('admin.user-form')->with('error', 'User not found.');
-        }
-        return view('loan_fund.loanfund-edit', ['loanFunds' => $loanFunds]);
     }
 
     public function updateStatus(Request $request, $id)
@@ -221,13 +216,13 @@ class LoanFundController extends Controller
             'status' => 'required',
         ]);
 
-        $loanFund = LoanFund::findOrFail($id);                          
-        $loanFund->status =  $request->input('status');
-        $loanFund->save();
+        $goodsLoan = GoodsLoan::findOrFail($id);                          
+        $goodsLoan->status =  $request->input('status');
+        $goodsLoan->save();
 
         Session::flash('updateSuccess');
 
-        return redirect()->route('admin.list-loanfund');
+        return redirect()->route('admin.list-goodsloan');
     }
 
     public function updateStatusHistory(Request $request, $id)
@@ -236,62 +231,59 @@ class LoanFundController extends Controller
             'status' => 'required',
         ]);
 
-        $loanFund = LoanFund::findOrFail($id);                          
-        $loanFund->status =  $request->input('status');
-        $loanFund->save();
+        $goodsLoan = GoodsLoan::findOrFail($id);                          
+        $goodsLoan->status =  $request->input('status');
+        $goodsLoan->save();
 
         Session::flash('updateSuccess');
 
-        return redirect()->route('admin.list-historyloanfund');
+        return redirect()->route('admin.list-historygoodsloan');
     }
-    
+
     public function destroy($id)
     {
-        try {
-            $loanFund = LoanFund::findOrFail($id);
-
-            $loanBills = LoanBills::where('loan_fund_id', $id)->get();
-
+        try {            
+            $goodsLoan = GoodsLoan::findOrFail($id);
+            
+            $loanBills = LoanBills::where('goods_loan_id', $id)->get();
+        
             foreach ($loanBills as $loanBill) {
                 $loanBill->delete();
             }
-
-            $loanFund->delete();
+            
+            $goodsLoan->delete();
 
             Session::flash('deleteSuccess');
 
-            return redirect()->route('admin.list-loanfund');
+            return redirect()->route('admin.list-goodsloan');
         } catch (ModelNotFoundException $e) {
             Session::flash('deleteFailed');
 
-            return redirect()->route('admin.list-loanfund');
+            return redirect()->route('admin.list-goodsloan');
         }
     }
 
     public function destroyHistory($id)
     {
-        try {
-            // Cari data loan_fund berdasarkan ID
-            $loanFund = LoanFund::findOrFail($id);
-
-            // Cari data loan_bills yang memiliki loan_fund_id yang sama dengan $id
-            $loanBills = LoanBills::where('loan_fund_id', $id)->get();
-
-            // Hapus data loan_bills yang terkait dengan loan_fund_id
+        try {            
+            $goodsLoan = GoodsLoan::findOrFail($id);
+            
+            $loanBills = LoanBills::where('goods_loan_id', $id)->get();
+        
             foreach ($loanBills as $loanBill) {
                 $loanBill->delete();
             }
-
-            // Hapus data loan_fund
-            $loanFund->delete();
+            
+            $goodsLoan->delete();
 
             Session::flash('deleteSuccess');
 
-            return redirect()->route('admin.list-historyloanfund');
+            return redirect()->route('admin.list-historygoodsloan');
         } catch (ModelNotFoundException $e) {
             Session::flash('deleteFailed');
 
-            return redirect()->route('admin.list-historyloanfund');
+            return redirect()->route('admin.list-historygoodsloan');
         }
     }
+    
 }
