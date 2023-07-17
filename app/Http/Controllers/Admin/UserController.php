@@ -38,7 +38,7 @@ class UserController extends Controller
 
     public function detail($id)
     {
-        $balance = Balance::first(); 
+        $balance = Balance::first();   
         $users = User::find($id);
         if (!$users) {
             return redirect()->route('admin/list-user')->with('error', 'User not found.');

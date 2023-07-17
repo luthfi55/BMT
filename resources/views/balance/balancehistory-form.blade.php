@@ -21,7 +21,7 @@ $title = "Balance Form";
                             </div>
                             @endif
 
-                            <h4 class="card-title">Create User Account</h4>
+                            <h4 class="card-title">Add Balance</h4>
                             <br>
                             <br>
                             <form method="POST" action="{{ route('admin.create-balance') }}">
