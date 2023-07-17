@@ -374,6 +374,11 @@
             document.getElementById('search').focus(); 
             window.location.href = "{{ route('admin.list-loanfund') }}";
         }
+        function resetSearchBalance() {
+            document.getElementById('search').value = '';
+            document.getElementById('search').focus(); 
+            window.location.href = "{{ route('admin.list-historybalance') }}";
+        }
         </script>
         
 </body>

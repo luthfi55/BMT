@@ -1,6 +1,6 @@
 @extends('layouts.sidebar')
 <?php
-$title = "Loan Fund List";
+$title = "Balance List";
 ?>
 @section('content')
 
@@ -18,24 +18,24 @@ $title = "Loan Fund List";
                         <div class="card-body">
                             @if(session('success'))
                             <div class="alert alert-success alert-solid" role="alert">
-                                <span class="fw-medium">Create Loan Fund Successfully </span>
+                                <span class="fw-medium">Add Balance Successfully </span>
                             </div>
                             @endif
                             @if(session('updateSuccess'))
                             <div class="alert alert-success alert-solid" role="alert">
-                                <span class="fw-medium">Update Loan Fund Status Successfully </span>
+                                <span class="fw-medium">Update Balance Status Successfully </span>
                             </div>
                             @endif
                             @if(session('deleteSuccess'))
                             <div class="alert alert-success alert-solid" role="alert">
-                                <span class="fw-medium">Delete Loan Fund Successfully </span>
+                                <span class="fw-medium">Delete Balance Successfully </span>
                             </div>
                             @endif
                             <div class="row mb-2">
                                 <div class="col-md-6">
                                     <div class="form-inline float-md-start mb-3">
                                         <div class="search-box me-2">
-                                            <form method="GET" action="{{ route('admin.list-loanfund') }}"
+                                            <form method="GET" action="{{ route('admin.list-historybalance') }}"
                                                 class="d-flex">
                                                 <div class="position-relative me-2">
                                                     <input type="text" class="form-control border" id="search"
@@ -44,15 +44,15 @@ $title = "Loan Fund List";
                                                 </div>
                                                 <button type="submit" class="btn btn-primary me-2">Search</button>
                                                 <button type="button" class="btn btn-secondary"
-                                                    onclick="resetSearchListLoandFund()">Reset</button>
+                                                    onclick="resetSearchBalance()">Reset</button>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3 float-end">
-                                        <a href="{{ route('admin.loanfund-form') }}" class="btn btn-primary">
-                                            <i class="mdi mdi-plus me-1"></i> Create Loan Fund
+                                        <a href="{{ route('admin.balance-form') }}" class="btn btn-primary">
+                                            <i class="mdi mdi-plus me-1"></i> Add Balance
                                         </a>
                                     </div>
                                 </div>
@@ -63,6 +63,8 @@ $title = "Loan Fund List";
                                     <thead class="bg-light">
                                         <tr>
                                             <th scope="col">Id</th>
+                                            <th scope="col">Loan Fund Id</th>
+                                            <th scope="col">Goods Loan Id</th>
                                             <th scope="col">Operational Id</th>
                                             <th scope="col">Loan Bills Id</th>
                                             <th scope="col">Savings Id</th>
@@ -80,6 +82,22 @@ $title = "Loan Fund List";
                                             </td>
 
                                             <td>
+                                                @if ($balanceHistorie->loan_fund_id == '')
+                                                -
+                                                @else
+                                                {{$balanceHistorie->loan_fund_id}}
+                                                @endif
+                                            </td>
+
+                                            <td>
+                                                @if ($balanceHistorie->goods_loan_id == '')
+                                                -
+                                                @else
+                                                {{$balanceHistorie->goods_loan_id}}
+                                                @endif
+                                            </td>
+
+                                            <td>
                                                 @if ($balanceHistorie->operational_id == '')
                                                 -
                                                 @else
@@ -88,10 +106,10 @@ $title = "Loan Fund List";
                                             </td>
 
                                             <td>
-                                                @if ($balanceHistorie->loan_bills_id == '')
+                                                @if ($balanceHistorie->loans_bills_id == '')
                                                 -
                                                 @else
-                                                {{$balanceHistorie->loan_bills_id}}
+                                                {{$balanceHistorie->loasn_bills_id}}
                                                 @endif
                                             </td>
 

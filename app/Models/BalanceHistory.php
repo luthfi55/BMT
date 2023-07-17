@@ -13,11 +13,12 @@ class BalanceHistory extends Model
 
     protected $fillable = [
         'loan_fund_id',
-        'godds_loan_id',    
+        'goods_loan_id',    
         'operational_id',
-        'loan_bils_id',
+        'loan_bills_id',
         'savings_id',
         'nominal',
+        'description',
         'date',
     ];
     
