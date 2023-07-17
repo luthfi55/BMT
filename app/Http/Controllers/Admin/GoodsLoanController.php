@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Database\QueryException;
 
 class GoodsLoanController extends Controller
 {

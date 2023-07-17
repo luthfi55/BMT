@@ -1,6 +1,6 @@
 @extends('layouts.sidebar')
 <?php
-$title = "Goods Loan List";
+$title = "Goods Loan History";
 ?>
 @section('content')
 
@@ -35,7 +35,7 @@ $title = "Goods Loan List";
                                 <div class="col-md-6">
                                     <div class="form-inline float-md-start mb-3">
                                         <div class="search-box me-2">
-                                            <form method="GET" action="{{ route('admin.list-goodsloan') }}"
+                                            <form method="GET" action="{{ route('admin.list-historygoodsloan') }}"
                                                 class="d-flex">
                                                 <div class="position-relative me-2">
                                                     <input type="text" class="form-control border" id="search"
@@ -44,7 +44,7 @@ $title = "Goods Loan List";
                                                 </div>
                                                 <button type="submit" class="btn btn-primary me-2">Search</button>
                                                 <button type="button" class="btn btn-secondary"
-                                                    onclick="resetSearchListGoodsLoan()">Reset</button>
+                                                    onclick="resetSearchListHistoryGoodsLoan()">Reset</button>
                                             </form>
                                         </div>
                                     </div>
