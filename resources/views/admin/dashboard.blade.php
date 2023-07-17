@@ -127,7 +127,7 @@ $title = "Dashboard";
                                             </div>
                                             <div class="flex-grow-1 overflow-hidden ms-4">
                                                 <p class="text-muted text-truncate font-size-15 mb-2"> Total Goods Loan Active</p>
-                                                <h3 class="fs-4 flex-grow-1 mb-3">26,482.46 <span class="text-muted font-size-16">USD</span></h3>                                             
+                                                <h3 class="fs-4 flex-grow-1 mb-3">{{ $goodsLoanCount }}<span class="text-muted font-size-16"> Loan Active</span></h3>                                             
                                             </div>
                                             <div class="flex-shrink-0 align-self-start">
                                                 <div class="dropdown">
