@@ -46,7 +46,7 @@ class UserController extends Controller
 
         $savings = Savings::where('user_id', $users->id)->get();
 
-        return view('user.detail-user', ['users' => $users, 'savings' => $savings], compact('balance'));
+        return view('user.detail-user', ['users' => $users, 'savings' => $savings],compact('balance'));
     }
 
     public function create(Request $request)
