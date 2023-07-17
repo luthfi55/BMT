@@ -205,9 +205,9 @@
                                 <span>Goods Loan</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">                    
-                                <li><a href="calendar.html">Create Loan</a></li>
-                                <li><a href="calendar.html">Active Loan</a></li>
-                                <li><a href="apps-chat.html">Loan History</a></li>                
+                                <li><a href="/admin/goodsloan-form">Create Loan</a></li>
+                                <li><a href="/admin/list-goodsloan">Active Loan</a></li>
+                                <li><a href="/admin/list-historygoodsloan">Loan History</a></li>                
                             </ul>
                         </li>              
 
@@ -374,6 +374,11 @@
             document.getElementById('search').focus(); 
             window.location.href = "{{ route('admin.list-loanfund') }}";
         }
+        function resetSearchListGoodsLoan() {
+            document.getElementById('search').value = '';
+            document.getElementById('search').focus(); 
+            window.location.href = "{{ route('admin.list-goodsloan') }}";
+        }        
         </script>
         
 </body>

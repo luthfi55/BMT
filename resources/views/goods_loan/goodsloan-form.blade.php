@@ -1,6 +1,6 @@
 @extends('layouts.sidebar')
 <?php
-$title = "Loan Fund Form";
+$title = "Goods Loan Form";
 ?>
 @section('content')
 <!-- ============================================================== -->
@@ -20,7 +20,7 @@ $title = "Loan Fund Form";
                                 <div class="col-md-6">
                                     <div class="form-inline float-md-start mb-3">
                                         <div class="search-box me-2">
-                                            <form method="GET" action="{{ route('admin.loanfund-form') }}"
+                                            <form method="GET" action="{{ route('admin.goodsloan-form') }}"
                                                 class="d-flex">
                                                 <div class="position-relative me-2">
                                                     <input type="text" class="form-control border" id="search"
@@ -128,10 +128,10 @@ $title = "Loan Fund Form";
                                 </div>
                                 @endif
 
-                                <h4 class="card-title">Create Loan Fund</h4>
+                                <h4 class="card-title">Create Goods Loan</h4>
                                 <br>
                                 <br>
-                                <form method="POST" action="{{ route('admin.create-loanfund') }}">
+                                <form method="POST" action="{{ route('admin.create-goodsloan') }}">
                                     @csrf
                                     <div class="row mb-3">
                                         <label for="pin" class="col-sm-2 col-form-label">PIN</label>
@@ -141,6 +141,14 @@ $title = "Loan Fund Form";
                                         </div>
                                     </div>
                                     <!-- end row -->
+                                    <div class="row mb-3">
+                                        <label for="nominal" class="col-sm-2 col-form-label">Goods</label>
+                                        <div class="col-sm-10">
+                                            <input name="goods" id="goods" class="form-control" type="text"
+                                                placeholder="Goods" required>
+                                        </div>
+                                    </div>
+
                                     <div class="row mb-3">
                                         <label for="nominal" class="col-sm-2 col-form-label">Nominal</label>
                                         <div class="col-sm-10">

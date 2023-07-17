@@ -68,6 +68,22 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
         //loan fund delete
         Route::delete('loanfund-destroy/{id}', 'LoanFundController@destroy')->name('loanfund-destroy');
         Route::delete('historyloanfund-destroy/{id}', 'LoanFundController@destroyHistory')->name('historyloanfund-destroy');
+
+        //Goods Loan
+        //goods loan get
+        Route::get('goodsloan-form','GoodsLoanController@index')->name('goodsloan-form');        
+        Route::get('list-historygoodsloan','GoodsLoanController@listHistory')->name('list-historygoodsloan');
+        Route::get('list-goodsloan','GoodsLoanController@list')->name('list-goodsloan');
+        Route::get('goodsloan-update/{id}/edit', 'GoodsLoanController@edit')->name('edit-goodsloan');
+        Route::get('detail-goodsloan/{id}/detail', 'GoodsLoanController@detail')->name('detail-goodsloan');
+        //goods loan post
+        Route::post('create-goodsloan','GoodsLoanController@create')->name('create-goodsloan');
+        //goods loan put
+        Route::put('goodsloan-update/{id}', 'GoodsLoanController@updateStatus')->name('goodsloan-update');
+        Route::put('historygoodsloan-update/{id}', 'GoodsLoanController@updateStatusHistory')->name('historygoodsloan-update');
+        //goods loan delete
+        Route::delete('goodsloan-destroy/{id}', 'GoodsLoanController@destroy')->name('goodsloan-destroy');
+        Route::delete('historygoodsloan-destroy/{id}', 'GoodsLoanController@destroyHistory')->name('historygoodsloan-destroy');
         
         //Operational
         Route::get('operational-form','OperationalController@index')->name('operational-form');
