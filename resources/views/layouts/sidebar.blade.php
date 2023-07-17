@@ -374,6 +374,11 @@
             document.getElementById('search').focus(); 
             window.location.href = "{{ route('admin.list-loanfund') }}";
         }
+        function resetSearchListHistoryLoandFund() {
+            document.getElementById('search').value = '';
+            document.getElementById('search').focus(); 
+            window.location.href = "{{ route('admin.list-historyloanfund') }}";
+        }
         function resetSearchBalance() {
             document.getElementById('search').value = '';
             document.getElementById('search').focus(); 

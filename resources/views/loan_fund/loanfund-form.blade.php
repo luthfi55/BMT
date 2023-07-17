@@ -65,7 +65,7 @@ $title = "Loan Fund Form";
                                                 <td>{{ $user->birth_date }}</td>
                                                 <td>{{ $user->phone_number }}</td>
                                                 <td>{{ $user->job }}</td>
-                                                <td>{{ $user->mandatory_savings }}</td>
+                                                <td>Rp.{{ number_format($user->mandatory_savings, 2, ',', '.') }}</td>
                                                 <td>{{ $user->pin }}</td>
                                                 <td>
                                                     <!-- Edit and Delete buttons -->
