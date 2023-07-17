@@ -15,6 +15,8 @@ class CreateBalanceHistoryTable extends Migration
     {
         Schema::create('balance_history', function (Blueprint $table) {
             $table->id();            
+            $table->foreignId('loan_fund_id')->nullable()->constrained('loan_fund');    
+            $table->foreignId('goods_loan_id')->nullable()->constrained('goods_loan');    
             $table->foreignId('operational_id')->nullable()->constrained('operational');    
             $table->foreignId('loan_bills_id')->nullable()->constrained('loan_bills');    
             $table->foreignId('savings_id')->nullable()->constrained('savings');    
