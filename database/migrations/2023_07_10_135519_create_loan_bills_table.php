@@ -20,7 +20,7 @@ class CreateLoanBillsTable extends Migration
             $table->integer('month');
             $table->integer('installment');
             $table->integer('installment_amount');
-            $table->date('date');
+            $table->datetime('date');
             $table->boolean('status');
             $table->timestamps();
         });

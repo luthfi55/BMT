@@ -1,6 +1,6 @@
 @extends('layouts.sidebar')
 <?php
-$title = "Loan Fund List";
+$title = "Loan Fund History";
 ?>
 @section('content')
 
@@ -16,21 +16,16 @@ $title = "Loan Fund List";
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            @if(session('success'))
-                            <div class="alert alert-success alert-solid" role="alert">
-                                <span class="fw-medium">Create Loan Fund Successfully </span>
-                            </div>
-                            @endif
                             @if(session('updateSuccess'))
                             <div class="alert alert-success alert-solid" role="alert">
-                                <span class="fw-medium">Update Loan Fund Status Successfully </span>
+                                <span class="fw-medium">Update Loan Fund History Status Successfully </span>
                             </div>
                             @endif
                             @if(session('deleteSuccess'))
                             <div class="alert alert-success alert-solid" role="alert">
                                 <span class="fw-medium">Delete Loan Fund Successfully </span>
                             </div>
-                            @endif                            
+                            @endif     
                             <div class="row mb-2">
                                 <div class="col-md-6">
                                     <div class="form-inline float-md-start mb-3">
@@ -114,6 +109,12 @@ $title = "Loan Fund List";
                                                                 <i class="ri-pencil-line font-size-18"></i>
                                                             </button>
 
+                                                            <!-- Update button -->
+                                                            <!-- <a href="{{ route('admin.edit-loanfund', $loanFund->id) }}"
+                                                                class="px-2 text-primary">
+                                                                <i class="ri-pencil-line font-size-18"></i>
+                                                            </a> -->
+
                                                             <!-- Delete button -->
                                                             <form
                                                                 action="{{ route('admin.loanfund-destroy', $loanFund->id) }}"
@@ -146,7 +147,7 @@ $title = "Loan Fund List";
                                                         </div>
                                                         <div class="modal-body">
                                                             <form
-                                                                action="{{ route('admin.loanfund-update', $loanFund->id) }}"
+                                                                action="{{ route('admin.historyloanfund-update', $loanFund->id) }}"
                                                                 method="POST">
                                                                 @csrf
                                                                 @method('PUT')
@@ -195,7 +196,7 @@ $title = "Loan Fund List";
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-light waves-effect"
                                                 data-bs-dismiss="modal">Cancel</button>
-                                            <form action="{{ route('admin.loanfund-destroy', $loanFund->id) }}"
+                                            <form action="{{ route('admin.historyloanfund-destroy', $loanFund->id) }}"
                                                 method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')

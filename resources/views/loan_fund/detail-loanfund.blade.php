@@ -137,6 +137,7 @@ $title = "Loan Fund Detail";
                                                     <tr>
                                                         <th scope="col">Month</th>
                                                         <th scope="col">Installment Month</th>
+                                                        <th scope="col">Installment Date</th>
                                                         <th scope="col">Type</th>
                                                         <th scope="col">Status</th>
                                                         <th scope="col" style="width: 120px;">Action</th>
@@ -148,6 +149,7 @@ $title = "Loan Fund Detail";
                                                         <td>{{ $loanBill->month }}</td>
                                                         <td>Rp.{{ number_format($loanBill->installment_amount, 2, ',', '.') }}
                                                         </td>
+                                                        <td>{{ $loanBill->date }}</td>
                                                         <td>
                                                             @if ($loanBill->installment == 1)
                                                             Installment
@@ -184,25 +186,7 @@ $title = "Loan Fund Detail";
 
         </div> <!-- container-fluid -->
     </div>
-    <!-- End Page-content -->
-
-    <footer class="footer">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-6">
-                    <script>
-                        document.write(new Date().getFullYear())
-
-                    </script> © Tocly.
-                </div>
-                <div class="col-sm-6">
-                    <div class="text-sm-end d-none d-sm-block">
-                        Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesdesign
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <!-- End Page-content -->    
 
 </div>
 @endsection

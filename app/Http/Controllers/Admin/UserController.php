@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Balance;
 use App\Models\Savings;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -12,11 +13,13 @@ class UserController extends Controller
 {
     public function index()
     {
-        return view('user/user-form');
+        $balance = Balance::first(); 
+        return view('user/user-form',compact('balance'));
     }
 
     public function list(Request $request)
     {        
+        $balance = Balance::first();        
         $users = User::latest();        
         $search = $request->input('search');
     
@@ -30,7 +33,7 @@ class UserController extends Controller
                 ->orWhere('pin', 'LIKE', "%$search%")
                 ->paginate(10);
     
-        return view('user.list-user', ['users' => $users]);        
+        return view('user.list-user', ['users' => $users],compact('balance'));        
     }
 
     public function detail($id)
@@ -82,18 +85,19 @@ class UserController extends Controller
         $user->save();
         // dd($user);  
         Session::flash('success', 'Successfully created a user account');
-        // Tambahkan logika tambahan jika diperlukan            
+          
         return redirect()->route('admin.list-user');
 
     }
 
     public function edit($id)
     {
+        $balance = Balance::first();        
         $users = User::find($id);
         if (!$users) {
             return redirect()->route('admin.user-form')->with('error', 'User not found.');
-        }
-        return view('user.user-edit', ['users' => $users]);
+        }        
+        return view('user.user-edit', ['users' => $users],compact('balance'));
     }
 
     public function update(Request $request, $id)
