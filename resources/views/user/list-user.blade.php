@@ -74,7 +74,7 @@ $title = "User List";
                                     <tr>
                                         <!-- User data -->
                                         <td>                                            
-                                            <a href="{{ route('admin.detail-user', $user->id) }}" class="text-body">{{ $user->name }}</a>
+                                            <a href="#" class="text-body">{{ $user->name }}</a>
                                         </td>
                                         <td>{{ $user->email }}</td>
                                         <td>{{ $user->address }}</td>
@@ -88,6 +88,10 @@ $title = "User List";
                                             <ul class="list-inline mb-0">
                                             <li class="list-inline-item">
                                                 <div class="d-flex">
+                                                    <a href="{{ route('admin.detail-user', $user->id) }}"
+                                                        class="px-2 text-primary">
+                                                        <i class=" ri-file-info-fill font-size-18"></i>
+                                                    </a>
                                                     <a href="{{ route('admin.edit-user', $user->id) }}" class="px-2 text-primary">
                                                         <i class="ri-pencil-line font-size-18"></i>
                                                     </a>
