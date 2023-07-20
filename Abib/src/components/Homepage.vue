@@ -15,8 +15,8 @@
                             <v-btn color="blue-lighten-5" v-bind="props"> Profile </v-btn>
                         </template>
                         <v-list>
-                            <v-list-item v-for="(item, index) in items" :key="index" :value="index">
-                                <v-list-item-title>{{ item.title }}</v-list-item-title>
+                            <v-list-item v-for="(item,link, index) in items" :key="index" :value="index" @click="$router.push({ path: item.link})">
+                              <router-link to="/"> <v-list-item-title>{{ item.title }}</v-list-item-title> </router-link>  
                             </v-list-item>
                         </v-list>
                     </v-menu>
@@ -45,6 +45,8 @@
         </v-card-text>
     </v-card>
 
+    
+
     <!-- <Footer /> -->
 </template>
   
@@ -53,7 +55,8 @@ export default {
     data: () => ({
         tab: null,
         items: [
-            { title: 'Logout'},
+            { title: 'Logout', link: '/' },
+            {title: 'Bayar', link:'/payment'}
         ],
     }),
 
