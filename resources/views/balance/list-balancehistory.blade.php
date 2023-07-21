@@ -1,6 +1,6 @@
 @extends('layouts.sidebar')
 <?php
-$title = "Loan Fund List";
+$title = "Balance History";
 ?>
 @section('content')
 
@@ -35,7 +35,7 @@ $title = "Loan Fund List";
                                 <div class="col-md-6">
                                     <div class="form-inline float-md-start mb-3">
                                         <div class="search-box me-2">
-                                            <form method="GET" action="{{ route('admin.list-loanfund') }}"
+                                            <form method="GET" action="{{ route('admin.list-historybalance') }}"
                                                 class="d-flex">
                                                 <div class="position-relative me-2">
                                                     <input type="text" class="form-control border" id="search"
@@ -61,11 +61,9 @@ $title = "Loan Fund List";
                             <div class="table-responsive mb-4">
                                 <table class="table table-hover table-nowrap align-middle mb-0">
                                     <thead class="bg-light">
-                                        <tr>
-                                            <th scope="col">Id</th>
-                                            <th scope="col">Operational Id</th>
-                                            <th scope="col">Loan Bills Id</th>
-                                            <th scope="col">Savings Id</th>
+                                        <tr>                                            
+                                            <th scope="col">Payment Id</th>
+                                            <th scope="col">Type Payment</th>                                            
                                             <th scope="col">Nominal</th>
                                             <th scope="col">Description</th>
                                             <th scope="col">Date</th>
@@ -76,34 +74,51 @@ $title = "Loan Fund List";
                                         @foreach ($balanceHistories as $balanceHistorie)
                                         <tr>
                                             <td>
-                                                <a href="#" class="text-body">{{ $balanceHistorie->id }}</a>
+                                                @if ($balanceHistorie->loan_fund_id != '')
+                                                    LF-{{$balanceHistorie->loan_fund_id}}
+                                                @elseif ($balanceHistorie->goods_loan_id != '')
+                                                    GL-{{$balanceHistorie->goods_loan_id}}
+                                                @elseif ($balanceHistorie->operational_id != '')
+                                                    OP-{{$balanceHistorie->operational_id}}
+                                                @elseif ($balanceHistorie->loan_bills_id != '')
+                                                    LB-{{$balanceHistorie->loan_bills_id}}
+                                                @elseif ($balanceHistorie->savings_id != '')
+                                                    SV-{{$balanceHistorie->savings_id}}
+                                                @else
+                                                    Balance
+                                                @endif                                                
                                             </td>
+                                            <td>
+                                                @if ($balanceHistorie->loan_fund_id != '')
+                                                    Loan Fund
+                                                @elseif ($balanceHistorie->goods_loan_id != '')
+                                                    Goods Loan
+                                                @elseif ($balanceHistorie->operational_id != '')
+                                                    Operational
+                                                @elseif ($balanceHistorie->loan_bills_id != '')
+                                                    Loan Bills
+                                                @elseif ($balanceHistorie->savings_id != '')
+                                                    Savings
+                                                @else
+                                                    Balance Update
+                                                @endif                                                
+                                            </td>                                                                                                                                
 
                                             <td>
-                                                @if ($balanceHistorie->operational_id == '')
-                                                -
+                                                @if ($balanceHistorie->loan_fund_id != '')
+                                                    <span style="color: red;">- Rp.{{ number_format($balanceHistorie->nominal, 2, ',', '.') }}   </span>
+                                                @elseif ($balanceHistorie->goods_loan_id != '')
+                                                    <span style="color: red;">- Rp.{{ number_format($balanceHistorie->nominal, 2, ',', '.') }}   </span>
+                                                @elseif ($balanceHistorie->operational_id != '')
+                                                    <span style="color: red;">- Rp.{{ number_format($balanceHistorie->nominal, 2, ',', '.') }}   </span>
+                                                @elseif ($balanceHistorie->loan_bills_id != '')
+                                                    <span style="color: green;">+ Rp.{{ number_format($balanceHistorie->nominal, 2, ',', '.') }}   </span>
+                                                @elseif ($balanceHistorie->savings_id != '')
+                                                    <span style="color: green;">+ Rp.{{ number_format($balanceHistorie->nominal, 2, ',', '.') }}   </span>
                                                 @else
-                                                {{$balanceHistorie->operational_id}}
-                                                @endif
+                                                    <span style="color: green;">+ Rp.{{ number_format($balanceHistorie->nominal, 2, ',', '.') }}   </span>
+                                                @endif                                                                                             
                                             </td>
-
-                                            <td>
-                                                @if ($balanceHistorie->loan_bills_id == '')
-                                                -
-                                                @else
-                                                {{$balanceHistorie->loan_bills_id}}
-                                                @endif
-                                            </td>
-
-                                            <td>
-                                                @if ($balanceHistorie->savings_id == '')
-                                                -
-                                                @else
-                                                {{$balanceHistorie->savings_id}}
-                                                @endif
-                                            </td>
-
-                                            <td>Rp.{{ number_format($balanceHistorie->nominal, 2, ',', '.') }}</td>
 
                                             <td> {{$balanceHistorie->description}} </td>
 
@@ -132,30 +147,12 @@ $title = "Loan Fund List";
                         <div class="row mt-4">
                             <div class="col-sm-6">
                                 <div>
-                                    <p class="mb-sm-0">Showing 1 to 10 of 12 entries</p>
+                                    <p class="mb-sm-0">Showing {{ $balanceHistories->firstItem() }} to {{ $balanceHistories->lastItem() }} of {{ $balanceHistories->total() }} entries</p>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="float-sm-end">
-                                    <ul class="pagination mb-sm-0">
-                                        <li class="page-item disabled">
-                                            <a href="users-list.html#" class="page-link"><i
-                                                    class="mdi mdi-chevron-left"></i></a>
-                                        </li>
-                                        <li class="page-item active">
-                                            <a href="users-list.html#" class="page-link">1</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a href="users-list.html#" class="page-link">2</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a href="users-list.html#" class="page-link">3</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a href="users-list.html#" class="page-link"><i
-                                                    class="mdi mdi-chevron-right"></i></a>
-                                        </li>
-                                    </ul>
+                                    {{ $balanceHistories->links('pagination::bootstrap-4') }}
                                 </div>
                             </div>
                         </div>

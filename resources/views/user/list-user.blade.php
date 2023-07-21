@@ -84,6 +84,7 @@ $title = "User List";
                                         <td>Rp.{{ number_format($user->mandatory_savings, 2, ',', '.') }}</td>
                                         <td>{{ $user->pin }}</td>
                                         <td>
+                                            
                                             <!-- Edit and Delete buttons -->
                                             <ul class="list-inline mb-0">
                                             <li class="list-inline-item">
@@ -128,7 +129,18 @@ $title = "User List";
                                     @endforeach
                                 </tbody>
                             </table>
-
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-sm-6">
+                                <div>
+                                    <p class="mb-sm-0">Showing {{ $users->firstItem() }} to {{ $users->lastItem() }} of {{ $users->total() }} entries</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="float-sm-end">
+                                    {{ $users->links('pagination::bootstrap-4') }}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

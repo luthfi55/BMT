@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Balance;
+use App\Models\BalanceHistory;
 use App\Models\GoodsLoan;
 use App\Models\LoanBills;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -198,7 +199,22 @@ class GoodsLoanController extends Controller
             $loanBill->date = $currentMonth->format('Y-m-d H:i');
             $loanBill->status = false;
             $loanBill->save();
-        } 
+        }
+        
+        //add history bills
+        $currentTime = Carbon::now()->timezone('Asia/Jakarta');
+
+        $balanceHistory = new BalanceHistory();
+        $balanceHistory->goods_loan_id = $goodsLoan->id;
+        $balanceHistory->nominal = $goodsLoan->nominal;
+        $balanceHistory->description = "Goods Loan";
+        $balanceHistory->date = $currentTime->format('Y-m-d H:i:s');
+        $balanceHistory->save();        
+
+        //balance count
+        $balance = Balance::first();
+        $balance->nominal = $balance->nominal - $goodsLoan->nominal;
+        $balance->save();
         
         Session::flash('success');
         return redirect()->route('admin.list-goodsloan');
