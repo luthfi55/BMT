@@ -55,10 +55,20 @@ class OperationalController extends Controller
         return redirect()->route('admin.operational-form');
     }
 
-    public function list()
+    public function list(Request $request)
     {
         $balance = Balance::first();
+
         $operationals = Operational::paginate(10);;
+        $search = $request->input('search');
+
+        $operationals = Operational::latest()->where('id', 'LIKE', "%$search%")
+                ->orWhere('goods', 'LIKE', "%$search%")
+                ->orWhere('description', 'LIKE', "%$search%")
+                ->orWhere('nominal', 'LIKE', "%$search%")
+                ->orWhere('date', 'LIKE', "%$search%")
+                ->paginate(10);
+                
         return view('operational.list-operational', compact('operationals', 'balance'));
     }
 }

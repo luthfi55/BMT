@@ -11,6 +11,7 @@ class Balance extends Model
     protected $table = 'balance';
 
     protected $fillable = [
-        'nominal',        
+        'nominal',
+        'description',        
     ];
 }

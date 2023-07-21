@@ -74,7 +74,7 @@ $title = "User List";
                                     <tr>
                                         <!-- User data -->
                                         <td>                                            
-                                            <a href="{{ route('admin.detail-user', $user->id) }}" class="text-body">{{ $user->name }}</a>
+                                            <a href="#" class="text-body">{{ $user->name }}</a>
                                         </td>
                                         <td>{{ $user->email }}</td>
                                         <td>{{ $user->address }}</td>
@@ -89,6 +89,10 @@ $title = "User List";
                                             <ul class="list-inline mb-0">
                                             <li class="list-inline-item">
                                                 <div class="d-flex">
+                                                    <a href="{{ route('admin.detail-user', $user->id) }}"
+                                                        class="px-2 text-primary">
+                                                        <i class=" ri-file-info-fill font-size-18"></i>
+                                                    </a>
                                                     <a href="{{ route('admin.edit-user', $user->id) }}" class="px-2 text-primary">
                                                         <i class="ri-pencil-line font-size-18"></i>
                                                     </a>
@@ -139,6 +143,36 @@ $title = "User List";
                             <div class="col-sm-6">
                                 <div class="float-sm-end">
                                     {{ $users->links('pagination::bootstrap-4') }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-sm-6">
+                                <div>
+                                    <p class="mb-sm-0">Showing 1 to 10 of 12 entries</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="float-sm-end">
+                                    <ul class="pagination mb-sm-0">
+                                        <li class="page-item disabled">
+                                            <a href="users-list.html#" class="page-link"><i
+                                                    class="mdi mdi-chevron-left"></i></a>
+                                        </li>
+                                        <li class="page-item active">
+                                            <a href="users-list.html#" class="page-link">1</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a href="users-list.html#" class="page-link">2</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a href="users-list.html#" class="page-link">3</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a href="users-list.html#" class="page-link"><i
+                                                    class="mdi mdi-chevron-right"></i></a>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>

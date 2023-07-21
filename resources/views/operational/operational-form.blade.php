@@ -21,7 +21,7 @@ $title = "Operational Form";
                             </div>
                             @endif
 
-                            <h4 class="card-title">Create Operational Account</h4>
+                            <h4 class="card-title">Create Operational</h4>
                             <br>
                             <br>
                             <form method="POST" action="{{ route('admin.create-operational') }}">

@@ -1,6 +1,6 @@
 @extends('layouts.sidebar')
 <?php
-$title = "Loan Fund List";
+$title = "Operational List";
 ?>
 @section('content')
 
@@ -18,24 +18,24 @@ $title = "Loan Fund List";
                         <div class="card-body">
                             @if(session('success'))
                             <div class="alert alert-success alert-solid" role="alert">
-                                <span class="fw-medium">Create Loan Fund Successfully </span>
+                                <span class="fw-medium">Create Operational Successfully </span>
                             </div>
                             @endif
                             @if(session('updateSuccess'))
                             <div class="alert alert-success alert-solid" role="alert">
-                                <span class="fw-medium">Update Loan Fund Status Successfully </span>
+                                <span class="fw-medium">Update Operational Successfully </span>
                             </div>
                             @endif
                             @if(session('deleteSuccess'))
                             <div class="alert alert-success alert-solid" role="alert">
-                                <span class="fw-medium">Delete Loan Fund Successfully </span>
+                                <span class="fw-medium">Delete Operational Successfully </span>
                             </div>
                             @endif
                             <div class="row mb-2">
                                 <div class="col-md-6">
                                     <div class="form-inline float-md-start mb-3">
                                         <div class="search-box me-2">
-                                            <form method="GET" action="{{ route('admin.list-loanfund') }}"
+                                            <form method="GET" action="{{ route('admin.list-operational') }}"
                                                 class="d-flex">
                                                 <div class="position-relative me-2">
                                                     <input type="text" class="form-control border" id="search"
@@ -44,15 +44,15 @@ $title = "Loan Fund List";
                                                 </div>
                                                 <button type="submit" class="btn btn-primary me-2">Search</button>
                                                 <button type="button" class="btn btn-secondary"
-                                                    onclick="resetSearchListLoandFund()">Reset</button>
+                                                    onclick="resetSearchListOperational()">Reset</button>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3 float-end">
-                                        <a href="{{ route('admin.loanfund-form') }}" class="btn btn-primary">
-                                            <i class="mdi mdi-plus me-1"></i> Create Loan Fund
+                                        <a href="{{ route('admin.operational-form') }}" class="btn btn-primary">
+                                            <i class="mdi mdi-plus me-1"></i> Create Operational
                                         </a>
                                     </div>
                                 </div>
@@ -65,7 +65,7 @@ $title = "Loan Fund List";
                                             <th scope="col">Id</th>
                                             <th scope="col">Goods</th>
                                             <th scope="col">Description</th>
-                                            <th scope="col">Nominal Id</th>
+                                            <th scope="col">Nominal</th>
                                             <th scope="col">Date</th>                                            
                                             <th scope="col" style="width: 200px;">Action</th>
                                         </tr>

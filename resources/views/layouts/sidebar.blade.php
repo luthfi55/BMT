@@ -374,11 +374,31 @@
             document.getElementById('search').focus(); 
             window.location.href = "{{ route('admin.list-loanfund') }}";
         }
+        function resetSearchListHistoryLoandFund() {
+            document.getElementById('search').value = '';
+            document.getElementById('search').focus(); 
+            window.location.href = "{{ route('admin.list-historyloanfund') }}";
+        }
+        function resetSearchBalance() {
+            document.getElementById('search').value = '';
+            document.getElementById('search').focus(); 
+            window.location.href = "{{ route('admin.list-historybalance') }}";
+        }
         function resetSearchListGoodsLoan() {
             document.getElementById('search').value = '';
             document.getElementById('search').focus(); 
             window.location.href = "{{ route('admin.list-goodsloan') }}";
-        }        
+        }
+        function resetSearchListOperational() {
+            document.getElementById('search').value = '';
+            document.getElementById('search').focus(); 
+            window.location.href = "{{ route('admin.list-operational') }}";
+        }
+        function resetSearchListHistoryGoodsLoan() {
+            document.getElementById('search').value = '';
+            document.getElementById('search').focus(); 
+            window.location.href = "{{ route('admin.list-historygoodsloan') }}";
+        }       
         </script>
         
 </body>

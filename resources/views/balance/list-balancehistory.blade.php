@@ -18,17 +18,17 @@ $title = "Balance History";
                         <div class="card-body">
                             @if(session('success'))
                             <div class="alert alert-success alert-solid" role="alert">
-                                <span class="fw-medium">Create Loan Fund Successfully </span>
+                                <span class="fw-medium">Add Balance Successfully </span>
                             </div>
                             @endif
                             @if(session('updateSuccess'))
                             <div class="alert alert-success alert-solid" role="alert">
-                                <span class="fw-medium">Update Loan Fund Status Successfully </span>
+                                <span class="fw-medium">Update Balance Status Successfully </span>
                             </div>
                             @endif
                             @if(session('deleteSuccess'))
                             <div class="alert alert-success alert-solid" role="alert">
-                                <span class="fw-medium">Delete Loan Fund Successfully </span>
+                                <span class="fw-medium">Delete Balance Successfully </span>
                             </div>
                             @endif
                             <div class="row mb-2">
@@ -44,15 +44,15 @@ $title = "Balance History";
                                                 </div>
                                                 <button type="submit" class="btn btn-primary me-2">Search</button>
                                                 <button type="button" class="btn btn-secondary"
-                                                    onclick="resetSearchListLoandFund()">Reset</button>
+                                                    onclick="resetSearchBalance()">Reset</button>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3 float-end">
-                                        <a href="{{ route('admin.loanfund-form') }}" class="btn btn-primary">
-                                            <i class="mdi mdi-plus me-1"></i> Create Loan Fund
+                                        <a href="{{ route('admin.balance-form') }}" class="btn btn-primary">
+                                            <i class="mdi mdi-plus me-1"></i> Add Balance
                                         </a>
                                     </div>
                                 </div>
@@ -61,6 +61,7 @@ $title = "Balance History";
                             <div class="table-responsive mb-4">
                                 <table class="table table-hover table-nowrap align-middle mb-0">
                                     <thead class="bg-light">
+
                                         <tr>                                            
                                             <th scope="col">Payment Id</th>
                                             <th scope="col">Type Payment</th>                                            
@@ -74,6 +75,7 @@ $title = "Balance History";
                                         @foreach ($balanceHistories as $balanceHistorie)
                                         <tr>
                                             <td>
+
                                                 @if ($balanceHistorie->loan_fund_id != '')
                                                     LF-{{$balanceHistorie->loan_fund_id}}
                                                 @elseif ($balanceHistorie->goods_loan_id != '')
