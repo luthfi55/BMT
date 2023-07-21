@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\User\LoginController;
+use Laravel\Passport\HasApiTokens;
 
 
 /*
@@ -15,9 +15,6 @@ use App\Http\Controllers\User\LoginController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-
-Route::group(['prefix' => 'api'], function () {
-    Route::post('/login', 'User\LoginController@login');    
-    Route::get('/logout', 'User\LoginController@logout')->middleware('auth:api');
-});
+Route::post('login', 'User\LoginController@login')->name('login');    
+Route::post('logout', 'User\LoginController@logout')->middleware('auth:api');
+Route::get('user/{id}', 'User\DataController@getUserData');    
