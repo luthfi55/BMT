@@ -15,9 +15,8 @@ class HomeController extends Controller
     {
         $balance = Balance::first();
         $userCount = User::count();
-        $loanFundCount = LoanFund::count();
-        $goodsLoanCount = GoodsLoan::count();
-        // $goodLoanCount = GoodsLoan::count();
+        $loanFundCount = LoanFund::where('status', 0)->count();
+        $goodsLoanCount = GoodsLoan::where('status', 0)->count();        
     
         return view('admin.dashboard', compact('balance', 'userCount', 'loanFundCount', 'goodsLoanCount'));
     }
