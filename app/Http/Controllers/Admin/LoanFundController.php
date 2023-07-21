@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Balance;
+use App\Models\BalanceHistory;
 use App\Models\LoanBills;
 use App\Models\LoanFund;
 use App\Models\User;
@@ -195,6 +196,22 @@ class LoanFundController extends Controller
             $loanBill->status = false;
             $loanBill->save();
         } 
+
+        //add history bills
+        $currentTime = Carbon::now()->timezone('Asia/Jakarta');
+
+        $balanceHistory = new BalanceHistory();
+        $balanceHistory->loan_fund_id = $loanFund->id;
+        $balanceHistory->nominal = $loanFund->nominal;
+        $balanceHistory->description = "Loan Fund";
+        $balanceHistory->date = $currentTime->format('Y-m-d H:i:s');
+        $balanceHistory->save();        
+
+        //balance count
+        $balance = Balance::first();
+        $balance->nominal = $balance->nominal - $loanFund->nominal;
+        $balance->save();
+
         
         Session::flash('success');
         return redirect()->route('admin.list-loanfund');
