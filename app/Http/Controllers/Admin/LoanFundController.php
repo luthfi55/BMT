@@ -168,6 +168,7 @@ class LoanFundController extends Controller
             $loanBill->installment_amount = $loanFund->nominal * $loanFund->infaq / 100;            
             $loanBill->date = $currentMonth;
             $loanBill->status = false;
+            $loanBill->payment_status = false;                    
             $loanBill->save();       
             $nominalInfaq = 0;     
         } else if ($loanFund->infaq_type == 'installment'){
@@ -184,6 +185,9 @@ class LoanFundController extends Controller
 
         $currentMonth = Carbon::now()->timezone('Asia/Jakarta');
 
+        //First Status Bills
+        $firstStatus = true;
+
         for ($monthnow = 1; $monthnow <= $monthlength; $monthnow++) {            
             // $currentMonth->addMonth();
             $currentMonth->addMinutes(1);
@@ -193,8 +197,10 @@ class LoanFundController extends Controller
             $loanBill->installment = 1;
             $loanBill->installment_amount = ($monthnow == $monthlength) ? $lastInstallmentAmount : $installmentAmount;
             $loanBill->date = $currentMonth->format('Y-m-d H:i');
-            $loanBill->status = false;
+            $loanBill->status = $firstStatus;
+            $loanBill->payment_status = false; 
             $loanBill->save();
+            $firstStatus = false;
         } 
 
         //add history bills

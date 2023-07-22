@@ -104,7 +104,7 @@ $title = "Goods Loan List";
                                                 <ul class="list-inline mb-0">
                                                     <li class="list-inline-item">
                                                         <div class="d-flex">
-                                                            <a href="{{ route('admin.detail-loanfund', $goodsLoan->id) }}"
+                                                            <a href="{{ route('admin.detail-goodsloan', $goodsLoan->id) }}"
                                                                 class="px-2 text-primary">
                                                                 <i class=" ri-file-info-fill font-size-18"></i>
                                                             </a>
