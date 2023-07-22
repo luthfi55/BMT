@@ -25,7 +25,7 @@ class LoginController extends Controller
         $user = User::where('pin', $pin)->first();
 
         if ($user) {
-            $accessToken = $user->createToken('authToken')->accessToken;
+            // $accessToken = $user->createToken('authToken')->accessToken;
 
             return response()->json([
                 'status' => 'successfully',
@@ -45,7 +45,7 @@ class LoginController extends Controller
      */
     public function logout()
     {
-        Auth::logout();
+        // Auth::logout();
 
         return response()->json([
             'message' => 'Logged out successfully',

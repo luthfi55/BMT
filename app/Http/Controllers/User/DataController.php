@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\GoodsLoan;
+use App\Models\LoanBills;
 use App\Models\LoanFund;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -30,27 +31,24 @@ class DataController extends Controller
 
     public function getUserData($id)
     {
-        // Cari pengguna (user) berdasarkan ID yang diberikan
-        $loanFund = LoanFund::where('user_id', $id)->get();
-        $goodsLoan = GoodsLoan::where('user_id', $id)->get();
+        $loanFundBills = LoanBills::whereHas('loanFund', function ($query) use ($id) {
+            $query->where('user_id', $id);
+        })->where('status', true)->get();
 
-        if (!$loanFund) {
+        $goodsLoanBills = LoanBills::whereHas('goodsLoan', function ($query) use ($id) {
+            $query->where('user_id', $id);
+        })->where('status', true)->get();
+
+        if ($loanFundBills->isEmpty() && $goodsLoanBills->isEmpty()) {
             return response()->json([
-                'message' => 'Data not found',
-            ], 404);
-        }
-
-        if (!$loanFund) {
-            return response()->json([
-                'message' => 'Data not found',
-            ], 404);
-        }
-
-        // Jika pengguna ditemukan, kembalikan data pengguna dalam bentuk JSON
+                'message' => 'Null',
+            ], 200);
+        } 
+        
         return response()->json([
-            'message' => 'User data retrieved successfully',
-            'LoanFund' => $loanFund,
-            'GoodsLoan' => $goodsLoan,
-        ]);
+            'message' => 'Succesfully',            
+            'LoanFundsBills' => $loanFundBills,            
+            'GoodsLoanBills' => $goodsLoanBills,            
+        ], 200);
     }
 }

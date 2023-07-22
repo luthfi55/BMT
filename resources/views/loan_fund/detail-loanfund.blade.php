@@ -13,7 +13,7 @@ $title = "Loan Fund Detail";
 
 
             <div class="row">
-                <div class="col-xl-6">
+                <div class="col-xl-4">
                     <div class="card mb-0">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
@@ -110,7 +110,7 @@ $title = "Loan Fund Detail";
                     </div>
                 </div>
 
-                <div class="col-xl-6">
+                <div class="col-xl-8">
                 <div class="card mb-0">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
@@ -140,6 +140,9 @@ $title = "Loan Fund Detail";
                                                         <th scope="col">Installment Date</th>
                                                         <th scope="col">Type</th>
                                                         <th scope="col">Status</th>
+                                                        <th scope="col">Payment Status</th>
+                                                        <th scope="col">Payment Type</th>
+                                                        <th scope="col">Payment Date</th>
                                                         <th scope="col" style="width: 120px;">Action</th>
                                                     </tr>
                                                 </thead>
@@ -159,9 +162,30 @@ $title = "Loan Fund Detail";
                                                         </td>
                                                         <td>
                                                             @if ($loanBill->status == 1)
-                                                            <span style="color: green;">Completed</span>
+                                                            <span style="color: green;">Active</span>
                                                             @else
-                                                            <span style="color: red;">Overdue</span>
+                                                            <span style="color: red;">Waiting</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            @if ($loanBill->payment_status == 0)
+                                                            <span style="color: red;">Waiting</span>
+                                                            @else
+                                                            <span style="color: green;">{{ $loanBill->payment_status }}</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            @if ($loanBill->payment_type  == 0)
+                                                            -
+                                                            @else
+                                                            {{ $loanBill->payment_type }}
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            @if ($loanBill->payment_date == 0)
+                                                            -
+                                                            @else
+                                                            {{ $loanBill->payment_date}}
                                                             @endif
                                                         </td>
                                                         <td>

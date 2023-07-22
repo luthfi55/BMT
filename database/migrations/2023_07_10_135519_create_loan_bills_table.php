@@ -22,6 +22,9 @@ class CreateLoanBillsTable extends Migration
             $table->integer('installment_amount');
             $table->datetime('date');
             $table->boolean('status');
+            $table->boolean('payment_status');
+            $table->string('payment_type')->nullable();
+            $table->datetime('payment_date')->nullable();
             $table->timestamps();
         });
     }
