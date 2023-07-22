@@ -28,4 +28,10 @@ class LoanFund extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function loanBills()
+    {
+        return $this->hasMany(LoanBills::class);
+    }
+
 }
