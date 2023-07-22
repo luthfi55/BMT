@@ -19,4 +19,14 @@ class LoanBills extends Model
         'date',
         'status',
     ];
+
+    public function loanFund()
+    {
+        return $this->belongsTo(LoanFund::class);
+    }
+
+    public function goodsLoan()
+    {
+        return $this->belongsTo(GoodsLoan::class);
+    }
 }

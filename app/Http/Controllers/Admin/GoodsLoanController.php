@@ -173,6 +173,7 @@ class GoodsLoanController extends Controller
             $loanBill->installment_amount = $goodsLoan->nominal * $goodsLoan->infaq / 100;            
             $loanBill->date = $currentMonth;
             $loanBill->status = false;
+            $loanBill->payment_status = false; 
             $loanBill->save();       
             $nominalInfaq = 0;     
         } else if ($goodsLoan->infaq_type == 'installment'){
@@ -188,6 +189,9 @@ class GoodsLoanController extends Controller
         $lastInstallmentAmount = $totalgoodsLoan - ($installmentAmount * ($monthlength - 1));
 
         $currentMonth = Carbon::now()->timezone('Asia/Jakarta');
+        
+        //First Status Bills
+        $firstStatus = true;
 
         for ($monthnow = 1; $monthnow <= $monthlength; $monthnow++) {            
             // $currentMonth->addMonth();
@@ -198,8 +202,10 @@ class GoodsLoanController extends Controller
             $loanBill->installment = 1;
             $loanBill->installment_amount = ($monthnow == $monthlength) ? $lastInstallmentAmount : $installmentAmount;
             $loanBill->date = $currentMonth->format('Y-m-d H:i');
-            $loanBill->status = false;
+            $loanBill->status = $firstStatus;
+            $loanBill->payment_status = false; 
             $loanBill->save();
+            $firstStatus = false;
         }
         
         //add history bills

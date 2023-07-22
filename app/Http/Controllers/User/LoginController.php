@@ -18,23 +18,23 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'pin' => 'required|numeric',
+            'pin' => 'required',
         ]);
 
         $pin = $request->input('pin');
         $user = User::where('pin', $pin)->first();
 
         if ($user) {
-            Auth::login($user);
+            // $accessToken = $user->createToken('authToken')->accessToken;
 
             return response()->json([
-                'message' => 'Login successful',
-                'user' => $user,
+                'status' => 'successfully',
+                'user' => $user                
             ]);
         }
 
         return response()->json([
-            'message' => 'Invalid PIN',
+            'status' => 'Invalid PIN',
         ], 401);
     }
 
@@ -45,7 +45,7 @@ class LoginController extends Controller
      */
     public function logout()
     {
-        Auth::logout();
+        // Auth::logout();
 
         return response()->json([
             'message' => 'Logged out successfully',
