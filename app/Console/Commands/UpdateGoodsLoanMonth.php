@@ -4,15 +4,14 @@ namespace App\Console\Commands;
 
 use App\Models\GoodsLoan;
 use App\Models\LoanBills;
-use Carbon\Carbon;
 use Illuminate\Console\Command;
-use App\Models\LoanFund;
+use Illuminate\Support\Carbon;
 
-class UpdateLoanFundMonth extends Command
+class UpdateGoodsLoanMonth extends Command
 {
-    protected $signature = 'loanfund:update-month';
+    protected $signature = 'goodsloan:update-month';
 
-    protected $description = 'Update the month property of loan funds';
+    protected $description = 'Update the month property of goods loan';
 
     public function __construct()
     {
@@ -33,16 +32,16 @@ class UpdateLoanFundMonth extends Command
                 //ubah status
                 $loanBill->status = true;
                 $loanBill->save();
+                
+                //ubah month            
+                $goodsLoan = GoodsLoan::find($loanBill->goods_loan_id);                     
+                
+                if ($goodsLoan && $goodsLoan->month < $goodsLoan->installment) {                    
+                    $goodsLoan->month += 1;
+                    $goodsLoan->save();
 
-                //ubah month
-                $loanFund = LoanFund::find($loanBill->loan_fund_id);                
-
-                if ($loanFund && $loanFund->month < $loanFund->installment) {                    
-                    $loanFund->month += 1;
-                    $loanFund->save();
-
-                    $this->info("Updated month for LoanFund ID: {$loanFund->id}");
-                }                        
+                    $this->info("Updated month for LoanFund ID: {$goodsLoan->id}");
+                }        
             }
             
             $this->info('Loan bills checked.');
