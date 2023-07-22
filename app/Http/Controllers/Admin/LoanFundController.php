@@ -156,9 +156,17 @@ class LoanFundController extends Controller
             $nominalInfaq = 0;     
         } elseif ($loanFund->infaq_type == 'last'){
             $monthlength = $loanFund->installment;
-            $currentMonth = Carbon::now()->timezone('Asia/Jakarta');
+            $startMonth = Carbon::now()->timezone('Asia/Jakarta');
+            $endMonth = Carbon::now()->timezone('Asia/Jakarta');
+            //start date
             for ($monthnow = 1; $monthnow <= $monthlength; $monthnow++) {
-                $currentMonth->addMonth();
+                $startMonth->addMinutes(1);
+                // $startMonth->addMonth();
+            }
+            //end date
+            for ($monthnow = 1; $monthnow < $monthlength; $monthnow++) {
+                $endMonth->addMinutes(1);
+                // $endMonth->addMonth();
             }
             
             $loanBill = new LoanBills();
@@ -166,7 +174,8 @@ class LoanFundController extends Controller
             $loanBill->month = $loanFund->installment;
             $loanBill->installment = 0;
             $loanBill->installment_amount = $loanFund->nominal * $loanFund->infaq / 100;            
-            $loanBill->date = $currentMonth;
+            $loanBill->start_date = $startMonth;
+            $loanBill->end_date = $endMonth;
             $loanBill->status = false;
             $loanBill->payment_status = false;                    
             $loanBill->save();       
@@ -189,14 +198,15 @@ class LoanFundController extends Controller
         $firstStatus = true;
 
         for ($monthnow = 1; $monthnow <= $monthlength; $monthnow++) {            
-            // $currentMonth->addMonth();
-            $currentMonth->addMinutes(1);
+            // $currentMonth->addMonth();            
             $loanBill = new LoanBills();
             $loanBill->loan_fund_id = $loanFund->id;            
             $loanBill->month = $monthnow;
             $loanBill->installment = 1;
             $loanBill->installment_amount = ($monthnow == $monthlength) ? $lastInstallmentAmount : $installmentAmount;
-            $loanBill->date = $currentMonth->format('Y-m-d H:i');
+            $loanBill->start_date = $currentMonth->format('Y-m-d H:i');
+            $currentMonth->addMinutes(1);
+            $loanBill->end_date = $currentMonth->format('Y-m-d H:i');
             $loanBill->status = $firstStatus;
             $loanBill->payment_status = false; 
             $loanBill->save();
@@ -279,6 +289,14 @@ class LoanFundController extends Controller
                 $loanBill->delete();
             }
 
+            
+            $balance = Balance::first();            
+            $balance->nominal = $balance->nominal + $loanFund->nominal;
+            $balance->save();
+            
+            $balanceHistory = BalanceHistory::where('loan_fund_id', $id)->first();
+            $balanceHistory->delete();
+    
             $loanFund->delete();
 
             Session::flash('deleteSuccess');

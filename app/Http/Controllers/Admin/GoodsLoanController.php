@@ -161,9 +161,17 @@ class GoodsLoanController extends Controller
             $nominalInfaq = 0;     
         } elseif ($goodsLoan->infaq_type == 'last'){
             $monthlength = $goodsLoan->installment;
-            $currentMonth = Carbon::now()->timezone('Asia/Jakarta');
+            $startMonth = Carbon::now()->timezone('Asia/Jakarta');
+            $endMonth = Carbon::now()->timezone('Asia/Jakarta');
+            //start date
             for ($monthnow = 1; $monthnow <= $monthlength; $monthnow++) {
-                $currentMonth->addMonth();
+                $startMonth->addMinutes(1);
+                // $startMonth->addMonth();
+            }
+            //end date
+            for ($monthnow = 1; $monthnow < $monthlength; $monthnow++) {
+                $endMonth->addMinutes(1);
+                // $endMonth->addMonth();
             }
             
             $loanBill = new LoanBills();
@@ -171,7 +179,8 @@ class GoodsLoanController extends Controller
             $loanBill->month = $goodsLoan->installment;
             $loanBill->installment = 0;
             $loanBill->installment_amount = $goodsLoan->nominal * $goodsLoan->infaq / 100;            
-            $loanBill->date = $currentMonth;
+            $loanBill->start_date = $startMonth;
+            $loanBill->end_date = $endMonth;
             $loanBill->status = false;
             $loanBill->payment_status = false; 
             $loanBill->save();       
@@ -195,13 +204,14 @@ class GoodsLoanController extends Controller
 
         for ($monthnow = 1; $monthnow <= $monthlength; $monthnow++) {            
             // $currentMonth->addMonth();
-            $currentMonth->addMinutes(1);
             $loanBill = new LoanBills();
             $loanBill->goods_loan_id = $goodsLoan->id;            
             $loanBill->month = $monthnow;
             $loanBill->installment = 1;
             $loanBill->installment_amount = ($monthnow == $monthlength) ? $lastInstallmentAmount : $installmentAmount;
-            $loanBill->date = $currentMonth->format('Y-m-d H:i');
+            $loanBill->start_date = $currentMonth->format('Y-m-d H:i');
+            $currentMonth->addMinutes(1);
+            $loanBill->end_date = $currentMonth->format('Y-m-d H:i');
             $loanBill->status = $firstStatus;
             $loanBill->payment_status = false; 
             $loanBill->save();
@@ -273,6 +283,13 @@ class GoodsLoanController extends Controller
             foreach ($loanBills as $loanBill) {
                 $loanBill->delete();
             }
+
+            $balance = Balance::first();            
+            $balance->nominal = $balance->nominal + $goodsLoan->nominal;
+            $balance->save();
+            
+            $balanceHistory = BalanceHistory::where('goods_loan_id', $id)->first();            
+            $balanceHistory->delete();
             
             $goodsLoan->delete();
 

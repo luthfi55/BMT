@@ -1,6 +1,6 @@
 @extends('layouts.sidebar')
 <?php
-$title = "Loan Fund Detail";
+$title = "Goods Loan Detail";
 ?>
 @section('content')
 
@@ -85,7 +85,8 @@ $title = "Loan Fund Detail";
                                                     <tr>
                                                         <th scope="col">Month</th>
                                                         <th scope="col">Installment Month</th>
-                                                        <th scope="col">Installment Date</th>
+                                                        <th scope="col">Installment Start Date</th>
+                                                        <th scope="col">Installment End Date</th>
                                                         <th scope="col">Type</th>
                                                         <th scope="col">Status</th>
                                                         <th scope="col">Payment Status</th>
@@ -100,7 +101,8 @@ $title = "Loan Fund Detail";
                                                         <td>{{ $loanBill->month }}</td>
                                                         <td>Rp.{{ number_format($loanBill->installment_amount, 2, ',', '.') }}
                                                         </td>
-                                                        <td>{{ $loanBill->date }}</td>
+                                                        <td>{{ $loanBill->start_date }}</td>
+                                                        <td>{{ $loanBill->end_date }}</td>
                                                         <td>
                                                             @if ($loanBill->installment == 1)
                                                             Installment
