@@ -60,11 +60,13 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
         Route::get('list-historyloanfund','LoanFundController@listHistory')->name('list-historyloanfund');
         Route::get('loanfund-update/{id}/edit', 'LoanFundController@edit')->name('edit-loanfund');
         Route::get('detail-loanfund/{id}/detail', 'LoanFundController@detail')->name('detail-loanfund');
+        Route::get('detail-loanbills/{id}/detail', 'LoanFundController@detailBills')->name('detail-loanbills');
         //loan fund post
         Route::post('create-loanfund','LoanFundController@create')->name('create-loanfund');
         //loan fund put
         Route::put('loanfund-update/{id}', 'LoanFundController@updateStatus')->name('loanfund-update');
         Route::put('historyloanfund-update/{id}', 'LoanFundController@updateStatusHistory')->name('historyloanfund-update');
+        Route::put('detailloanbills-update/{id}', 'LoanFundController@updateStatusBills')->name('loanbills-update');
         //loan fund delete
         Route::delete('loanfund-destroy/{id}', 'LoanFundController@destroy')->name('loanfund-destroy');
         Route::delete('historyloanfund-destroy/{id}', 'LoanFundController@destroyHistory')->name('historyloanfund-destroy');
