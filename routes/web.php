@@ -88,6 +88,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
         //Operational
         Route::get('operational-form','OperationalController@index')->name('operational-form');
         Route::get('list-operational','OperationalController@list')->name('list-operational');
+        Route::get('detail-operational/{id}/detail', 'OperationalController@detail')->name('detail-operational');
         Route::post('create-operational','OperationalController@create')->name('create-operational');
 
         //Balance

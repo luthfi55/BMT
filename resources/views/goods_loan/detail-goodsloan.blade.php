@@ -1,6 +1,6 @@
 @extends('layouts.sidebar')
 <?php
-$title = "Loan Fund Detail";
+$title = "Goods Loan Detail";
 ?>
 @section('content')
 

@@ -71,4 +71,15 @@ class OperationalController extends Controller
                 
         return view('operational.list-operational', compact('operationals', 'balance'));
     }
+    
+    public function detail($id)
+    {
+        $balance = Balance::first();
+        $operationals = Operational::find($id);
+        if (!$operationals) {
+            return redirect()->route('admin/list-operational')->with('error', 'Operational not found.');
+        }
+
+        return view('operational.detail-operational', ['operationals' => $operationals],compact('balance'));
+    }
 }
