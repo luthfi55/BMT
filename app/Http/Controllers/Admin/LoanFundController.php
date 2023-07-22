@@ -110,6 +110,17 @@ class LoanFundController extends Controller
 
         return view('loan_fund.detail-loanfund', ['loanFund' => $loanFunds, 'loanBills' => $loanBills],compact('balance'));
     }
+
+    public function detailBills($id)
+    {
+        $balance = Balance::first();
+        $loanBills = LoanBills::find($id);
+        if (!$loanBills) {
+            return redirect()->route('admin/detail-loanfund')->with('error', 'Loan bill not found.');
+        }
+
+        return view('loan_fund.detail-loanbills', ['loanBills' => $loanBills],compact('balance'));
+    }
     
     public function create(Request $request)
     {        
@@ -232,6 +243,15 @@ class LoanFundController extends Controller
         return view('loan_fund.loanfund-edit', ['loanFunds' => $loanFunds]);
     }
 
+    public function editBill($id)
+    {
+        $loanBills = LoanBills::find($id);
+        if (!$loanBills) {
+            return redirect()->route('admin.loanfund-form')->with('error', 'Loan Fund not found.');
+        }
+        return view('loan_fund.loanBills-edit', ['loanBills' => $loanBills]);
+    }
+
     public function updateStatus(Request $request, $id)
     {
         $request->validate([
@@ -260,6 +280,21 @@ class LoanFundController extends Controller
         Session::flash('updateSuccess');
 
         return redirect()->route('admin.list-historyloanfund');
+    }
+
+    public function updateStatusBills(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required',
+        ]);
+
+        $loanBill = LoanBills::findOrFail($id);                          
+        $loanBill->status =  $request->input('status');
+        $loanBill->save();
+
+        Session::flash('updateSuccess');
+
+        return redirect()->route('admin.detail-loanbills');
     }
     
     public function destroy($id)
