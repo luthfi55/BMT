@@ -31,7 +31,7 @@ class AdminController extends Controller
         $admin->name = $request->input('name');
         $admin->username = $request->input('username');
         $admin->email = $request->input('email');
-        $admin->password = \Hash::make($request->input('password'));
+        $admin->password = Hash::make($request->input('password'));
         $admin->save();
         
         Session::flash('success', 'Admin created successfully');

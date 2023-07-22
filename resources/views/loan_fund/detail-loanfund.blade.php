@@ -236,10 +236,10 @@ $title = "Loan Fund Detail";
                                                                                     name="status" required>
                                                                                     <option value="0"
                                                                                         {{ $loanBill->status == 0 ? 'selected' : '' }}>
-                                                                                        <span style="color: red;">Overdue</span></option>
+                                                                                        <span style="color: red;">Waiting</span></option>
                                                                                     <option value="1"
                                                                                         {{ $loanBill->status == 1 ? 'selected' : '' }}>
-                                                                                        <span style="color: green;">Completed</span></option>
+                                                                                        <span style="color: green;">Active</span></option>
                                                                                 </select>
                                                                             </div>
                                                                     </div>

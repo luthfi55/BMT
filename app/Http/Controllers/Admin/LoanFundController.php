@@ -101,26 +101,29 @@ class LoanFundController extends Controller
     public function detail($id)
     {
         $balance = Balance::first();
-        $loanFunds = LoanFund::find($id);
-        if (!$loanFunds) {
-            return redirect()->route('admin/list-loanfund')->with('error', 'Loan bill not found.');
+    
+        $loanFund = LoanFund::find($id);
+        if (!$loanFund) {
+            return redirect()->route('admin.list-loanfund')->with('error', 'Loan fund not found.');
         }
-
-        $loanBills = LoanBills::where('loan_fund_id', $loanFunds->id)->get();
-
-        return view('loan_fund.detail-loanfund', ['loanFund' => $loanFunds, 'loanBills' => $loanBills],compact('balance'));
+    
+        $loanBills = LoanBills::where('loan_fund_id', $loanFund->id)->get();
+    
+        return view('loan_fund.detail-loanfund', compact('loanFund', 'loanBills', 'balance'));
     }
-
+    
     public function detailBills($id)
     {
         $balance = Balance::first();
-        $loanBills = LoanBills::find($id);
-        if (!$loanBills) {
-            return redirect()->route('admin/detail-loanfund')->with('error', 'Loan bill not found.');
+    
+        $loanBill = LoanBills::find($id);
+        if (!$loanBill) {
+            return redirect()->route('admin.detail-loanfund')->with('error', 'Loan bill not found.');
         }
-
-        return view('loan_fund.detail-loanbills', ['loanBills' => $loanBills],compact('balance'));
+    
+        return view('loan_fund.detail-loanbills', compact('loanBill', 'balance'));
     }
+    
     
     public function create(Request $request)
     {        
@@ -300,7 +303,7 @@ class LoanFundController extends Controller
 
         Session::flash('updateSuccess');
 
-        return redirect()->route('admin.detail-loanbills');
+        return redirect()->route('admin.detail-loanfund', ['id' => $loanBill->id]);
     }
     
     public function destroy($id)
