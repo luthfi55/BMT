@@ -19,7 +19,7 @@ $title = "Loan Bills Detail";
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" data-bs-toggle="tab" href="pages-profile.html#detailLoanBills"
+                                <a class="nav-link active" data-bs-toggle="tab" href="pages-profile.html#detailgoodsBills"
                                     role="tab" aria-selected="true">
                                     <i class="ri-shield-user-line font-size-20"></i>
                                     <span class="d-none d-sm-block">Detail Loan Bills</span>
@@ -29,7 +29,7 @@ $title = "Loan Bills Detail";
                         </ul>
                         <!-- Tab content -->
                         <div class="tab-content p-4">
-                            <div class="tab-pane active" id="detailLoanBills" role="tabpanel">
+                            <div class="tab-pane active" id="detailgoodsBills" role="tabpanel">
                                 <div>                                
                                     <h5 class="font-size-16 mb-4">Detail Loan Bills</h5>
                                     
@@ -38,8 +38,10 @@ $title = "Loan Bills Detail";
                                     <p>{{ $loanBill->month }}</p>
                                     <h5 class="font-size-15">Installment Month</h5>
                                     <p>Rp.{{ number_format($loanBill->installment_amount, 2, ',', '.') }}</p>
-                                    <h5 class="font-size-15">Installment Date</h5>
-                                    <p>{{ $loanBill->date }}</p>
+                                    <h5 class="font-size-15">Installment Start Date</h5>
+                                    <p>{{ $loanBill->start_date }}</p>
+                                    <h5 class="font-size-15">Installment End Date</h5>
+                                    <p>{{ $loanBill->end_date }}</p>
                                     <h5 class="font-size-15">Type</h5>
                                     <p>@if ($loanBill->installment == 1)
                                         Installment

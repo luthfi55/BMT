@@ -60,13 +60,13 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
         Route::get('list-historyloanfund','LoanFundController@listHistory')->name('list-historyloanfund');
         Route::get('loanfund-update/{id}/edit', 'LoanFundController@edit')->name('edit-loanfund');
         Route::get('detail-loanfund/{id}/detail', 'LoanFundController@detail')->name('detail-loanfund');
-        Route::get('detail-loanbills/{id}/detail', 'LoanFundController@detailBills')->name('detail-loanbills');
+        Route::get('detail-fundbills/{id}/detail', 'LoanFundController@detailFundBills')->name('detail-fundbills');
         //loan fund post
         Route::post('create-loanfund','LoanFundController@create')->name('create-loanfund');
         //loan fund put
         Route::put('loanfund-update/{id}', 'LoanFundController@updateStatus')->name('loanfund-update');
         Route::put('historyloanfund-update/{id}', 'LoanFundController@updateStatusHistory')->name('historyloanfund-update');
-        Route::put('detailloanbills-update/{id}', 'LoanFundController@updateStatusBills')->name('loanbills-update');
+        Route::put('detailfundbills-update/{id}', 'LoanFundController@updateStatusFundBills')->name('fundbills-update');
         //loan fund delete
         Route::delete('loanfund-destroy/{id}', 'LoanFundController@destroy')->name('loanfund-destroy');
         Route::delete('historyloanfund-destroy/{id}', 'LoanFundController@destroyHistory')->name('historyloanfund-destroy');
@@ -78,11 +78,13 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
         Route::get('list-goodsloan','GoodsLoanController@list')->name('list-goodsloan');
         Route::get('goodsloan-update/{id}/edit', 'GoodsLoanController@edit')->name('edit-goodsloan');
         Route::get('detail-goodsloan/{id}/detail', 'GoodsLoanController@detail')->name('detail-goodsloan');
+        Route::get('detail-goodsbills/{id}/detail', 'GoodsLoanController@detailGoodsBills')->name('detail-goodsbills');
         //goods loan post
         Route::post('create-goodsloan','GoodsLoanController@create')->name('create-goodsloan');
         //goods loan put
         Route::put('goodsloan-update/{id}', 'GoodsLoanController@updateStatus')->name('goodsloan-update');
         Route::put('historygoodsloan-update/{id}', 'GoodsLoanController@updateStatusHistory')->name('historygoodsloan-update');
+        Route::put('detailgoodsbills-update/{id}', 'GoodsLoanController@updateStatusGoodsBills')->name('goodsbills-update');
         //goods loan delete
         Route::delete('goodsloan-destroy/{id}', 'GoodsLoanController@destroy')->name('goodsloan-destroy');
         Route::delete('historygoodsloan-destroy/{id}', 'GoodsLoanController@destroyHistory')->name('historygoodsloan-destroy');

@@ -195,7 +195,7 @@ $title = "Loan Fund Detail";
                                                             <ul class="list-inline mb-0">
                                                                 <li class="list-inline-item">
                                                                     <div class="d-flex">
-                                                                        <a href="{{ route('admin.detail-loanbills', $loanBill->id) }}"
+                                                                        <a href="{{ route('admin.detail-fundbills', $loanBill->id) }}"
                                                                             class="px-2 text-primary">
                                                                             <i class=" ri-file-info-fill font-size-18"></i>
                                                                         </a>
@@ -226,7 +226,7 @@ $title = "Loan Fund Detail";
                                                                     </div>
                                                                     <div class="modal-body">
                                                                         <form
-                                                                            action="{{ route('admin.loanbills-update', $loanBill->id) }}"
+                                                                            action="{{ route('admin.fundbills-update', $loanBill->id) }}"
                                                                             method="POST">
                                                                             @csrf
                                                                             @method('PUT')
