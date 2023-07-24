@@ -106,12 +106,24 @@ class GoodsLoanController extends Controller
         $balance = Balance::first();
         $goodsLoan = GoodsLoan::find($id);
         if (!$goodsLoan) {
-            return redirect()->route('admin/list-loanfund')->with('error', 'Loan bill not found.');
+            return redirect()->route('admin.list-goodsloan')->with('error', 'Loan bill not found.');
         }
 
         $loanBills = LoanBills::where('goods_loan_id', $goodsLoan->id)->get();
 
         return view('goods_loan.detail-goodsloan', ['goodsLoan' => $goodsLoan, 'loanBills' => $loanBills],compact('balance'));
+    }
+
+    public function detailGoodsBills($id)
+    {
+        $balance = Balance::first();
+    
+        $loanBill = LoanBills::find($id);
+        if (!$loanBill) {
+            return redirect()->route('admin.detail-goodsloan')->with('error', 'Loan bill not found.');
+        }
+    
+        return view('goods_loan.detail-goodsbills', compact('loanBill', 'balance'));
     }
 
     public function create(Request $request)
@@ -271,6 +283,25 @@ class GoodsLoanController extends Controller
         Session::flash('updateSuccess');
 
         return redirect()->route('admin.list-historygoodsloan');
+    }
+
+    public function updateGoodsBills(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required',
+            'payment_status' => 'required',
+            'payment_type' => 'required'
+        ]);
+
+        $loanBill = LoanBills::findOrFail($id);                          
+        $loanBill->status =  $request->input('status');
+        $loanBill->payment_status = $request->input('payment_status');
+        $loanBill->payment_type = $request->input('payment_type');
+        $loanBill->save();
+
+        Session::flash('updateSuccess');
+
+        return redirect()->route('admin.detail-goodsloan', ['id' => $loanBill->id]);
     }
 
     public function destroy($id)

@@ -112,7 +112,7 @@ class LoanFundController extends Controller
         return view('loan_fund.detail-loanfund', compact('loanFund', 'loanBills', 'balance'));
     }
     
-    public function detailBills($id)
+    public function detailFundBills($id)
     {
         $balance = Balance::first();
     
@@ -121,7 +121,7 @@ class LoanFundController extends Controller
             return redirect()->route('admin.detail-loanfund')->with('error', 'Loan bill not found.');
         }
     
-        return view('loan_fund.detail-loanbills', compact('loanBill', 'balance'));
+        return view('loan_fund.detail-fundbills', compact('loanBill', 'balance'));
     }
     
     
@@ -262,13 +262,13 @@ class LoanFundController extends Controller
         return view('loan_fund.loanfund-edit', ['loanFunds' => $loanFunds]);
     }
 
-    public function editBill($id)
+    public function editFundBill($id)
     {
         $loanBills = LoanBills::find($id);
         if (!$loanBills) {
-            return redirect()->route('admin.loanfund-form')->with('error', 'Loan Fund not found.');
+            return redirect()->route('admin.loanfund-form')->with('error', 'Loan Bills not found.');
         }
-        return view('loan_fund.loanBills-edit', ['loanBills' => $loanBills]);
+        return view('loan_fund.fundBills-edit', ['loanBills' => $loanBills]);
     }
 
     public function updateStatus(Request $request, $id)
@@ -301,14 +301,18 @@ class LoanFundController extends Controller
         return redirect()->route('admin.list-historyloanfund');
     }
 
-    public function updateStatusBills(Request $request, $id)
+    public function updateFundBills(Request $request, $id)
     {
         $request->validate([
             'status' => 'required',
+            'payment_status' => 'required',
+            'payment_type' => 'required'
         ]);
 
         $loanBill = LoanBills::findOrFail($id);                          
         $loanBill->status =  $request->input('status');
+        $loanBill->payment_status = $request->input('payment_status');
+        $loanBill->payment_type = $request->input('payment_type');
         $loanBill->save();
 
         Session::flash('updateSuccess');
