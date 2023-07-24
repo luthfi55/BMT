@@ -301,14 +301,18 @@ class LoanFundController extends Controller
         return redirect()->route('admin.list-historyloanfund');
     }
 
-    public function updateStatusFundBills(Request $request, $id)
+    public function updateFundBills(Request $request, $id)
     {
         $request->validate([
             'status' => 'required',
+            'payment_status' => 'required',
+            'payment_type' => 'required'
         ]);
 
         $loanBill = LoanBills::findOrFail($id);                          
         $loanBill->status =  $request->input('status');
+        $loanBill->payment_status = $request->input('payment_status');
+        $loanBill->payment_type = $request->input('payment_type');
         $loanBill->save();
 
         Session::flash('updateSuccess');

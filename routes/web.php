@@ -66,7 +66,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
         //loan fund put
         Route::put('loanfund-update/{id}', 'LoanFundController@updateStatus')->name('loanfund-update');
         Route::put('historyloanfund-update/{id}', 'LoanFundController@updateStatusHistory')->name('historyloanfund-update');
-        Route::put('detailfundbills-update/{id}', 'LoanFundController@updateStatusFundBills')->name('fundbills-update');
+        Route::put('detailfundbills-update/{id}', 'LoanFundController@updateFundBills')->name('fundbills-update');
         //loan fund delete
         Route::delete('loanfund-destroy/{id}', 'LoanFundController@destroy')->name('loanfund-destroy');
         Route::delete('historyloanfund-destroy/{id}', 'LoanFundController@destroyHistory')->name('historyloanfund-destroy');
@@ -84,7 +84,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
         //goods loan put
         Route::put('goodsloan-update/{id}', 'GoodsLoanController@updateStatus')->name('goodsloan-update');
         Route::put('historygoodsloan-update/{id}', 'GoodsLoanController@updateStatusHistory')->name('historygoodsloan-update');
-        Route::put('detailgoodsbills-update/{id}', 'GoodsLoanController@updateStatusGoodsBills')->name('goodsbills-update');
+        Route::put('detailgoodsbills-update/{id}', 'GoodsLoanController@updateGoodsBills')->name('goodsbills-update');
         //goods loan delete
         Route::delete('goodsloan-destroy/{id}', 'GoodsLoanController@destroy')->name('goodsloan-destroy');
         Route::delete('historygoodsloan-destroy/{id}', 'GoodsLoanController@destroyHistory')->name('historygoodsloan-destroy');
