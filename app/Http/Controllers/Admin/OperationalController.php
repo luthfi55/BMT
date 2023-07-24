@@ -39,7 +39,7 @@ class OperationalController extends Controller
         $currentTime = Carbon::now()->timezone('Asia/Jakarta');
 
         $balanceHistory = new BalanceHistory();
-        $balanceHistory->id = $operational->id;
+        $balanceHistory->operational_id = $operational->id;
         $balanceHistory->nominal = $operational->nominal;
         $balanceHistory->description = "Operational";
         $balanceHistory->date = $currentTime->format('Y-m-d H:i:s');
