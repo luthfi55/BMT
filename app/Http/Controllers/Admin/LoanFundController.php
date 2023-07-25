@@ -308,17 +308,22 @@ class LoanFundController extends Controller
             'payment_status' => 'required',
             'payment_type' => 'required'
         ]);
-
-        $loanBill = LoanBills::findOrFail($id);                          
+    
+        $loanBill = LoanBills::findOrFail($id);
+        if (!$loanBill) {
+            return redirect()->route('admin.detail-loanfund', ['id' => $id])->with('error', 'Loan bill not found.');
+        }
+    
         $loanBill->status =  $request->input('status');
         $loanBill->payment_status = $request->input('payment_status');
         $loanBill->payment_type = $request->input('payment_type');
         $loanBill->save();
-
+    
         Session::flash('updateSuccess');
-
-        return redirect()->route('admin.detail-loanfund', ['id' => $loanBill->id]);
+    
+        return redirect()->route('admin.detail-loanfund', ['id' => $loanBill->loan_fund_id]);
     }
+    
     
     public function destroy($id)
     {
