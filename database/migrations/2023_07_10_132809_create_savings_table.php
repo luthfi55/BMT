@@ -18,8 +18,12 @@ class CreateSavingsTable extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->string('type');
             $table->integer('nominal');
-            $table->datetime('date');
+            $table->datetime('start_date');
+            $table->datetime('end_date');
             $table->boolean('status');
+            $table->boolean('payment_status');
+            $table->string('payment_type')->nullable();
+            $table->datetime('payment_date')->nullable();
             $table->timestamps();
         });
     }
