@@ -45,11 +45,13 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
         Route::get('user-form','UserController@index')->name('user-form');
         Route::get('list-user','UserController@list')->name('list-user');
         Route::get('detail-user/{id}/detail', 'UserController@detail')->name('detail-user');
+        Route::get('detail-savings/{id}/detail', 'UserController@detailSavings')->name('detail-savings');
         Route::get('user-update/{id}/edit', 'UserController@edit')->name('edit-user');
         //user post
         Route::post('create-user','UserController@create')->name('create-user');        
         //user get put
         Route::put('user-update/{id}', 'UserController@update')->name('user-update');
+        Route::put('savings-update/{id}', 'UserController@updateSavings')->name('savings-update');
         //user get delete
         Route::delete('user-destroy/{id}', 'UserController@destroy')->name('user-destroy');
 

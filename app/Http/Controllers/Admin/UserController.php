@@ -43,7 +43,7 @@ class UserController extends Controller
         $balance = Balance::first();   
         $users = User::find($id);
         if (!$users) {
-            return redirect()->route('admin/list-user')->with('error', 'User not found.');
+            return redirect()->route('admin.list-user')->with('error', 'User not found.');
         }
 
         $savings = Savings::where('user_id', $users->id)->get();
@@ -60,7 +60,7 @@ class UserController extends Controller
             return redirect()->route('admin.detail-user')->with('error', 'Savings not found.');
         }
     
-        return view('user.detail-savings', compact('loanBill', 'balance'));
+        return view('user.detail-savings', compact('saving', 'balance'));
     }
 
     public function create(Request $request)

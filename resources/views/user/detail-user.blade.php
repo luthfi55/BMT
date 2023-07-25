@@ -134,7 +134,10 @@ $title = "User Detail";
                                                                 <ul class="list-inline mb-0">
                                                                     <li class="list-inline-item">
                                                                         <div class="d-flex">
-                
+                                                                            <a href="{{ route('admin.detail-savings', $saving->id) }}"
+                                                                                class="px-2 text-primary">
+                                                                                <i class=" ri-file-info-fill font-size-18"></i>
+                                                                            </a>
                                                                             <!-- Update button -->
                                                                             <button type="button" class="btn text-primary p-0"
                                                                                 data-bs-toggle="modal"
@@ -179,35 +182,35 @@ $title = "User Detail";
                                                                                             <span style="color: green;">Completed</span></option>
                                                                                     </select>
                                                                                 </div>
+                                                                                <label for="payment_status"
+                                                                                        class="col-sm-3 col-form-label">Payment Status</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <select class="form-select"
+                                                                                        aria-label="Default select example"
+                                                                                        name="payment_status" required>
+                                                                                        <option value="0"
+                                                                                            {{ $saving->payment_status == 0 ? 'selected' : '' }}>
+                                                                                            <span style="color: red;">Overdue</span></option>
+                                                                                        <option value="1"
+                                                                                            {{ $saving->payment_status == 1 ? 'selected' : '' }}>
+                                                                                            <span style="color: green;">Completed</span></option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <label for="payment_type"
+                                                                                    class="col-sm-3 col-form-label">Payment Type</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <select class="form-select"
+                                                                                        aria-label="Default select example"
+                                                                                        name="payment_type" required>
+                                                                                        <option value="Cash"
+                                                                                            {{ $saving->payment_type == 'Cash' ? 'selected' : '' }}>
+                                                                                            <span>Cash</span></option>
+                                                                                        <option value="Transfer"
+                                                                                            {{ $saving->payment_type == 'Transfer' ? 'selected' : '' }}>
+                                                                                            <span>Transfer</span></option>
+                                                                                    </select>
+                                                                                </div>
                                                                         </div>
-                                                                        <label for="payment_status"
-                                                                                class="col-sm-3 col-form-label">Payment Status</label>
-                                                                            <div class="col-sm-10">
-                                                                                <select class="form-select"
-                                                                                    aria-label="Default select example"
-                                                                                    name="payment_status" required>
-                                                                                    <option value="0"
-                                                                                        {{ $saving->payment_status == 0 ? 'selected' : '' }}>
-                                                                                        <span style="color: red;">Overdue</span></option>
-                                                                                    <option value="1"
-                                                                                        {{ $saving->payment_status == 1 ? 'selected' : '' }}>
-                                                                                        <span style="color: green;">Completed</span></option>
-                                                                                </select>
-                                                                            </div>
-                                                                            <label for="payment_type"
-                                                                                class="col-sm-3 col-form-label">Payment Type</label>
-                                                                            <div class="col-sm-10">
-                                                                                <select class="form-select"
-                                                                                    aria-label="Default select example"
-                                                                                    name="payment_type" required>
-                                                                                    <option value="Cash"
-                                                                                        {{ $saving->payment_type == 'Cash' ? 'selected' : '' }}>
-                                                                                        <span>Cash</span></option>
-                                                                                    <option value="Transfer"
-                                                                                        {{ $saving->payment_type == 'Transfer' ? 'selected' : '' }}>
-                                                                                        <span>Transfer</span></option>
-                                                                                </select>
-                                                                            </div>
                                                                         <div class="modal-footer">
                                                                             <button type="button" class="btn btn-light waves-effect"
                                                                                 data-bs-dismiss="modal">Cancel</button>
