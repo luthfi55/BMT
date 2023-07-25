@@ -131,7 +131,7 @@ $title = "Balance History";
                                                 <ul class="list-inline mb-0">
                                                     <li class="list-inline-item">
                                                         <div class="d-flex">
-                                                            <a href="" class="px-2 text-primary">
+                                                            <a href="{{ route('admin.detail-balancehistory', $balanceHistorie->id) }}" class="px-2 text-primary">
                                                                 <i class=" ri-file-info-fill font-size-18"></i>
                                                             </a>
                                                             </form>
@@ -139,11 +139,11 @@ $title = "Balance History";
                                                     </li>
                                                 </ul>
                                             </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
-                            </tr>
-                            @endforeach
-                            </tbody>
-                            </table>
                         </div>
 
                         <div class="row mt-4">

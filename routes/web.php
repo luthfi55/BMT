@@ -100,6 +100,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
         //Balance
         Route::get('balance-form','BalanceController@index')->name('balance-form');
         Route::get('list-historybalance','BalanceController@listHistory')->name('list-historybalance');
+        Route::get('detail-balancehistory/{id}/detail', 'BalanceController@detail')->name('detail-balancehistory');
         Route::post('create-balance','BalanceController@create')->name('create-balance');
     });
     Route::post('logout','Auth\AuthenticatedSessionController@destroy')->name('logout');

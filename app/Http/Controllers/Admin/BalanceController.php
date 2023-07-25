@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Balance;
+use App\Models\User; 
+use App\Models\LoanFund; 
+use App\Models\GoodsLoan;
+use App\Models\Operational;
 use Illuminate\Http\Request;
 use App\Models\BalanceHistory;
 use Illuminate\Support\Carbon;
@@ -90,4 +94,16 @@ class BalanceController extends Controller
         
         return view('balance.list-balancehistory', ['balanceHistories' => $balanceHistories],compact('balance'));        
     }
+
+    public function detail($id)
+    {
+        $balance = Balance::first();
+        $balanceHistories = BalanceHistory::find($id);
+        if (!$balanceHistories) {
+            return redirect()->route('admin.list-balancehistory')->with('error', 'Data not found.');
+        }
+
+        return view('balance.detail-balancehistory', ['balanceHistories' => $balanceHistories],compact('balance'));
+    }
+
 }
