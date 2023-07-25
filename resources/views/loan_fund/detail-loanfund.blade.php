@@ -164,16 +164,16 @@ $title = "Loan Fund Detail";
                                                         </td>
                                                         <td>
                                                             @if ($loanBill->status == 1)
-                                                            <span style="color: green;">Active</span>
+                                                            <span style="color: green;">Completed</span>
                                                             @else
-                                                            <span style="color: red;">Waiting</span>
+                                                            <span style="color: red;">Overdue</span>
                                                             @endif
                                                         </td>
                                                         <td>
                                                             @if ($loanBill->payment_status == 0)
-                                                            <span style="color: red;">Waiting</span>
+                                                            <span style="color: red;">Overdue</span>
                                                             @else
-                                                            <span style="color: green;">Active</span>
+                                                            <span style="color: green;">Completed</span>
                                                             @endif
                                                         </td>
                                                         <td>
@@ -238,10 +238,10 @@ $title = "Loan Fund Detail";
                                                                                     name="status" required>
                                                                                     <option value="0"
                                                                                         {{ $loanBill->status == 0 ? 'selected' : '' }}>
-                                                                                        <span style="color: red;">Waiting</span></option>
+                                                                                        <span style="color: red;">Overdue</span></option>
                                                                                     <option value="1"
                                                                                         {{ $loanBill->status == 1 ? 'selected' : '' }}>
-                                                                                        <span style="color: green;">Active</span></option>
+                                                                                        <span style="color: green;">Completed</span></option>
                                                                                 </select>
                                                                             </div>
                                                                             <label for="payment_status"
@@ -252,10 +252,10 @@ $title = "Loan Fund Detail";
                                                                                     name="payment_status" required>
                                                                                     <option value="0"
                                                                                         {{ $loanBill->payment_status == 0 ? 'selected' : '' }}>
-                                                                                        <span style="color: red;">Waiting</span></option>
+                                                                                        <span style="color: red;">Overdue</span></option>
                                                                                     <option value="1"
                                                                                         {{ $loanBill->payment_status == 1 ? 'selected' : '' }}>
-                                                                                        <span style="color: green;">Active</span></option>
+                                                                                        <span style="color: green;">Completed</span></option>
                                                                                 </select>
                                                                             </div>
                                                                             <label for="payment_type"

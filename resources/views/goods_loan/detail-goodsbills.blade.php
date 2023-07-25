@@ -51,16 +51,16 @@ $title = "Loan Bills Detail";
                                     </p>
                                     <h5 class="font-size-15">Status</h5>
                                     <p> @if ($loanBill->status == 1)
-                                        <span style="color: green;">Active</span>
+                                        <span style="color: green;">Completed</span>
                                         @else
-                                        <span style="color: red;">Waiting</span>
+                                        <span style="color: red;">Overdue</span>
                                         @endif
                                     </p>
                                     <h5 class="font-size-15">Payment Status</h5>
                                     <p>@if ($loanBill->payment_status == 0)
-                                        <span style="color: red;">Waiting</span>
+                                        <span style="color: red;">Overdue</span>
                                         @else
-                                        <span style="color: green;">{{ $loanBill->payment_status }}</span>
+                                        <span style="color: green;">Completed</span>
                                         @endif
                                     </p>
                                     <h5 class="font-size-15">Payment Type</h5>

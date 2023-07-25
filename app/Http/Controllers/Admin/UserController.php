@@ -94,13 +94,13 @@ class UserController extends Controller
         // ->addMonth()
         $saving = new Savings();
         $saving->user_id = $user->id;
-        $saving->type = 'mandatory';
+        $saving->type = 'Mandatory';
         $saving->nominal = $user->mandatory_savings;
         $saving->start_date = $startDate;        
         $saving->end_date = $endtDate;
         $saving->status = false;
         $saving->payment_status = false; 
-        $saving->payment_type = 'cash'; 
+        $saving->payment_type = 'Cash'; 
         $saving->payment_date = $startDate; 
         $saving->save();
 
