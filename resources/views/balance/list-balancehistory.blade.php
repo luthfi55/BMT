@@ -158,17 +158,16 @@ $title = "Balance History";
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
-
-                        <div class="row mt-4">
-                            <div class="col-sm-6">
-                                <div>
-                                    <p class="mb-sm-0">Showing {{ $balanceHistories->firstItem() }} to {{ $balanceHistories->lastItem() }} of {{ $balanceHistories->total() }} entries</p>
+                            <div class="row mt-4">
+                                <div class="col-sm-6">
+                                    <div>
+                                        <p class="mb-sm-0">Showing {{ $balanceHistories->firstItem() }} to {{ $balanceHistories->lastItem() }} of {{ $balanceHistories->total() }} entries</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="float-sm-end">
-                                    {{ $balanceHistories->links('pagination::bootstrap-4') }}
+                                <div class="col-sm-6">
+                                    <div class="float-sm-end">
+                                        {{ $balanceHistories->links('pagination::bootstrap-4') }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
