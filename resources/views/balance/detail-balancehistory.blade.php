@@ -32,58 +32,14 @@ $title = "Balance Detail";
                                 <div>                              
                                     <h5 class="font-size-16 mb-4">Balance</h5>
                                               
-                                    <h5 class="font-size-15">Payment Id</h5>
-                                    <p>
-                                        @if ($balanceHistories->loan_fund_id != '')
-                                            LF-{{$balanceHistories->loan_fund_id}}
-                                        @elseif ($balanceHistories->goods_loan_id != '')
-                                            GL-{{$balanceHistories->goods_loan_id}}
-                                        @elseif ($balanceHistories->operational_id != '')
-                                            OP-{{$balanceHistories->operational_id}}
-                                        @elseif ($balanceHistories->loan_bills_id != '')
-                                            LB-{{$balanceHistories->loan_bills_id}}
-                                        @elseif ($balanceHistories->savings_id != '')
-                                            SV-{{$balanceHistories->savings_id}}
-                                        @else
-                                            Balance
-                                        @endif
-                                    </p>
-                                    <h5 class="font-size-15">Type Payment</h5>
-                                    <p>
-                                        @if ($balanceHistories->loan_fund_id != '')
-                                            Loan Fund
-                                        @elseif ($balanceHistories->goods_loan_id != '')
-                                            Goods Loan
-                                        @elseif ($balanceHistories->operational_id != '')
-                                            Operational
-                                        @elseif ($balanceHistories->loan_bills_id != '')
-                                            Loan Bills
-                                        @elseif ($balanceHistories->savings_id != '')
-                                            Savings
-                                        @else
-                                            Balance Update
-                                        @endif    
-                                    </p>
                                     <h5 class="font-size-15">Nominal</h5>
                                     <p>
-                                        @if ($balanceHistories->loan_fund_id != '')
-                                            <span style="color: red;">- Rp.{{ number_format($balanceHistories->nominal, 2, ',', '.') }}   </span>
-                                        @elseif ($balanceHistories->goods_loan_id != '')
-                                            <span style="color: red;">- Rp.{{ number_format($balanceHistories->nominal, 2, ',', '.') }}   </span>
-                                        @elseif ($balanceHistories->operational_id != '')
-                                            <span style="color: red;">- Rp.{{ number_format($balanceHistories->nominal, 2, ',', '.') }}   </span>
-                                        @elseif ($balanceHistories->loan_bills_id != '')
-                                            <span style="color: green;">+ Rp.{{ number_format($balanceHistories->nominal, 2, ',', '.') }}   </span>
-                                        @elseif ($balanceHistories->savings_id != '')
-                                            <span style="color: green;">+ Rp.{{ number_format($balanceHistories->nominal, 2, ',', '.') }}   </span>
-                                        @else
-                                            <span style="color: green;">+ Rp.{{ number_format($balanceHistories->nominal, 2, ',', '.') }}   </span>
-                                        @endif
+                                        <span style="color: green;">+ Rp.{{ number_format($balanceHistories->nominal, 2, ',', '.') }}   </span>
                                     </p>
                                     <h5 class="font-size-15">Description</h5>
-                                    <p>{{ $balanceHistories->description }}</p>
-                                    <h5 class="font-size-15">Date</h5>
-                                    <p>{{ $balanceHistories->date }}</p>                           
+                                    <p>
+                                        {{$balanceHistories->description}}
+                                    </p>                       
                                 </div>
                                       
                             </div>                                

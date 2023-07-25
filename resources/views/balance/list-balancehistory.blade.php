@@ -131,7 +131,21 @@ $title = "Balance History";
                                                 <ul class="list-inline mb-0">
                                                     <li class="list-inline-item">
                                                         <div class="d-flex">
-                                                            <a href="{{ route('admin.detail-balancehistory', $balanceHistorie->id) }}" class="px-2 text-primary">
+                                                            <a href=
+                                                            @if ($balanceHistorie->loan_fund_id != '')
+                                                                {{ route('admin.detail-loanfund', $balanceHistorie->loan_fund_id) }}
+                                                            @elseif ($balanceHistorie->goods_loan_id != '')
+                                                                {{ route('admin.detail-goodsloan', $balanceHistorie->goods_loan_id) }}
+                                                            @elseif ($balanceHistorie->operational_id != '')
+                                                                {{ route('admin.detail-operational', $balanceHistorie->operational_id) }}
+                                                            @elseif ($balanceHistorie->loan_bills_id != '')
+                                                                {{ route('admin.detail-loanbills', $balanceHistorie->loan_bills_id) }}
+                                                            @elseif ($balanceHistorie->savings_id != '')
+                                                                {{ route('admin.detail-savings', $balanceHistorie->savings_id) }}
+                                                            @else
+                                                                {{ route('admin.detail-balancehistory', $balanceHistorie->id) }}
+                                                            @endif
+                                                            class="px-2 text-primary">
                                                                 <i class=" ri-file-info-fill font-size-18"></i>
                                                             </a>
                                                             </form>
