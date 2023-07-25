@@ -51,6 +51,18 @@ class UserController extends Controller
         return view('user.detail-user', ['users' => $users, 'savings' => $savings],compact('balance'));
     }
 
+    public function detailSavings($id)
+    {
+        $balance = Balance::first();
+    
+        $saving = Savings::find($id);
+        if (!$saving) {
+            return redirect()->route('admin.detail-user')->with('error', 'Savings not found.');
+        }
+    
+        return view('user.detail-savings', compact('loanBill', 'balance'));
+    }
+
     public function create(Request $request)
     {
         $request->validate([
@@ -160,6 +172,29 @@ class UserController extends Controller
         Session::flash('updateSuccess');
 
         return redirect()->route('admin.list-user');
+    }
+
+    public function updateSavings(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required',
+            'payment_status' => 'required',
+            'payment_type' => 'required'
+        ]);
+    
+        $saving = Savings::findOrFail($id);
+        if (!$saving) {
+            return redirect()->route('admin.detail-user', ['id' => $id])->with('error', 'Savings not found.');
+        }
+    
+        $saving->status =  $request->input('status');
+        $saving->payment_status = $request->input('payment_status');
+        $saving->payment_type = $request->input('payment_type');
+        $saving->save();
+    
+        Session::flash('updateSuccess');
+    
+        return redirect()->route('admin.detail-user', ['id' => $saving->user_id]);
     }
 
     public function destroy($id)
