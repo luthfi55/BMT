@@ -39,11 +39,12 @@ class OperationalController extends Controller
         $currentTime = Carbon::now()->timezone('Asia/Jakarta');
 
         $balanceHistory = new BalanceHistory();
-        $balanceHistory->loan_fund_id = $operational->id;
+        $balanceHistory->operational_id = $operational->id;
         $balanceHistory->nominal = $operational->nominal;
-        $balanceHistory->description = "Loan Fund";
+        $balanceHistory->description = "Operational";
         $balanceHistory->date = $currentTime->format('Y-m-d H:i:s');
-        $balanceHistory->save();        
+        $balanceHistory->save();
+                
 
         //balance count        
         $balance = Balance::first();

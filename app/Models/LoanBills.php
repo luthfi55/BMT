@@ -18,6 +18,9 @@ class LoanBills extends Model
         'installment_amount',
         'date',
         'status',
+        'payment_status',
+        'payment_type',
+        'payment_date',
     ];
 
     public function loanFund()

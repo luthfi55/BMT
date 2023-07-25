@@ -173,7 +173,7 @@ $title = "Loan Fund Detail";
                                                             @if ($loanBill->payment_status == 0)
                                                             <span style="color: red;">Waiting</span>
                                                             @else
-                                                            <span style="color: green;">{{ $loanBill->payment_status }}</span>
+                                                            <span style="color: green;">Active</span>
                                                             @endif
                                                         </td>
                                                         <td>
@@ -195,7 +195,7 @@ $title = "Loan Fund Detail";
                                                             <ul class="list-inline mb-0">
                                                                 <li class="list-inline-item">
                                                                     <div class="d-flex">
-                                                                        <a href="{{ route('admin.detail-loanbills', $loanBill->id) }}"
+                                                                        <a href="{{ route('admin.detail-fundbills', $loanBill->id) }}"
                                                                             class="px-2 text-primary">
                                                                             <i class=" ri-file-info-fill font-size-18"></i>
                                                                         </a>
@@ -219,14 +219,14 @@ $title = "Loan Fund Detail";
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
                                                                         <h5 class="modal-title"
-                                                                            id="updateModal{{ $loanBill->id }}Label">Update Status
+                                                                            id="updateModal{{ $loanBill->id }}Label">Update
                                                                         </h5>
                                                                         <button type="button" class="btn-close"
                                                                             data-bs-dismiss="modal" aria-label="Close"></button>
                                                                     </div>
                                                                     <div class="modal-body">
                                                                         <form
-                                                                            action="{{ route('admin.loanbills-update', $loanBill->id) }}"
+                                                                            action="{{ route('admin.fundbills-update', $loanBill->id) }}"
                                                                             method="POST">
                                                                             @csrf
                                                                             @method('PUT')
@@ -238,10 +238,38 @@ $title = "Loan Fund Detail";
                                                                                     name="status" required>
                                                                                     <option value="0"
                                                                                         {{ $loanBill->status == 0 ? 'selected' : '' }}>
-                                                                                        <span style="color: red;">Overdue</span></option>
+                                                                                        <span style="color: red;">Waiting</span></option>
                                                                                     <option value="1"
                                                                                         {{ $loanBill->status == 1 ? 'selected' : '' }}>
-                                                                                        <span style="color: green;">Completed</span></option>
+                                                                                        <span style="color: green;">Active</span></option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <label for="payment_status"
+                                                                                class="col-sm-3 col-form-label">Payment Status</label>
+                                                                            <div class="col-sm-10">
+                                                                                <select class="form-select"
+                                                                                    aria-label="Default select example"
+                                                                                    name="payment_status" required>
+                                                                                    <option value="0"
+                                                                                        {{ $loanBill->payment_status == 0 ? 'selected' : '' }}>
+                                                                                        <span style="color: red;">Waiting</span></option>
+                                                                                    <option value="1"
+                                                                                        {{ $loanBill->payment_status == 1 ? 'selected' : '' }}>
+                                                                                        <span style="color: green;">Active</span></option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <label for="payment_type"
+                                                                                class="col-sm-3 col-form-label">Payment Type</label>
+                                                                            <div class="col-sm-10">
+                                                                                <select class="form-select"
+                                                                                    aria-label="Default select example"
+                                                                                    name="payment_type" required>
+                                                                                    <option value="Cash"
+                                                                                        {{ $loanBill->payment_type == 'Cash' ? 'selected' : '' }}>
+                                                                                        <span>Cash</span></option>
+                                                                                    <option value="Transfer"
+                                                                                        {{ $loanBill->payment_type == 'Transfer' ? 'selected' : '' }}>
+                                                                                        <span>Transfer</span></option>
                                                                                 </select>
                                                                             </div>
                                                                     </div>
