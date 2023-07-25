@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Balance;
+use App\Models\BalanceHistory;
 use App\Models\Savings;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
@@ -83,8 +85,38 @@ class UserController extends Controller
         }
         
         $user->pin = $pin;
-        $user->save();
-        // dd($user);  
+        $user->save(); 
+
+        //Create savings data
+
+        $startDate = Carbon::now()->timezone('Asia/Jakarta');
+        $endtDate = Carbon::now()->timezone('Asia/Jakarta')->addMinutes(1);
+        // ->addMonth()
+        $saving = new Savings();
+        $saving->user_id = $user->id;
+        $saving->type = 'mandatory';
+        $saving->nominal = $user->mandatory_savings;
+        $saving->start_date = $startDate;        
+        $saving->end_date = $endtDate;
+        $saving->status = false;
+        $saving->payment_status = false; 
+        $saving->payment_type = 'cash'; 
+        $saving->payment_date = $startDate; 
+        $saving->save();
+
+        //Create History Balance
+        $balanceHistory = new BalanceHistory();
+        $balanceHistory->savings_id = $saving->id;
+        $balanceHistory->nominal = $saving->nominal;
+        $balanceHistory->description = 'Mandatory Savings';
+        $balanceHistory->date = $saving->payment_date;
+        $balanceHistory->save(); 
+
+        //balance count
+        $balance = Balance::first();
+        $balance->nominal = $balance->nominal + $balanceHistory->nominal;
+        $balance->save();
+        
         Session::flash('success', 'Successfully created a user account');
           
         return redirect()->route('admin.list-user');
