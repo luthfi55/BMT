@@ -13,7 +13,7 @@ $title = "User Detail";
 
 
             <div class="row">
-                <div class="col-xl-6">
+                <div class="col-xl-4">
                     <div class="card mb-0">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
@@ -57,7 +57,7 @@ $title = "User Detail";
                             
                     </div>
                 </div>
-                <div class="col-xl-6">
+                <div class="col-xl-8">
                     <div class="card mb-0">
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
@@ -84,8 +84,12 @@ $title = "User Detail";
                                                         <tr>
                                                             <th scope="col">Type</th>
                                                             <th scope="col">Nominal</th>
-                                                            <th scope="col">Date</th>
+                                                            <th scope="col">Start Date</th>
+                                                            <th scope="col">End Date</th>
                                                             <th scope="col">Status</th>
+                                                            <th scope="col">Payment Status</th>
+                                                            <th scope="col">Payment Type</th>
+                                                            <th scope="col">Payment Date</th>
                                                             <th scope="col" style="width: 120px;">Action</th>
                                                         </tr>
                                                     </thead>
@@ -95,12 +99,34 @@ $title = "User Detail";
                                                             <td>{{ $saving->type }}</td>
                                                             <td>Rp.{{ number_format($saving->nominal, 2, ',', '.') }}
                                                             </td>
-                                                            <td>{{ $saving->date }}
+                                                            <td>{{ $saving->start_date }}</td>
+                                                            <td>{{ $saving->end_date }}</td>
                                                             <td>
                                                                 @if ($saving->status == 1)
                                                                 <span style="color: green;">Completed</span>
                                                                 @else
                                                                 <span style="color: red;">Overdue</span>
+                                                                @endif
+                                                            </td>
+                                                            <td>
+                                                                @if ($saving->payment_status == 0)
+                                                                <span style="color: red;">Overdue</span>
+                                                                @else
+                                                                <span style="color: green;">Completed</span>
+                                                                @endif
+                                                            </td>
+                                                            <td>
+                                                                @if ($saving->payment_type  == 0)
+                                                                -
+                                                                @else
+                                                                {{ $saving->payment_type }}
+                                                                @endif
+                                                            </td>
+                                                            <td>
+                                                                @if ($saving->payment_date == 0)
+                                                                -
+                                                                @else
+                                                                {{ $saving->payment_date}}
                                                                 @endif
                                                             </td>
                                                             <td>
