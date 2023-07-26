@@ -82,6 +82,7 @@ $title = "User Detail";
                                                 <table class="table table-nowrap table-hover mb-0">
                                                     <thead>
                                                         <tr>
+                                                            <th scope="col">Id</th>
                                                             <th scope="col">Type</th>
                                                             <th scope="col">Nominal</th>
                                                             <th scope="col">Start Date</th>
@@ -96,6 +97,7 @@ $title = "User Detail";
                                                     <tbody>
                                                         @foreach ($savings as $saving)
                                                         <tr>
+                                                            <td>SV-{{ $saving->id }}</td>
                                                             <td>{{ $saving->type }}</td>
                                                             <td>Rp.{{ number_format($saving->nominal, 2, ',', '.') }}
                                                             </td>

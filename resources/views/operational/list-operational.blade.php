@@ -74,7 +74,7 @@ $title = "Operational List";
                                         @foreach ($operationals as $operational)
                                         <tr>
                                             <td>
-                                                <a href="#" class="text-body">{{ $operational->id }}</a>
+                                                <a href="#" class="text-body">OP-{{ $operational->id }}</a>
                                             </td>
 
                                             <td>                                                

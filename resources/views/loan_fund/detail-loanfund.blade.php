@@ -32,7 +32,8 @@ $title = "Loan Fund Detail";
                                 <div>                                
                                     <h5 class="font-size-16 mb-4">Detail Loan</h5>
                                     
-                                    
+                                    <h5 class="font-size-15">Id</h5>
+                                    <p>LF-{{ $loanFund->user->id }}</p>
                                     <h5 class="font-size-15">Name</h5>
                                     <p>{{ $loanFund->user->name }}</p>
                                     <h5 class="font-size-15">Nominal</h5>

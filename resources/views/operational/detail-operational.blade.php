@@ -33,9 +33,11 @@ $title = "Operational Detail";
                                     <h5 class="font-size-16 mb-4">Detail Operational</h5>
                                               
                                     <h5 class="font-size-15">Id</h5>
-                                    <p>{{ $operationals->id }}</p>
+                                    <p>OP-{{ $operationals->id }}</p>
                                     <h5 class="font-size-15">Goods</h5>
                                     <p>{{ $operationals->goods }}</p>
+                                    <h5 class="font-size-15">Description</h5>
+                                    <p>{{ $operationals->description }}</p>
                                     <h5 class="font-size-15">Nominal</h5>
                                     <p>Rp.{{ number_format($operationals->nominal, 2, ',', '.') }}</p>
                                     <h5 class="font-size-15">Date</h5>
