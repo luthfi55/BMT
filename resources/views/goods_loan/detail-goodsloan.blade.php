@@ -29,7 +29,8 @@ $title = "Goods Loan Detail";
                                 <div>                                
                                     <h5 class="font-size-16 mb-4">Detail Loan</h5>
                                     
-                                    
+                                    <h5 class="font-size-15">Id</h5>
+                                    <p>GL-{{ $goodsLoan->user->id }}</p>
                                     <h5 class="font-size-15">Name</h5>
                                     <p>{{ $goodsLoan->user->name }}</p>
                                     <h5 class="font-size-15">Goods</h5>
