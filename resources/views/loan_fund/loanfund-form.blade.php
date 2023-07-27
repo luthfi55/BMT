@@ -126,6 +126,10 @@ $title = "Loan Fund Form";
                                 <div class="alert alert-danger alert-solid" role="alert">
                                     <span class="fw-medium">Create Loan Fund Failed, PIN not found </span>
                                 </div>
+                                @elseif(session('failed-balance'))
+                                <div class="alert alert-danger alert-solid" role="alert">
+                                    <span class="fw-medium">Balance Isn't enough</span>
+                                </div>
                                 @endif
 
                                 <h4 class="card-title">Create Loan Fund</h4>

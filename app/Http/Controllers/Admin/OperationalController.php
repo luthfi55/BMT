@@ -27,10 +27,12 @@ class OperationalController extends Controller
             $currentTime = Carbon::now()->timezone('Asia/Jakarta');
 
             $operational = $this->createOperational($request, $currentTime);
+            if (!$operational) {                
+                Session::flash('failed-balance');
+                return redirect()->route('admin.operational-form');
+            }
 
-            $this->addHistoryBills($operational);
-
-            $this->updateBalance($operational->nominal);
+            $this->addHistoryBills($operational);            
 
             Session::flash('success');
 
@@ -56,8 +58,12 @@ class OperationalController extends Controller
         $operational->nominal = $request->input('nominal');
         $operational->description = $request->input('description');
         $operational->date = $currentTime->format('Y-m-d H:i:s');
-        $operational->save();
+        
+        if (!$this->updateBalance($operational->nominal)) {            
+            return false;
+        }
 
+        $operational->save();
         return $operational;
     }
 
@@ -76,8 +82,15 @@ class OperationalController extends Controller
     private function updateBalance($nominal)
     {
         $balance = Balance::first();
-        $balance->nominal = $balance->nominal - $nominal;
+        $result = $balance->nominal - $nominal;
+
+        if ($result < 0) {
+            return false;
+        }
+
+        $balance->nominal = $result;
         $balance->save();
+        return true;
     }
 
     public function list(Request $request)
