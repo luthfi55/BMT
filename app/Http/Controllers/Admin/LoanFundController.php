@@ -148,6 +148,11 @@ class LoanFundController extends Controller
 
             $loanFund = $this->createLoanFund($request, $user);
 
+            if (!$loanFund) {                
+                Session::flash('failed-balance');
+                return redirect()->route('admin.loanfund-form');
+            }
+
             $nominalInfaq = $this->calculateNominalInfaq($loanFund);
 
             $this->generateLoanBills($loanFund, $nominalInfaq);
@@ -189,6 +194,11 @@ class LoanFundController extends Controller
         $loanFund->installment_amount = 0;
         $loanFund->month = 1;
         $loanFund->status = false;
+
+        if (!$this->updateBalance($loanFund->nominal)) {            
+            return false;
+        }
+
         $loanFund->save();
 
         return $loanFund;
@@ -266,8 +276,15 @@ class LoanFundController extends Controller
     private function updateBalance($nominal)
     {
         $balance = Balance::first();
-        $balance->nominal = $balance->nominal - $nominal;
+        $result = $balance->nominal - $nominal;
+
+        if ($result < 0) {
+            return false;
+        }
+
+        $balance->nominal = $result;
         $balance->save();
+        return true;
     }
 
 

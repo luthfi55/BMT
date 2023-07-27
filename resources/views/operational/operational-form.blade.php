@@ -19,6 +19,10 @@ $title = "Operational Form";
                             <div class="alert alert-success alert-solid" role="alert">
                                 <span class="fw-medium">Add Operational Successfully </span>
                             </div>
+                            @elseif(session('failed-balance'))
+                            <div class="alert alert-danger alert-solid" role="alert">
+                                <span class="fw-medium">Balance Isn't enough </span>
+                            </div>
                             @endif
 
                             <h4 class="card-title">Create Operational</h4>

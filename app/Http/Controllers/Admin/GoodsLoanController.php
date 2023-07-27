@@ -150,13 +150,16 @@ class GoodsLoanController extends Controller
 
             $goodsLoan = $this->createGoodsLoan($request, $user);
 
+            if (!$goodsLoan) {                
+                Session::flash('failed-balance');
+                return redirect()->route('admin.goodsloan-form');
+            }
+
             $nominalInfaq = $this->calculateNominalInfaq($goodsLoan);
 
             $this->generateLoanBills($goodsLoan, $nominalInfaq);
 
-            $this->addHistoryBills($goodsLoan);
-
-            $this->updateBalance($goodsLoan->nominal);
+            $this->addHistoryBills($goodsLoan);            
 
             Session::flash('success');
             return redirect()->route('admin.list-goodsloan');
@@ -192,6 +195,11 @@ class GoodsLoanController extends Controller
         $goodsLoan->installment_amount = 0;
         $goodsLoan->month = 1;
         $goodsLoan->status = false;
+
+        if (!$this->updateBalance($goodsLoan->nominal)) {            
+            return false;
+        }
+
         $goodsLoan->save();
 
         return $goodsLoan;
@@ -269,8 +277,15 @@ class GoodsLoanController extends Controller
     private function updateBalance($nominal)
     {
         $balance = Balance::first();
-        $balance->nominal = $balance->nominal - $nominal;
+        $result = $balance->nominal - $nominal;
+
+        if ($result < 0) {
+            return false;
+        }
+
+        $balance->nominal = $result;
         $balance->save();
+        return true;
     }
 
 
