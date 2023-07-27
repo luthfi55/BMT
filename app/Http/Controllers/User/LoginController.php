@@ -25,10 +25,12 @@ class LoginController extends Controller
         $user = User::where('pin', $pin)->first();
 
         if ($user) {
-            // $accessToken = $user->createToken('authToken')->accessToken;
+            $tokenLogin = $user->createToken('authToken')->accessToken;            
+
 
             return response()->json([
                 'status' => 'successfully',
+                'access_token' => $tokenLogin->token,
                 'user' => $user                
             ]);
         }
@@ -45,7 +47,10 @@ class LoginController extends Controller
      */
     public function logout()
     {
-        // Auth::logout();
+        $user = Auth::user();
+        $user->tokens->each(function ($token, $key) {
+            $token->delete();
+        });
 
         return response()->json([
             'message' => 'Logged out successfully',

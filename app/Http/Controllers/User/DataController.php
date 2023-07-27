@@ -6,49 +6,63 @@ use App\Http\Controllers\Controller;
 use App\Models\GoodsLoan;
 use App\Models\LoanBills;
 use App\Models\LoanFund;
+use App\Models\Savings;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Midtrans\Snap;
 
 class DataController extends Controller
 {
-    public function index(Request $request)
+    public function getUserData($userId)
     {
-        $user = $request->user();
+        $loanFundBills = $this->getLoanFundBills($userId);
+        $goodsLoanBills = $this->getGoodsLoanBills($userId);
+        $savingsBills = $this->getSavingsBills($userId);
 
-        if (!$user) {
-            return response()->json([
-                'message' => 'Unauthorized',
-            ], 401);
-        }
-
-        $loanFunds = $user->loanFunds;
-
-        return response()->json([
-            'message' => 'Loan funds data retrieved successfully',
-            'loan_funds' => $loanFunds,
-        ]);
-    }
-
-    public function getUserData($id)
-    {
-        $loanFundBills = LoanBills::whereHas('loanFund', function ($query) use ($id) {
-            $query->where('user_id', $id);
-        })->where('status', true)->get();
-
-        $goodsLoanBills = LoanBills::whereHas('goodsLoan', function ($query) use ($id) {
-            $query->where('user_id', $id);
-        })->where('status', true)->get();
-
-        if ($loanFundBills->isEmpty() && $goodsLoanBills->isEmpty()) {
+        if ($loanFundBills->isEmpty() && $goodsLoanBills->isEmpty() & $savingsBills->isEmpty()) {
             return response()->json([
                 'message' => 'Null',
+                'Data' => ['Null'],                
             ], 200);
-        } 
-        
+        }
+
         return response()->json([
-            'message' => 'Succesfully',            
-            'LoanFundsBills' => $loanFundBills,            
-            'GoodsLoanBills' => $goodsLoanBills,            
+            'message' => 'Successfully',
+            'Data' => [
+                'savings' => $savingsBills,
+                'LoanFundsBills' => $loanFundBills,
+                'GoodsLoanBills' => $goodsLoanBills,
+            ],            
         ], 200);
+    }
+
+    private function getLoanFundBills($userId)
+    {
+        return LoanBills::whereHas('loanFund', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->where('status', true)->get();
+    }
+
+    private function getGoodsLoanBills($userId)
+    {
+        return LoanBills::whereHas('goodsLoan', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->where('status', true)->get();
+    }
+
+    private function getSavingsBills($userId)
+    {
+        return Savings::where('user_id', $userId)->where('status', true)->get();
+    }
+
+    public function checkout(Request $request)
+    {        
+        $request->validate([
+            'bill_id' => 'required|integer',
+        ]);
+        
+        $billId = $request->input('bill_id');
+        
+        return "Selected Bill ID: " . $billId;
     }
 }
