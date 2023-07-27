@@ -16,6 +16,7 @@ class PaymentController extends Controller
 {
     public function store(Request $request)
     {
+        // $client_key = config('midtrans.client_key');
         $validatedData = $request->validate([
             'user_id' => 'required|exists:users,id',
             'bills_id' => 'required',
@@ -33,7 +34,7 @@ class PaymentController extends Controller
             'data' => [
                 'payment' => $payment,
                 'snap_token' => $snapToken,
-                'client_key' => config('midtrans.client_key'),
+                'client_key' => 'SB-Mid-client-T9jrTX0BmSV206rm',
             ],
         ], 201);
     }
@@ -85,7 +86,7 @@ class PaymentController extends Controller
         if ($hashed === $request->signature_key) {
             if ($request->transaction_status === 'capture' || $request->transaction_status === 'settlement') {
                 $order = Payment::find($request->order_id);
-                $status = 'Paid';
+                $order->update(['status' => 'Paid']);        
                 $paymentData = [];
 
                 if ($order->description === 'Mandatory Savings') {
@@ -96,6 +97,7 @@ class PaymentController extends Controller
                     $savings->payment_date = $request->transaction_time;
                     $savings->save();
                     $paymentData = $savings;
+                    $this->saveBalanceHistorySavings($order->bills_id, $request->gross_amount, $order->description, $request->transaction_time);        
                 } else {                    
                     $bills = LoanBills::find($order->bills_id);
                     $bills->status = 0;
@@ -104,9 +106,9 @@ class PaymentController extends Controller
                     $bills->payment_date = $request->transaction_time;
                     $bills->save();
                     $paymentData = $bills;
+                    $this->saveBalanceHistoryLoanBills($order->bills_id, $request->gross_amount, $order->description, $request->transaction_time);        
                 }
 
-                $this->saveBalanceHistory($order->bills_id, $request->gross_amount, $order->description, $request->transaction_time);        
                 $this->updateBalance($request->gross_amount);
 
                 return response()->json([
@@ -114,17 +116,28 @@ class PaymentController extends Controller
                     'data' => [$paymentData],
                 ], 200);
             }
+        } else {
+            return response()->json([
+                'message' => 'Payment created failed',
+                'data' => ['Null'],
+            ], 201);
         }
-
-        return response()->json([
-            'message' => 'Payment created failed',
-        ], 201);
     }
 
-    private function saveBalanceHistory($billsId, $nominal, $description, $date)
+    private function saveBalanceHistoryLoanBills($billsId, $nominal, $description, $date)
     {
         $balanceHistory = new BalanceHistory();
         $balanceHistory->loan_bills_id = $billsId;
+        $balanceHistory->nominal = $nominal;
+        $balanceHistory->description = $description;
+        $balanceHistory->date = $date;
+        $balanceHistory->save();
+    }
+
+    private function saveBalanceHistorySavings($billsId, $nominal, $description, $date)
+    {
+        $balanceHistory = new BalanceHistory();
+        $balanceHistory->savings_id = $billsId;
         $balanceHistory->nominal = $nominal;
         $balanceHistory->description = $description;
         $balanceHistory->date = $date;
