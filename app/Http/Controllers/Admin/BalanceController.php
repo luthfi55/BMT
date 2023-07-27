@@ -51,10 +51,10 @@ class BalanceController extends Controller
 
     public function listHistory(Request $request)
     {
-        $balance = Balance::first();           
-        $balanceHistories = BalanceHistory::latest();        
+        $balance = Balance::first();
+        $balanceHistories = BalanceHistory::latest();
         $search = $request->input('search');
-    
+
         $balanceHistories = BalanceHistory::where(function ($query) use ($search) {
             $query->where('loan_fund_id', 'LIKE', "%$search%")
                 ->orWhere('goods_loan_id', 'LIKE', "%$search%")
@@ -62,38 +62,36 @@ class BalanceController extends Controller
                 ->orWhere('loan_bills_id', 'LIKE', "%$search%")
                 ->orWhere('savings_id', 'LIKE', "%$search%");
         })
-        ->orWhere('description', 'LIKE', "%$search%")
-        ->orWhere('date', 'LIKE', "%$search%")
-        ->orWhere(function ($query) use ($search) {            
-            if (preg_match('/^LF-(\d+)/', $search, $matches)) {
-                $query->where('loan_fund_id', 'LIKE', "%$matches[1]%");
-            }
-        })
-        ->orWhere(function ($query) use ($search) {            
-            if (preg_match('/^GL-(\d+)/', $search, $matches)) {
-                $query->where('goods_loan_id', 'LIKE', "%$matches[1]%");
-            } 
-        })
-        ->orWhere(function ($query) use ($search) {            
-            if (preg_match('/^OP-(\d+)/', $search, $matches)) {
-                $query->where('operational_id', 'LIKE', "%$matches[1]%");
-            }
-        })
-        ->orWhere(function ($query) use ($search) {            
-            if (preg_match('/^LB-(\d+)/', $search, $matches)) {
-                $query->where('loan_bills_id', 'LIKE', "%$matches[1]%");
-            }
-        })
-        ->orWhere(function ($query) use ($search) {            
-            if (preg_match('/^SV-(\d+)/', $search, $matches)) {
-                $query->where('savings_id', 'LIKE', "%$matches[1]%");
-            }
-        })
-        ->latest()
-        ->paginate(10);
-        
-        return view('balance.list-balancehistory', ['balanceHistories' => $balanceHistories],compact('balance'));        
+            ->orWhere('description', 'LIKE', "%$search%")
+            ->orWhere('date', 'LIKE', "%$search%")
+            ->orWhere(function ($query) use ($search) {
+                $this->matchPattern($query, $search, 'LF-', 'loan_fund_id');
+            })
+            ->orWhere(function ($query) use ($search) {
+                $this->matchPattern($query, $search, 'GL-', 'goods_loan_id');
+            })
+            ->orWhere(function ($query) use ($search) {
+                $this->matchPattern($query, $search, 'OP-', 'operational_id');
+            })
+            ->orWhere(function ($query) use ($search) {
+                $this->matchPattern($query, $search, 'LB-', 'loan_bills_id');
+            })
+            ->orWhere(function ($query) use ($search) {
+                $this->matchPattern($query, $search, 'SV-', 'savings_id');
+            })
+            ->latest()
+            ->paginate(10);
+
+        return view('balance.list-balancehistory', compact('balance', 'balanceHistories'));
     }
+
+    private function matchPattern($query, $search, $prefix, $column)
+    {
+        if (preg_match('/^' . $prefix . '(\d+)/', $search, $matches)) {
+            $query->where($column, 'LIKE', "%$matches[1]%");
+        }
+    }
+
 
     public function detail($id)
     {
