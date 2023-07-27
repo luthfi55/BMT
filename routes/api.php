@@ -18,3 +18,7 @@ use Laravel\Passport\HasApiTokens;
 Route::post('login', 'User\LoginController@login')->name('login');    
 Route::post('logout', 'User\LoginController@logout')->middleware('auth:api');
 Route::get('user/{id}', 'User\DataController@getUserData');    
+Route::get('bills/{id}', 'User\DataController@getBillsData');  
+Route::post('/payments', 'User\PaymentController@store');
+Route::post('checkout', 'User\DataController@checkout')->name('checkout.pay');
+Route::post('midtrans-callback', 'User\PaymentController@callback')->name('callback');
