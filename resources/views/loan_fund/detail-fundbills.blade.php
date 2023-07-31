@@ -51,7 +51,7 @@ $title = "Loan Bills Detail";
                                     </p>
                                     <h5 class="font-size-15">Status</h5>
                                     <p> @if ($loanBill->status == 1)
-                                        <span style="color: green;">Completed</span>
+                                        <span style="color: green;">Active</span>
                                         @else
                                         <span style="color: red;">Overdue</span>
                                         @endif

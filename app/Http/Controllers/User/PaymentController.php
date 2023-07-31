@@ -5,7 +5,9 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Balance;
 use App\Models\BalanceHistory;
+use App\Models\GoodsLoan;
 use App\Models\LoanBills;
+use App\Models\LoanFund;
 use App\Models\Savings;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -73,6 +75,11 @@ class PaymentController extends Controller
                 'last_name' => '',
                 'email' => $user->email,
             ],
+            'payment_type' => 'gopay',
+            'gopay' => array(
+                'enable_callback' => true,                // optional
+                'callback_url' => 'someapps://callback'   // optional
+            )
         ];
 
         return Snap::getSnapToken($params);
@@ -106,10 +113,37 @@ class PaymentController extends Controller
                     $bills->payment_date = $request->transaction_time;
                     $bills->save();
                     $paymentData = $bills;
+                    if ($order->description === 'Loan Fund') {
+                        $loanFund = LoanFund::find($bills->loan_fund_id);
+                        if ($loanFund) {
+                            $billsChecker = LoanBills::where('loan_fund_id', $loanFund->id)
+                                                    ->where('payment_status', 0)
+                                                    ->get();
+                    
+                            if ($billsChecker->isEmpty()) {                                
+                                $loanFund->infaq_status = 1;
+                                $loanFund->status = 1;
+                                $loanFund->save();
+                            }
+                        }
+                    } elseif ($order->description == 'Goods Loan'){
+                        $goodsLoan = GoodsLoan::find($bills->goods_loan_id);
+                        if ($goodsLoan) {
+                            $billsChecker = LoanBills::where('goods_loan_id', $goodsLoan->id)
+                                                    ->where('payment_status', 0)
+                                                    ->get();
+                    
+                            if ($billsChecker->isEmpty()) {                                
+                                $goodsLoan->infaq_status = 1;
+                                $goodsLoan->status = 1;
+                                $goodsLoan->save();
+                            }
+                        }
+                    }
                     $this->saveBalanceHistoryLoanBills($order->bills_id, $request->gross_amount, $order->description, $request->transaction_time);        
                 }
 
-                $this->updateBalance($request->gross_amount);
+                $this->updateBalance($request->gross_amount);                
 
                 return response()->json([
                     'message' => 'Payment successfully',
@@ -119,7 +153,7 @@ class PaymentController extends Controller
         } else {
             return response()->json([
                 'message' => 'Payment created failed',
-                'data' => ['Null'],
+                'data' => [Null],
             ], 201);
         }
     }
@@ -149,6 +183,14 @@ class PaymentController extends Controller
         $balance = Balance::first();
         $balance->nominal += $nominal;
         $balance->save();
+    }
+
+    public function invoice($id){
+        $invoice = Payment::where('id', $id)->first();
+        return response()->json([
+            'message' => 'Payment successfully',
+            'data' => [$invoice],
+        ], 200);
     }
 
 }

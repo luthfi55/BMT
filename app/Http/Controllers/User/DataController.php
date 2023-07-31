@@ -11,29 +11,43 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Midtrans\Snap;
 
+
 class DataController extends Controller
 {
-    public function getUserData($userId)
-    {
-        $loanFundBills = $this->getLoanFundBills($userId);
-        $goodsLoanBills = $this->getGoodsLoanBills($userId);
-        $savingsBills = $this->getSavingsBills($userId);
 
-        if ($loanFundBills->isEmpty() && $goodsLoanBills->isEmpty() & $savingsBills->isEmpty()) {
+// ...
+
+    public function getUserData(Request $request)
+    {
+        if ($request == null){
             return response()->json([
-                'message' => 'Null',
-                'Data' => ['Null'],                
+                'message' => 'Failed',
+                  
+            ], 400);
+        } else {
+            $user = $request->user(); // Get the authenticated user from the request
+            $userId = $user->id; // Get the user ID from the authenticated user
+    
+            $loanFundBills = $this->getLoanFundBills($userId);
+            $goodsLoanBills = $this->getGoodsLoanBills($userId);
+            $savingsBills = $this->getSavingsBills($userId);
+    
+            if ($loanFundBills->isEmpty() && $goodsLoanBills->isEmpty() && $savingsBills->isEmpty()) {
+                return response()->json([
+                    'message' => Null,
+                    'Data' => [Null],                
+                ], 200);
+            }
+    
+            return response()->json([
+                'message' => 'Successfully',
+                'Data' => [
+                    'savings' => $savingsBills,
+                    'LoanFundsBills' => $loanFundBills,
+                    'GoodsLoanBills' => $goodsLoanBills,
+                ],            
             ], 200);
         }
-
-        return response()->json([
-            'message' => 'Successfully',
-            'Data' => [
-                'savings' => $savingsBills,
-                'LoanFundsBills' => $loanFundBills,
-                'GoodsLoanBills' => $goodsLoanBills,
-            ],            
-        ], 200);
     }
 
     private function getLoanFundBills($userId)
