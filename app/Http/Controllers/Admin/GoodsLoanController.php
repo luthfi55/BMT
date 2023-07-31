@@ -323,19 +323,62 @@ class GoodsLoanController extends Controller
     {
         $request->validate([
             'status' => 'required',
-            'payment_status' => 'required',
-            'payment_type' => 'required'
+            'payment_status' => 'required',            
         ]);
     
         $loanBill = LoanBills::findOrFail($id);
         if (!$loanBill) {
             return redirect()->route('admin.detail-goodsloan', ['id' => $id])->with('error', 'Loan bill not found.');
         }
+
+        $currentTime = Carbon::now()->timezone('Asia/Jakarta');
     
         $loanBill->status =  $request->input('status');
         $loanBill->payment_status = $request->input('payment_status');
         $loanBill->payment_type = $request->input('payment_type');
+        $loanBill->payment_date = $currentTime;
         $loanBill->save();
+
+        if ($loanBill->payment_status == 1) {            
+            $checkHistory = BalanceHistory::where('loan_bills_id',$loanBill->id)->first();
+            if(!$checkHistory){                
+                $balance = Balance::all()->first();
+                $balance->nominal = $balance->nominal + $loanBill->installment_amount;
+                $balance->save() ;
+
+                $balanceHistory = new BalanceHistory();
+                $balanceHistory->loan_bills_id = $loanBill->id;
+                $balanceHistory->nominal = $loanBill->installment_amount;
+                $balanceHistory->description = "Loan Bills";
+                $balanceHistory->date = $currentTime->format('Y-m-d H:i:s');
+                $balanceHistory->save();
+            }            
+        } elseif ($loanBill->payment_status == 0){
+            $balance = Balance::all()->first();
+            $balance->nominal = $balance->nominal - $loanBill->installment_amount;
+            $balance->save();
+
+            $balanceHistory = BalanceHistory::where('loan_bills_id',$loanBill->id)->first();
+            if ($balanceHistory){
+                $balanceHistory->delete();
+            }            
+        }        
+        
+        $goodsLoan = GoodsLoan::find($loanBill->goods_loan_id);
+        if ($goodsLoan) {
+            $billsChecker = LoanBills::where('goods_loan_id', $goodsLoan->id)
+                                    ->where('payment_status', 0)
+                                    ->get();
+    
+            if ($billsChecker->isEmpty()) {                                
+                $goodsLoan->infaq_status = 1;
+                $goodsLoan->status = 1;
+                $goodsLoan->save();
+            } else {
+                $goodsLoan->status = 0;
+                $goodsLoan->save();
+            }
+        }        
     
         Session::flash('updateSuccess');
     

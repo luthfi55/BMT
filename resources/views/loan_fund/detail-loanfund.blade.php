@@ -165,7 +165,7 @@ $title = "Loan Fund Detail";
                                                         </td>
                                                         <td>
                                                             @if ($loanBill->status == 1)
-                                                            <span style="color: green;">Completed</span>
+                                                            <span style="color: green;">Active</span>
                                                             @else
                                                             <span style="color: red;">Overdue</span>
                                                             @endif
@@ -242,7 +242,7 @@ $title = "Loan Fund Detail";
                                                                                         <span style="color: red;">Overdue</span></option>
                                                                                     <option value="1"
                                                                                         {{ $loanBill->status == 1 ? 'selected' : '' }}>
-                                                                                        <span style="color: green;">Completed</span></option>
+                                                                                        <span style="color: green;">Active</span></option>
                                                                                 </select>
                                                                             </div>
                                                                             <label for="payment_status"

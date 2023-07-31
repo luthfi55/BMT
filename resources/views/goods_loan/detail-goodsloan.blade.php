@@ -113,7 +113,7 @@ $title = "Goods Loan Detail";
                                                         </td>
                                                         <td>
                                                             @if ($loanBill->status == 1)
-                                                            <span style="color: green;">Completed</span>
+                                                            <span style="color: green;">Active</span>
                                                             @else
                                                             <span style="color: red;">Overdue</span>
                                                             @endif
@@ -190,7 +190,7 @@ $title = "Goods Loan Detail";
                                                                                         <span style="color: red;">Overdue</span></option>
                                                                                     <option value="1"
                                                                                         {{ $loanBill->status == 1 ? 'selected' : '' }}>
-                                                                                        <span style="color: green;">Completed</span></option>
+                                                                                        <span style="color: green;">Active</span></option>
                                                                                 </select>
                                                                             </div>
                                                                             <label for="payment_status"
@@ -213,6 +213,9 @@ $title = "Goods Loan Detail";
                                                                                 <select class="form-select"
                                                                                     aria-label="Default select example"
                                                                                     name="payment_type" required>
+                                                                                    <option value="-" selected disabled
+                                                                                        {{ $loanBill->payment_type == '' ? 'selected' : '' }}>
+                                                                                        -</option>
                                                                                     <option value="Cash"
                                                                                         {{ $loanBill->payment_type == 'Cash' ? 'selected' : '' }}>
                                                                                         Cash</option>
