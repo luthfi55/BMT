@@ -211,7 +211,7 @@ class GoodsLoanController extends Controller
             $startMonth = Carbon::now()->timezone('Asia/Jakarta');
 
             $loanBill = new LoanBills();
-            $loanBill->loan_fund_id = $goodsLoan->id;
+            $loanBill->goods_loan_id = $goodsLoan->id;
             $loanBill->month = 1;
             $loanBill->installment = $goodsLoan->installment;
             $loanBill->installment_amount = $goodsLoan->nominal * $goodsLoan->infaq / 100;            
