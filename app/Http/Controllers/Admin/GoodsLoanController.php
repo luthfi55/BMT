@@ -208,7 +208,33 @@ class GoodsLoanController extends Controller
     private function calculateNominalInfaq(GoodsLoan $goodsLoan)
     {
         if ($goodsLoan->infaq_type == 'first') {
-            return 0;
+            $startMonth = Carbon::now()->timezone('Asia/Jakarta');
+
+            $loanBill = new LoanBills();
+            $loanBill->loan_fund_id = $goodsLoan->id;
+            $loanBill->month = 1;
+            $loanBill->installment = $goodsLoan->installment;
+            $loanBill->installment_amount = $goodsLoan->nominal * $goodsLoan->infaq / 100;            
+            $loanBill->start_date = $startMonth;
+            $loanBill->end_date = $startMonth;
+            $loanBill->status = true;
+            $loanBill->payment_status = true; 
+            $loanBill->save();
+            
+            $currentTime = Carbon::now()->timezone('Asia/Jakarta');
+            $balanceHistory = new BalanceHistory();
+            $balanceHistory->loan_bills_id = $loanBill->id;
+            $balanceHistory->nominal = $loanBill->installment_amount;
+            $balanceHistory->description = "Infaq";
+            $balanceHistory->date = $currentTime->format('Y-m-d H:i:s');
+            $balanceHistory->save();
+
+            $balance = Balance::first();
+            $result = $balance->nominal + $loanBill->installment_amount;
+            
+            $balance->nominal = $result;
+            $balance->save();
+            return true;
         } elseif ($goodsLoan->infaq_type == 'last') {
             $monthlength = $goodsLoan->installment;
             $startMonth = Carbon::now()->timezone('Asia/Jakarta');
