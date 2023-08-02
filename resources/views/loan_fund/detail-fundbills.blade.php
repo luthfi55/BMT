@@ -33,7 +33,8 @@ $title = "Loan Bills Detail";
                                 <div>                                
                                     <h5 class="font-size-16 mb-4">Detail Loan Bills</h5>
                                     
-                                    
+                                    <h5 class="font-size-15">Id</h5>
+                                    <p>LB-{{ $loanBill->id }}</p>
                                     <h5 class="font-size-15">Month</h5>
                                     <p>{{ $loanBill->month }}</p>
                                     <h5 class="font-size-15">Installment Month</h5>
