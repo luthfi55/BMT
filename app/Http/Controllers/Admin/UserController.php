@@ -144,8 +144,8 @@ class UserController extends Controller
         $savings->nominal = $user->mandatory_savings;
         $savings->start_date = $startDate;
         $savings->end_date = $endtDate;
-        $savings->status = false;
-        $savings->payment_status = false;
+        $savings->status = true;
+        $savings->payment_status = true;
         $savings->payment_type = 'Cash';
         $savings->payment_date = $startDate;
         $savings->save();

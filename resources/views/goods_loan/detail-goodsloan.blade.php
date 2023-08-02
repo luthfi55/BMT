@@ -30,7 +30,7 @@ $title = "Goods Loan Detail";
                                     <h5 class="font-size-16 mb-4">Detail Loan</h5>
                                     
                                     <h5 class="font-size-15">Id</h5>
-                                    <p>GL-{{ $goodsLoan->user->id }}</p>
+                                    <p>GL-{{ $goodsLoan->id }}</p>
                                     <h5 class="font-size-15">Name</h5>
                                     <p>{{ $goodsLoan->user->name }}</p>
                                     <h5 class="font-size-15">Goods</h5>
@@ -84,6 +84,7 @@ $title = "Goods Loan Detail";
                                             <table class="table table-nowrap table-hover mb-0">
                                                 <thead>
                                                     <tr>
+                                                        <th scope="col">Id</th>
                                                         <th scope="col">Month</th>
                                                         <th scope="col">Installment Month</th>
                                                         <th scope="col">Installment Start Date</th>
@@ -99,6 +100,7 @@ $title = "Goods Loan Detail";
                                                 <tbody>
                                                     @foreach ($loanBills as $loanBill)
                                                     <tr>
+                                                        <td>LB-{{ $loanBill->id }}</td>
                                                         <td>{{ $loanBill->month }}</td>
                                                         <td>Rp.{{ number_format($loanBill->installment_amount, 2, ',', '.') }}
                                                         </td>
