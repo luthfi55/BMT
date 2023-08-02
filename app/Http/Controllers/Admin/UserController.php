@@ -65,6 +65,27 @@ class UserController extends Controller
 
     public function create(Request $request)
     {
+        try {
+            $this->validateUser($request);
+
+            $user = $this->createUser($request);
+
+            $savings = $this->createSavings($user);
+
+            $this->createBalanceHistory($savings);
+
+            $this->updateBalance($savings->nominal);
+
+            Session::flash('success', 'Successfully created a user account');
+
+            return redirect()->route('admin.list-user');
+        } catch (ValidationException $e) {
+            return redirect()->route('admin.create-user-form')->withErrors($e->errors())->withInput();
+        }
+    }
+
+    private function validateUser(Request $request)
+    {
         $request->validate([
             'name' => 'required',
             'email' => 'required',
@@ -74,7 +95,10 @@ class UserController extends Controller
             'job' => 'required',
             'mandatory_savings' => 'required',
         ]);
-        
+    }
+
+    private function createUser(Request $request)
+    {
         $user = new User();
         $user->name = $request->input('name');
         $user->email = $request->input('email');
@@ -85,8 +109,17 @@ class UserController extends Controller
         $user->mandatory_savings = $request->input('mandatory_savings');
         $user->mandatory_savings_status = false;
         $user->voluntary_savings = 0;
-        
-        // Generate unique 4-digit pin
+
+        $uniquePin = $this->generateUniquePin();
+        $user->pin = $uniquePin;
+
+        $user->save();
+
+        return $user;
+    }
+
+    private function generateUniquePin()
+    {
         $uniquePin = false;
         while (!$uniquePin) {
             $pin = mt_rand(1000, 9999);
@@ -95,44 +128,46 @@ class UserController extends Controller
                 $uniquePin = true;
             }
         }
-        
-        $user->pin = $pin;
-        $user->save(); 
 
-        //Create savings data
+        return $pin;
+    }
 
+    private function createSavings(User $user)
+    {
         $startDate = Carbon::now()->timezone('Asia/Jakarta');
         $endtDate = Carbon::now()->timezone('Asia/Jakarta')->addMinutes(1);
         // ->addMonth()
-        $saving = new Savings();
-        $saving->user_id = $user->id;
-        $saving->type = 'Mandatory';
-        $saving->nominal = $user->mandatory_savings;
-        $saving->start_date = $startDate;        
-        $saving->end_date = $endtDate;
-        $saving->status = false;
-        $saving->payment_status = false; 
-        $saving->payment_type = 'Cash'; 
-        $saving->payment_date = $startDate; 
-        $saving->save();
 
-        //Create History Balance
+        $savings = new Savings();
+        $savings->user_id = $user->id;
+        $savings->type = 'Mandatory';
+        $savings->nominal = $user->mandatory_savings;
+        $savings->start_date = $startDate;
+        $savings->end_date = $endtDate;
+        $savings->status = false;
+        $savings->payment_status = false;
+        $savings->payment_type = 'Cash';
+        $savings->payment_date = $startDate;
+        $savings->save();
+
+        return $savings;
+    }
+
+    private function createBalanceHistory(Savings $savings)
+    {
         $balanceHistory = new BalanceHistory();
-        $balanceHistory->savings_id = $saving->id;
-        $balanceHistory->nominal = $saving->nominal;
+        $balanceHistory->savings_id = $savings->id;
+        $balanceHistory->nominal = $savings->nominal;
         $balanceHistory->description = 'Mandatory Savings';
-        $balanceHistory->date = $saving->payment_date;
-        $balanceHistory->save(); 
+        $balanceHistory->date = $savings->payment_date;
+        $balanceHistory->save();
+    }
 
-        //balance count
+    private function updateBalance($nominal)
+    {
         $balance = Balance::first();
-        $balance->nominal = $balance->nominal + $balanceHistory->nominal;
+        $balance->nominal = $balance->nominal + $nominal;
         $balance->save();
-        
-        Session::flash('success', 'Successfully created a user account');
-          
-        return redirect()->route('admin.list-user');
-
     }
 
     public function edit($id)

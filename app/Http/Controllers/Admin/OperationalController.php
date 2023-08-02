@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\Operational;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\ValidationException;
 
 class OperationalController extends Controller
 {
@@ -19,23 +20,55 @@ class OperationalController extends Controller
     }
 
     public function create(Request $request)
-    {      
+    {
+        try {
+            $this->validateRequest($request);
+
+            $currentTime = Carbon::now()->timezone('Asia/Jakarta');
+
+            $operational = $this->createOperational($request, $currentTime);
+            if (!$operational) {                
+                Session::flash('failed-balance');
+                return redirect()->route('admin.operational-form');
+            }
+
+            $this->addHistoryBills($operational);            
+
+            Session::flash('success');
+
+            return redirect()->route('admin.operational-form');
+        } catch (ValidationException $e) {
+            return redirect()->route('admin.operational-form')->withErrors($e->errors())->withInput();
+        }
+    }
+
+    private function validateRequest(Request $request)
+    {
         $request->validate([
             'goods' => 'required',
             'description' => 'required',            
             'nominal' => 'required',            
-        ]);  
-        
-        $currentTime = Carbon::now()->timezone('Asia/Jakarta');
+        ]);
+    }
 
+    private function createOperational(Request $request, $currentTime)
+    {
         $operational = new Operational();
         $operational->goods = $request->input('goods');
         $operational->nominal = $request->input('nominal');
         $operational->description = $request->input('description');
         $operational->date = $currentTime->format('Y-m-d H:i:s');
-        $operational->save();        
+        
+        if (!$this->updateBalance($operational->nominal)) {            
+            return false;
+        }
 
-        //add history bills
+        $operational->save();
+        return $operational;
+    }
+
+    private function addHistoryBills(Operational $operational)
+    {
         $currentTime = Carbon::now()->timezone('Asia/Jakarta');
 
         $balanceHistory = new BalanceHistory();
@@ -44,16 +77,20 @@ class OperationalController extends Controller
         $balanceHistory->description = "Operational";
         $balanceHistory->date = $currentTime->format('Y-m-d H:i:s');
         $balanceHistory->save();
-                
+    }
 
-        //balance count        
+    private function updateBalance($nominal)
+    {
         $balance = Balance::first();
-        $balance->nominal = $balance->nominal - $operational->nominal;
-        $balance->save();
+        $result = $balance->nominal - $nominal;
 
-        Session::flash('success');
-        
-        return redirect()->route('admin.operational-form');
+        if ($result < 0) {
+            return false;
+        }
+
+        $balance->nominal = $result;
+        $balance->save();
+        return true;
     }
 
     public function list(Request $request)

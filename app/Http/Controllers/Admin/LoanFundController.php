@@ -123,66 +123,104 @@ class LoanFundController extends Controller
     
         return view('loan_fund.detail-fundbills', compact('loanBill', 'balance'));
     }
-    
-    
-    public function create(Request $request)
-    {        
-        try {
-        // Validasi request
-        $request->validate([
-            'pin' => 'required',
-            'nominal' => 'required',
-            'infaq' => 'required',
-            'infaq_type' => 'required',            
-            'installment' => 'required',                    
-        ]); 
-        if (!$request->has('infaq_type')) {
-            return redirect()->route('admin.loanfund-form')->withErrors(['infaq_type' => 'Infaq Type harus dipilih.'])->withInput();
-        }     
-        $pin = $request->input('pin');
-        $user = User::where('pin', $pin)->first();
+        
 
-        if (!$user) {
-            Session::flash('userNotFound', 'Successfully created a user account');
+    public function create(Request $request)
+    {
+        try {
+            $request->validate([
+                'pin' => 'required',
+                'nominal' => 'required',
+                'infaq' => 'required',
+                'infaq_type' => 'required',            
+                'installment' => 'required',                    
+            ]); 
+
+            if (!$request->has('infaq_type')) {
+                return redirect()->route('admin.loanfund-form')->withErrors(['infaq_type' => 'Infaq Type harus dipilih.'])->withInput();
+            }     
+
+            $user = $this->getUserByPin($request->input('pin'));
+
+            if (!$user) {
+                return $this->handleUserNotFound();
+            }
+
+            $loanFund = $this->createLoanFund($request, $user);
+
+            if (!$loanFund) {                
+                Session::flash('failed-balance');
+                return redirect()->route('admin.loanfund-form');
+            }
+
+            $nominalInfaq = $this->calculateNominalInfaq($loanFund);
+
+            $this->generateLoanBills($loanFund, $nominalInfaq);
+
+            $this->addHistoryBills($loanFund);
+
+            $this->updateBalance($loanFund->nominal);
+
+            Session::flash('success');
+            return redirect()->route('admin.list-loanfund');
+        } catch (ModelNotFoundException $e) {
+            Session::flash('failed');
+            return redirect()->route('admin.loanfund-form');
+        } catch (QueryException $e) {
             return redirect()->route('admin.loanfund-form');
         }
+    }
 
-        // Generate LoanFund Data
+    private function getUserByPin($pin)
+    {
+        return User::where('pin', $pin)->first();
+    }
+
+    private function handleUserNotFound()
+    {
+        Session::flash('userNotFound', 'Successfully created a user account');
+        return redirect()->route('admin.loanfund-form');
+    }
+
+    private function createLoanFund(Request $request, User $user)
+    {
         $loanFund = new LoanFund();
         $loanFund->user_id = $user->id;             
         $loanFund->nominal = $request->input('nominal');
         $loanFund->infaq = $request->input('infaq');
         $loanFund->infaq_type = $request->input('infaq_type');
-
-        if ($loanFund->infaq_type == 'first') {
-            $loanFund->infaq_status = true;
-        } else {
-            $loanFund->infaq_status = false;
-        }
-
+        $loanFund->infaq_status = $loanFund->infaq_type == 'first';
         $loanFund->installment = $request->input('installment');
         $loanFund->installment_amount = 0;
         $loanFund->month = 1;
         $loanFund->status = false;
+
+        if (!$this->updateBalance($loanFund->nominal)) {            
+            return false;
+        }
+
         $loanFund->save();
 
-        if ($loanFund->infaq_type == 'first'){
-            $nominalInfaq = 0;     
-        } elseif ($loanFund->infaq_type == 'last'){
+        return $loanFund;
+    }
+
+    private function calculateNominalInfaq(LoanFund $loanFund)
+    {
+        if ($loanFund->infaq_type == 'first') {
+            return 0;
+        } elseif ($loanFund->infaq_type == 'last') {
             $monthlength = $loanFund->installment;
             $startMonth = Carbon::now()->timezone('Asia/Jakarta');
             $endMonth = Carbon::now()->timezone('Asia/Jakarta');
-            //start date
+
             for ($monthnow = 1; $monthnow <= $monthlength; $monthnow++) {
                 $startMonth->addMinutes(1);
-                // $startMonth->addMonth();
             }
-            //end date
+
             for ($monthnow = 1; $monthnow < $monthlength; $monthnow++) {
                 $endMonth->addMinutes(1);
-                // $endMonth->addMonth();
             }
-            
+
             $loanBill = new LoanBills();
             $loanBill->loan_fund_id = $loanFund->id;
             $loanBill->month = $loanFund->installment;
@@ -191,28 +229,24 @@ class LoanFundController extends Controller
             $loanBill->start_date = $startMonth;
             $loanBill->end_date = $endMonth;
             $loanBill->status = false;
-            $loanBill->payment_status = false;                    
+            $loanBill->payment_status = false; 
             $loanBill->save();       
-            $nominalInfaq = 0;     
-        } else if ($loanFund->infaq_type == 'installment'){
-            $nominalInfaq =  $loanFund->nominal * $loanFund->infaq / 100;
+            return 0;
+        } else if ($loanFund->infaq_type == 'installment') {
+            return $loanFund->nominal * $loanFund->infaq / 100;
         } 
+    }
 
-        //Generate loan bills
-
+    private function generateLoanBills(LoanFund $loanFund, $nominalInfaq)
+    {
         $totalLoanFund = $loanFund->nominal + $nominalInfaq;
-
         $monthlength = $loanFund->installment;
         $installmentAmount = floor($totalLoanFund / $monthlength);
         $lastInstallmentAmount = $totalLoanFund - ($installmentAmount * ($monthlength - 1));
-
         $currentMonth = Carbon::now()->timezone('Asia/Jakarta');
-
-        //First Status Bills
         $firstStatus = true;
 
         for ($monthnow = 1; $monthnow <= $monthlength; $monthnow++) {            
-            // $currentMonth->addMonth();            
             $loanBill = new LoanBills();
             $loanBill->loan_fund_id = $loanFund->id;            
             $loanBill->month = $monthnow;
@@ -225,33 +259,34 @@ class LoanFundController extends Controller
             $loanBill->payment_status = false; 
             $loanBill->save();
             $firstStatus = false;
-        } 
+        }
+    }
 
-        //add history bills
+    private function addHistoryBills(LoanFund $loanFund)
+    {
         $currentTime = Carbon::now()->timezone('Asia/Jakarta');
-
         $balanceHistory = new BalanceHistory();
         $balanceHistory->loan_fund_id = $loanFund->id;
         $balanceHistory->nominal = $loanFund->nominal;
         $balanceHistory->description = "Loan Fund";
         $balanceHistory->date = $currentTime->format('Y-m-d H:i:s');
-        $balanceHistory->save();        
+        $balanceHistory->save();
+    }
 
-        //balance count
+    private function updateBalance($nominal)
+    {
         $balance = Balance::first();
-        $balance->nominal = $balance->nominal - $loanFund->nominal;
-        $balance->save();
+        $result = $balance->nominal - $nominal;
 
-        
-        Session::flash('success');
-        return redirect()->route('admin.list-loanfund');
-        } catch (ModelNotFoundException $e) {
-            Session::flash('failed');
-            return redirect()->route('admin.loanfund-form');
-        } catch (QueryException $e) {
-            return redirect()->route('admin.loanfund-form');
+        if ($result < 0) {
+            return false;
         }
-    }    
+
+        $balance->nominal = $result;
+        $balance->save();
+        return true;
+    }
+
 
     public function edit($id)
     {
@@ -305,19 +340,62 @@ class LoanFundController extends Controller
     {
         $request->validate([
             'status' => 'required',
-            'payment_status' => 'required',
-            'payment_type' => 'required'
+            'payment_status' => 'required',            
         ]);
     
         $loanBill = LoanBills::findOrFail($id);
         if (!$loanBill) {
             return redirect()->route('admin.detail-loanfund', ['id' => $id])->with('error', 'Loan bill not found.');
         }
+
+        $currentTime = Carbon::now()->timezone('Asia/Jakarta');
     
         $loanBill->status =  $request->input('status');
         $loanBill->payment_status = $request->input('payment_status');
         $loanBill->payment_type = $request->input('payment_type');
+        $loanBill->payment_date = $currentTime;
         $loanBill->save();
+
+        if ($loanBill->payment_status == 1) {
+            $checkHistory = BalanceHistory::where('loan_bills_id',$loanBill->id)->first();
+            if(!$checkHistory){                
+                $balance = Balance::all()->first();
+                $balance->nominal = $balance->nominal + $loanBill->installment_amount;
+                $balance->save() ;
+                
+                $balanceHistory = new BalanceHistory();
+                $balanceHistory->loan_bills_id = $loanBill->id;
+                $balanceHistory->nominal = $loanBill->installment_amount;
+                $balanceHistory->description = "Loan Bills";
+                $balanceHistory->date = $currentTime->format('Y-m-d H:i:s');
+                $balanceHistory->save();
+            }
+        } elseif ($loanBill->payment_status == 0){
+            $balance = Balance::all()->first();
+            $balance->nominal = $balance->nominal - $loanBill->installment_amount;
+            $balance->save();
+
+            $balanceHistory = BalanceHistory::where('loan_bills_id',$loanBill->id)->first();
+            if ($balanceHistory){
+                $balanceHistory->delete();
+            }            
+        } 
+
+        $loanFund = LoanFund::find($loanBill->loan_fund_id);
+        if ($loanFund) {
+            $billsChecker = LoanBills::where('loan_fund_id', $loanFund->id)
+                                    ->where('payment_status', 0)
+                                    ->get();
+    
+            if ($billsChecker->isEmpty()) {                                
+                $loanFund->infaq_status = 1;
+                $loanFund->status = 1;
+                $loanFund->save();
+            } else {
+                $loanFund->status = 0;
+                $loanFund->save();
+            }
+        }    
     
         Session::flash('updateSuccess');
     
