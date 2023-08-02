@@ -138,7 +138,8 @@ $title = "Balance History";
                                                                 {{ route('admin.detail-goodsloan', $balanceHistorie->goods_loan_id) }}
                                                             @elseif ($balanceHistorie->operational_id != '')
                                                                 {{ route('admin.detail-operational', $balanceHistorie->operational_id) }}
-                                                            
+                                                            @elseif ($balanceHistorie->loan_bills_id != '')
+                                                                {{ route('admin.detail-fundbills', $balanceHistorie->loan_bills_id) }}
                                                             @elseif ($balanceHistorie->savings_id != '')
                                                                 {{ route('admin.detail-user', $balanceHistorie->savings_id) }}
                                                             @else
