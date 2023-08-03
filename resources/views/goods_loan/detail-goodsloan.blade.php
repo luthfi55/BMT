@@ -37,8 +37,8 @@ $title = "Goods Loan Detail";
                                     <p>{{ $goodsLoan->goods}}</p>
                                     <h5 class="font-size-15">Nominal</h5>
                                     <p>Rp.{{ number_format($goodsLoan->nominal, 2, ',', '.') }}</p>
-                                    <h5 class="font-size-15">Infaq</h5>
-                                    <p>{{ $goodsLoan->infaq}}%</p>
+                                    <h5 class="font-size-15">Infaq Nominal</h5>
+                                    <p>Rp.{{ number_format($goodsLoan->infaq, 2, ',', '.')}}</p>
                                     <h5 class="font-size-15">Infaq Type</h5>
                                     <p>{{ ucwords($goodsLoan->infaq_type) }}</p>
                                     <h5 class="font-size-15">Infaq Status</h5>
