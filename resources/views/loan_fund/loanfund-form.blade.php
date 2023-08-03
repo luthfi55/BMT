@@ -166,7 +166,7 @@ $title = "Loan Fund Form";
                                             <div class="col-sm-10">
                                                 <select class="form-select" name="infaq_type" id="infaq_type" aria-label="Default select example" required>
                                                     <option selected disabled>Open this select menu</option>
-                                                    <option value="first">Firts</option>
+                                                    <option value="first">First</option>
                                                     <option value="installment">Installment</option>
                                                     <option value="last">Last</option>
                                                     </select>                                                    
