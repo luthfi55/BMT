@@ -30,8 +30,7 @@ class LoanFundController extends Controller
                     ->orWhere('birth_date', 'LIKE', "%$search%")
                     ->orWhere('phone_number', 'LIKE', "%$search%")
                     ->orWhere('job', 'LIKE', "%$search%")
-                    ->orWhere('mandatory_savings', 'LIKE', "%$search%")
-                    ->orWhere('pin', 'LIKE', "%$search%");
+                    ->orWhere('mandatory_savings', 'LIKE', "%$search%");
             });
         } else {
             $users = $users->whereRaw('1 = 0'); // No users should be found when no search term is provided
@@ -129,7 +128,7 @@ class LoanFundController extends Controller
     {
         try {
             $request->validate([
-                'pin' => 'required',
+                'email' => 'required',
                 'nominal' => 'required',
                 'infaq' => 'required',
                 'infaq_type' => 'required',            
@@ -140,7 +139,7 @@ class LoanFundController extends Controller
                 return redirect()->route('admin.loanfund-form')->withErrors(['infaq_type' => 'Infaq Type harus dipilih.'])->withInput();
             }     
 
-            $user = $this->getUserByPin($request->input('pin'));
+            $user = $this->getUserByEmail($request->input('email'));
 
             if (!$user) {
                 return $this->handleUserNotFound();
@@ -171,9 +170,9 @@ class LoanFundController extends Controller
         }
     }
 
-    private function getUserByPin($pin)
+    private function getUserByEmail($email)
     {
-        return User::where('pin', $pin)->first();
+        return User::where('email', $email)->first();
     }
 
     private function handleUserNotFound()

@@ -15,7 +15,7 @@ $title = "Loan Fund Form";
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">                            
-                            <h4 class="card-title">Search PIN</h4>
+                            <h4 class="card-title">Search Email</h4>
                             <div class="row mb-2">
                                 <div class="col-md-6">
                                     <div class="form-inline float-md-start mb-3">
@@ -49,7 +49,6 @@ $title = "Loan Fund Form";
                                                 <th scope="col">Phone Number</th>
                                                 <th scope="col">Job</th>
                                                 <th scope="col">Mandatory Savings</th>
-                                                <th scope="col">Pin</th>
                                                 <th scope="col" style="width: 200px;">Action</th>
                                             </tr>
                                         </thead>
@@ -66,7 +65,6 @@ $title = "Loan Fund Form";
                                                 <td>{{ $user->phone_number }}</td>
                                                 <td>{{ $user->job }}</td>
                                                 <td>Rp.{{ number_format($user->mandatory_savings, 2, ',', '.') }}</td>
-                                                <td>{{ $user->pin }}</td>
                                                 <td>
                                                     <!-- Edit and Delete buttons -->
                                                     <ul class="list-inline mb-0">
@@ -124,7 +122,7 @@ $title = "Loan Fund Form";
                                 </div>
                                 @elseif(session('userNotFound'))
                                 <div class="alert alert-danger alert-solid" role="alert">
-                                    <span class="fw-medium">Create Loan Fund Failed, PIN not found </span>
+                                    <span class="fw-medium">Create Loan Fund Failed, Email not found </span>
                                 </div>
                                 @elseif(session('failed-balance'))
                                 <div class="alert alert-danger alert-solid" role="alert">
@@ -138,10 +136,10 @@ $title = "Loan Fund Form";
                                 <form method="POST" action="{{ route('admin.create-loanfund') }}">
                                     @csrf
                                     <div class="row mb-3">
-                                        <label for="pin" class="col-sm-2 col-form-label">PIN</label>
+                                        <label for="email" class="col-sm-2 col-form-label">Email</label>
                                         <div class="col-sm-10">
-                                            <input name="pin" id="pin" class="form-control" type="number"
-                                                placeholder="PIN" required>
+                                            <input name="email" id="email" class="form-control" type="email"
+                                                placeholder="Email" required>
                                         </div>
                                     </div>
                                     <!-- end row -->
