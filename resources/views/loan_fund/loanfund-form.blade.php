@@ -59,7 +59,7 @@ $title = "Loan Fund Form";
                                                 <td>
                                                     <a href="#" class="text-body">{{ $user->name }}</a>
                                                 </td>
-                                                <td>{{ $user->email }}</td>
+                                                <td class="clickable" data-email="{{ $user->email }}">{{ $user->email }}</td>
                                                 <td>{{ $user->address }}</td>
                                                 <td>{{ $user->birth_date }}</td>
                                                 <td>{{ $user->phone_number }}</td>
@@ -220,6 +220,27 @@ $title = "Loan Fund Form";
 
             </div>
             <!-- end main content-->
+            <!-- JavaScript Code -->
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const emailFields = document.querySelectorAll(".clickable");
+                    const emailInput = document.getElementById("email");
+
+                    emailFields.forEach((emailField) => {
+                        emailField.addEventListener("click", function () {
+                            const email = this.dataset.email;
+                            emailInput.value = email;
+                        });
+                    });
+                });
+            </script>
+
+            <style>
+                /* Add this CSS style to change the cursor when hovering over the clickable elements */
+                .clickable {
+                    cursor: pointer;
+                }
+            </style>
 
 
             @endsection
