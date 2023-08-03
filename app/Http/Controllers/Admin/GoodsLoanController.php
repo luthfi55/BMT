@@ -208,12 +208,12 @@ class GoodsLoanController extends Controller
     {
         if ($goodsLoan->infaq_type == 'first') {
             $startMonth = Carbon::now()->timezone('Asia/Jakarta');
-
+    
             $loanBill = new LoanBills();
             $loanBill->goods_loan_id = $goodsLoan->id;
             $loanBill->month = 1;
             $loanBill->installment = $goodsLoan->installment;
-            $loanBill->installment_amount = $goodsLoan->nominal * $goodsLoan->infaq / 100;            
+            $loanBill->installment_amount = $goodsLoan->infaq; // Use the normal "nominal" instead of calculating with "infaq"
             $loanBill->start_date = $startMonth;
             $loanBill->end_date = $startMonth;
             $loanBill->status = true;
@@ -227,7 +227,7 @@ class GoodsLoanController extends Controller
             $balanceHistory->description = "Infaq";
             $balanceHistory->date = $currentTime->format('Y-m-d H:i:s');
             $balanceHistory->save();
-
+    
             $balance = Balance::first();
             $result = $balance->nominal + $loanBill->installment_amount;
             
@@ -238,20 +238,20 @@ class GoodsLoanController extends Controller
             $monthlength = $goodsLoan->installment;
             $startMonth = Carbon::now()->timezone('Asia/Jakarta');
             $endMonth = Carbon::now()->timezone('Asia/Jakarta');
-
+    
             for ($monthnow = 1; $monthnow <= $monthlength; $monthnow++) {
                 $startMonth->addMinutes(1);
             }
-
+    
             for ($monthnow = 1; $monthnow < $monthlength; $monthnow++) {
                 $endMonth->addMinutes(1);
             }
-
+    
             $loanBill = new LoanBills();
             $loanBill->goods_loan_id = $goodsLoan->id;
             $loanBill->month = $goodsLoan->installment;
             $loanBill->installment = 0;
-            $loanBill->installment_amount = $goodsLoan->nominal * $goodsLoan->infaq / 100;            
+            $loanBill->installment_amount = $goodsLoan->infaq; // Use the normal "nominal" instead of calculating with "infaq"
             $loanBill->start_date = $startMonth;
             $loanBill->end_date = $endMonth;
             $loanBill->status = false;
@@ -259,9 +259,10 @@ class GoodsLoanController extends Controller
             $loanBill->save();       
             return 0;
         } else if ($goodsLoan->infaq_type == 'installment') {
-            return $goodsLoan->nominal * $goodsLoan->infaq / 100;
+            return $goodsLoan->infaq; // Use the normal "nominal" instead of calculating with "infaq"
         } 
     }
+    
 
     private function generateLoanBills(GoodsLoan $goodsLoan, $nominalInfaq)
     {
