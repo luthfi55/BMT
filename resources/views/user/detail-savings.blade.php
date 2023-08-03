@@ -34,7 +34,9 @@ $title = "Savings Detail";
                                     <h5 class="font-size-16 mb-4">Savings</h5>
                                     
                                     <h5 class="font-size-15">Id</h5>
-                                    <p>SV-{{ $saving->id }}</p>                                    
+                                    <p>SV-{{ $saving->id }}</p>
+                                    <h5 class="font-size-15">Name</h5>
+                                    <p>{{ $saving->user->name }}</p>                                    
                                     <h5 class="font-size-15">Type</h5>
                                     <p>{{ $saving->type }}</p>
                                     <h5 class="font-size-15">Nominal</h5>

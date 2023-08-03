@@ -46,6 +46,8 @@ class UserController extends Controller
             return redirect()->route('admin.list-user')->with('error', 'User not found.');
         }
 
+        $savings = Savings::with('user')->get();
+
         $savings = Savings::where('user_id', $users->id)->get();
 
         return view('user.detail-user', ['users' => $users, 'savings' => $savings],compact('balance'));
