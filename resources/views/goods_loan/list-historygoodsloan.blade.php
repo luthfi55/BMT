@@ -82,7 +82,7 @@ $title = "Goods Loan History";
                                             </td>
                                             <td>{{ $goodsLoan->goods }}</td>
                                             <td>Rp.{{ number_format($goodsLoan->nominal, 2, ',', '.') }}</td>
-                                            <td>{{ $goodsLoan->infaq }}%</td>
+                                            <td>Rp.{{ number_format($goodsLoan->infaq, 2, ',', '.') }}</td>
                                             <td>{{ ucwords($goodsLoan->infaq_type) }}</td>
                                             <td>
                                                 @if ($goodsLoan->infaq_status == 0)

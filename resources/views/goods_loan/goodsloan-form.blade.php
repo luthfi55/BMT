@@ -160,7 +160,7 @@ $title = "Goods Loan Form";
                                     </div>
 
                                     <div class="row mb-3">
-                                        <label for="infaq" class="col-sm-2 col-form-label">Infaq (%)</label>
+                                        <label for="infaq" class="col-sm-2 col-form-label">Infaq</label>
                                         <div class="col-sm-10">
                                             <input name="infaq" id="infaq" class="form-control" type="number"
                                                 placeholder="Infaq" required>
