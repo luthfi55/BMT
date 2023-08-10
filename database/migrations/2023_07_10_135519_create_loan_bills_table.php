@@ -18,12 +18,12 @@ class CreateLoanBillsTable extends Migration
             $table->foreignId('loan_fund_id')->nullable()->constrained('loan_fund');
             $table->foreignId('goods_loan_id')->nullable()->constrained('goods_loan');
             $table->integer('month');
-            $table->integer('installment');
+            $table->enum('type', ['Installment', 'Infaq']);
             $table->integer('installment_amount');
             $table->datetime('start_date');
             $table->datetime('end_date');
-            $table->boolean('status');
-            $table->boolean('payment_status');
+            $table->enum('status', ['Overdue', 'Active', 'Completed']);
+            $table->enum('payment_status', ['Overdue', 'Completed']);
             $table->string('payment_type')->nullable();
             $table->datetime('payment_date')->nullable();
             $table->timestamps();

@@ -20,8 +20,8 @@ class CreateSavingsTable extends Migration
             $table->integer('nominal');
             $table->datetime('start_date');
             $table->datetime('end_date');
-            $table->boolean('status');
-            $table->boolean('payment_status');
+            $table->enum('status', ['Active', 'Completed']);        
+            $table->enum('payment_status', ['Overdue', 'Completed']);
             $table->string('payment_type')->nullable();
             $table->datetime('payment_date')->nullable();
             $table->timestamps();
