@@ -13,7 +13,7 @@ $title = "Loan Bills Detail";
 
 
             <div class="row">
-                <div class="col-xl-6">
+                <div class="col-xl-12">
                     <div class="card mb-0">
                         <!-- Nav tabs -->
                         <!-- Nav tabs -->
@@ -30,42 +30,41 @@ $title = "Loan Bills Detail";
                         <!-- Tab content -->
                         <div class="tab-content p-4">
                             <div class="tab-pane active" id="detailLoanBills" role="tabpanel">
-                                <div>                                
+                                <div>
                                     <h5 class="font-size-16 mb-4">Detail Loan Bills</h5>
-                                    
+
                                     <h5 class="font-size-15">Id</h5>
                                     <p>LB-{{ $loanBill->id }}</p>
                                     <h5 class="font-size-15">Month</h5>
                                     <p>{{ $loanBill->month }}</p>
+                                    <h5 class="font-size-15">Type</h5>
+                                    <p>{{ $loanBill->type }}</p>
                                     <h5 class="font-size-15">Installment Month</h5>
                                     <p>Rp.{{ number_format($loanBill->installment_amount, 2, ',', '.') }}</p>
                                     <h5 class="font-size-15">Installment Start Date</h5>
                                     <p>{{ $loanBill->start_date }}</p>
                                     <h5 class="font-size-15">Installment End Date</h5>
                                     <p>{{ $loanBill->end_date }}</p>
-                                    <h5 class="font-size-15">Type</h5>
-                                    <p>@if ($loanBill->installment == 1)
-                                        Installment
-                                        @else
-                                        Infaq
-                                        @endif
-                                    </p>
                                     <h5 class="font-size-15">Status</h5>
-                                    <p> @if ($loanBill->status == 1)
-                                        <span style="color: green;">Active</span>
+                                    <p>
+                                        @if ($loanBill->status == 'Overdue')
+                                        <span style="color: #F90716;">Overdue</span>
+                                        @elseif ($loanBill->status == 'Active')
+                                        <span style="color: #FF6E31;">Active</span>
                                         @else
-                                        <span style="color: red;">Overdue</span>
+                                        <span style="color: green;">Completed</span>
                                         @endif
                                     </p>
                                     <h5 class="font-size-15">Payment Status</h5>
-                                    <p>@if ($loanBill->payment_status == 0)
-                                        <span style="color: red;">Overdue</span>
+                                    <p>
+                                        @if ($loanBill->payment_status == 'Overdue')
+                                        <span style="color: #F90716;">Overdue</span>                                        
                                         @else
                                         <span style="color: green;">Completed</span>
                                         @endif
                                     </p>
                                     <h5 class="font-size-15">Payment Type</h5>
-                                    <p>@if ($loanBill->payment_type  == 0)
+                                    <p>@if ($loanBill->payment_type == 0)
                                         -
                                         @else
                                         {{ $loanBill->payment_type }}
@@ -77,8 +76,8 @@ $title = "Loan Bills Detail";
                                         @else
                                         {{ $loanBill->payment_date}}
                                         @endif
-                                    </p>                                               
-                                    </a>      
+                                    </p>
+                                    </a>
                                 </div>                                
                             </div>
 
