@@ -36,44 +36,11 @@ class DataController extends Controller
     }
 
     //testing payment
-    public function getUserData($userId)
-    {
-        $loanFundBills = $this->getLoanFundBills($userId);
-        $goodsLoanBills = $this->getGoodsLoanBills($userId);
-        $savingsBills = $this->getSavingsBills($userId);
-    
-            $loanFundBills = $this->getLoanFundBills($userId);
-            $goodsLoanBills = $this->getGoodsLoanBills($userId);
-            $savingsBills = $this->getSavingsBills($userId);
-    
-            if ($loanFundBills->isEmpty() && $goodsLoanBills->isEmpty() && $savingsBills->isEmpty()) {
-                return response()->json([
-                    'message' => Null,
-                    'Data' => [Null],                
-                ], 200);
-            }
-    
-            return response()->json([
-                'message' => 'Successfully',
-                'Data' => [
-                    'savings' => $savingsBills,
-                    'LoanFundsBills' => $loanFundBills,
-                    'GoodsLoanBills' => $goodsLoanBills,
-                ],            
-            ], 200);
-        }
-
-    // public function getUserData(Request $request)
-    
+    // public function getUserData($userId)
     // {
-    //     if ($request == null){
-    //         return response()->json([
-    //             'message' => 'Failed',
-                  
-    //         ], 400);
-    //     } else {
-    //         $user = $request->user(); 
-    //         $userId = $user->id; 
+    //     $loanFundBills = $this->getLoanFundBills($userId);
+    //     $goodsLoanBills = $this->getGoodsLoanBills($userId);
+    //     $savingsBills = $this->getSavingsBills($userId);
     
     //         $loanFundBills = $this->getLoanFundBills($userId);
     //         $goodsLoanBills = $this->getGoodsLoanBills($userId);
@@ -95,7 +62,40 @@ class DataController extends Controller
     //             ],            
     //         ], 200);
     //     }
-    // }    
+
+    public function getUserData(Request $request)
+    
+    {
+        if ($request == null){
+            return response()->json([
+                'message' => 'Failed',
+                  
+            ], 400);
+        } else {
+            $user = $request->user(); 
+            $userId = $user->id; 
+    
+            $loanFundBills = $this->getLoanFundBills($userId);
+            $goodsLoanBills = $this->getGoodsLoanBills($userId);
+            $savingsBills = $this->getSavingsBills($userId);
+    
+            if ($loanFundBills->isEmpty() && $goodsLoanBills->isEmpty() && $savingsBills->isEmpty()) {
+                return response()->json([
+                    'message' => Null,
+                    'Data' => [Null],                
+                ], 200);
+            }
+    
+            return response()->json([
+                'message' => 'Successfully',
+                'Data' => [
+                    'savings' => $savingsBills,
+                    'LoanFundsBills' => $loanFundBills,
+                    'GoodsLoanBills' => $goodsLoanBills,
+                ],            
+            ], 200);
+        }
+    }    
 
     private function getLoanFundBills($userId)
     {
