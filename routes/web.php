@@ -89,6 +89,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
         Route::put('goodsloan-update/{id}', 'GoodsLoanController@updateStatus')->name('goodsloan-update');
         Route::put('historygoodsloan-update/{id}', 'GoodsLoanController@updateStatusHistory')->name('historygoodsloan-update');
         Route::put('detailgoodsbills-update/{id}', 'GoodsLoanController@updateGoodsBills')->name('goodsbills-update');
+        Route::put('detailgoodsbills-pay/{id}', 'GoodsLoanController@payGoodsBills')->name('goodsbills-pay');
         //goods loan delete
         Route::delete('goodsloan-destroy/{id}', 'GoodsLoanController@destroy')->name('goodsloan-destroy');
         Route::delete('historygoodsloan-destroy/{id}', 'GoodsLoanController@destroyHistory')->name('historygoodsloan-destroy');
