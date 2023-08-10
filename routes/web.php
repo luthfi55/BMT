@@ -52,6 +52,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
         //user get put
         Route::put('user-update/{id}', 'UserController@update')->name('user-update');
         Route::put('savings-update/{id}', 'UserController@updateSavings')->name('savings-update');
+        Route::put('savings-pay/{id}', 'UserController@paySavings')->name('savings-pay');
         //user get delete
         Route::delete('user-destroy/{id}', 'UserController@destroy')->name('user-destroy');
 
@@ -69,6 +70,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
         Route::put('loanfund-update/{id}', 'LoanFundController@updateStatus')->name('loanfund-update');
         Route::put('historyloanfund-update/{id}', 'LoanFundController@updateStatusHistory')->name('historyloanfund-update');
         Route::put('detailfundbills-update/{id}', 'LoanFundController@updateFundBills')->name('fundbills-update');
+        Route::put('detailfundbills-pay/{id}', 'LoanFundController@payFUndBills')->name('fundbills-pay');
         //loan fund delete
         Route::delete('loanfund-destroy/{id}', 'LoanFundController@destroy')->name('loanfund-destroy');
         Route::delete('historyloanfund-destroy/{id}', 'LoanFundController@destroyHistory')->name('historyloanfund-destroy');

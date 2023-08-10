@@ -13,7 +13,7 @@ $title = "User Detail";
 
 
             <div class="row">
-                <div class="col-xl-4">
+                <div class="col-xl-3">
                     <div class="card mb-0">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
@@ -57,7 +57,7 @@ $title = "User Detail";
                             
                     </div>
                 </div>
-                <div class="col-xl-8">
+                <div class="col-xl-9">
                     <div class="card mb-0">
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
@@ -104,18 +104,18 @@ $title = "User Detail";
                                                             <td>{{ $saving->start_date }}</td>
                                                             <td>{{ $saving->end_date }}</td>
                                                             <td>
-                                                                @if ($saving->status == 1)
-                                                                <span style="color: green;">Completed</span>
+                                                                @if ($saving->status == 'Active')
+                                                                <span style="color: #FF6E31;">Active</span>                                        
                                                                 @else
-                                                                <span style="color: red;">Overdue</span>
-                                                                @endif
+                                                                <span style="color: green;">Completed</span>
+                                                                @endif   
                                                             </td>
-                                                            <td>
-                                                                @if ($saving->payment_status == 0)
-                                                                <span style="color: red;">Overdue</span>
+                                                            <td>                                                            
+                                                                @if ($saving->payment_status == 'Overdue')
+                                                                <span style="color: #F90716;">Overdue</span>                                        
                                                                 @else
                                                                 <span style="color: green;">Completed</span>
-                                                                @endif
+                                                                @endif                                                            
                                                             </td>
                                                             <td>
                                                                 @if ($saving->payment_type  == 0)
@@ -136,21 +136,91 @@ $title = "User Detail";
                                                                 <ul class="list-inline mb-0">
                                                                     <li class="list-inline-item">
                                                                         <div class="d-flex">
+                                                                        <div class="px-2 text-primary">      
+                                                                        <!-- Pay button -->
+                                                                        <button type="button" class="btn text-primary p-0"
+                                                                            data-bs-toggle="modal" class="px-2 text-primary"
+                                                                            data-bs-target="#payModal{{ $saving->id }}">
+                                                                            <i class="ri-hand-coin-fill font-size-18"></i>
+                                                                        </button>       
+                                                                        </div>
+                                                                        <!-- Update button -->
+                                                                        <button type="button" class="btn text-primary p-0"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#updateModal{{ $saving->id }}">
+                                                                            <i class="ri-pencil-line font-size-18"></i>
+                                                                        </button>
+                                                                        <!-- Detail button -->
                                                                             <a href="{{ route('admin.detail-savings', $saving->id) }}"
                                                                                 class="px-2 text-primary">
                                                                                 <i class=" ri-file-info-fill font-size-18"></i>
                                                                             </a>
-                                                                            <!-- Update button -->
-                                                                            <button type="button" class="btn text-primary p-0"
-                                                                                data-bs-toggle="modal"
-                                                                                data-bs-target="#updateModal{{ $saving->id }}">
-                                                                                <i class="ri-pencil-line font-size-18"></i>
-                                                                            </button>
                 
                                                                         </div>
                                                                     </li>
                                                                 </ul>
                                                             </td>
+                                                            <!-- Payment Modal -->
+                                                            <div class="modal fade" id="payModal{{ $saving->id }}" tabindex="-1"
+                                                                role="dialog" aria-labelledby="payModal{{ $saving->id }}Label"
+                                                                aria-hidden="true">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title"
+                                                                                id="payModal{{ $saving->id }}Label">Payment
+                                                                            </h5>
+                                                                            <button type="button" class="btn-close"
+                                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <form
+                                                                                action="{{ route('admin.savings-pay', $saving->id) }}"
+                                                                                method="POST">
+                                                                                @csrf
+                                                                                @method('PUT')
+                                                                                @if ($saving->payment_status != 'Overdue')                                                                                
+                                                                                    <div class="alert alert-danger alert-solid" role="alert">
+                                                                                        <span class="fw-medium">Cannot pay, payment already successful.</span>
+                                                                                    </div>
+                                                                                @endif
+                                                                                <label for="type"
+                                                                                    class="col-sm-2 col-form-label">Type</label>
+                                                                                <p>
+                                                                                    {{ $saving->type }}
+                                                                                </p>
+                                                                                <label for="status"
+                                                                                    class="col-sm-2 col-form-label">Nominal</label>
+                                                                                <p>
+                                                                                Rp.{{ number_format($saving->nominal, 2, ',', '.') }}
+                                                                                </p>
+                                                                                <label for="status"
+                                                                                    class="col-sm-3 col-form-label">Payment Type</label>
+                                                                                <div class="col-sm-10">
+                                                                                <select class="form-select" aria-label="Default select example" name="payment_type"
+                                                                                    {{ $saving->payment_status == 'Completed' ? 'disabled' : '' }} required>
+                                                                                    <option value="Cash" {{ $saving->payment_type == 'Cash' ? 'selected' : '' }}>
+                                                                                        <span>Cash</span>
+                                                                                    </option>
+                                                                                    <option value="Transfer" {{ $saving->payment_type == 'Transfer' ? 'selected' : '' }}>
+                                                                                        <span">Transfer</span>
+                                                                                    </option>
+                                                                                </select>
+                                                                                </div>                                                                                                                                                       
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-light waves-effect"
+                                                                                data-bs-dismiss="modal">Cancel</button>
+                                                                                @if ($saving->payment_status != 'Overdue')
+                                                                                    <button type="submit" class="btn btn-primary waves-effect waves-light" disabled>Pay</button>
+                                                                                @else
+                                                                                    <button type="submit" class="btn btn-primary waves-effect waves-light">Pay</button>
+                                                                                @endif
+                                                                        </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                             <!-- Update Modal -->
                                                             <div class="modal fade" id="updateModal{{ $saving->id }}" tabindex="-1"
                                                                 role="dialog" aria-labelledby="updateModal{{ $saving->id }}Label"
@@ -176,42 +246,14 @@ $title = "User Detail";
                                                                                     <select class="form-select"
                                                                                         aria-label="Default select example"
                                                                                         name="status" required>
-                                                                                        <option value="0"
-                                                                                            {{ $saving->status == 0 ? 'selected' : '' }}>
-                                                                                            <span style="color: red;">Overdue</span></option>
-                                                                                        <option value="1"
-                                                                                            {{ $saving->status == 1 ? 'selected' : '' }}>
+                                                                                        <option value="Active"
+                                                                                            {{ $saving->status == 'Active' ? 'selected' : '' }}>
+                                                                                            <span style="color: red;">Active</span></option>
+                                                                                        <option value="Completed"
+                                                                                            {{ $saving->status == 'Completed' ? 'selected' : '' }}>
                                                                                             <span style="color: green;">Completed</span></option>
                                                                                     </select>
-                                                                                </div>
-                                                                                <label for="payment_status"
-                                                                                        class="col-sm-3 col-form-label">Payment Status</label>
-                                                                                <div class="col-sm-10">
-                                                                                    <select class="form-select"
-                                                                                        aria-label="Default select example"
-                                                                                        name="payment_status" required>
-                                                                                        <option value="0"
-                                                                                            {{ $saving->payment_status == 0 ? 'selected' : '' }}>
-                                                                                            <span style="color: red;">Overdue</span></option>
-                                                                                        <option value="1"
-                                                                                            {{ $saving->payment_status == 1 ? 'selected' : '' }}>
-                                                                                            <span style="color: green;">Completed</span></option>
-                                                                                    </select>
-                                                                                </div>
-                                                                                <label for="payment_type"
-                                                                                    class="col-sm-3 col-form-label">Payment Type</label>
-                                                                                <div class="col-sm-10">
-                                                                                    <select class="form-select"
-                                                                                        aria-label="Default select example"
-                                                                                        name="payment_type" required>
-                                                                                        <option value="Cash"
-                                                                                            {{ $saving->payment_type == 'Cash' ? 'selected' : '' }}>
-                                                                                            <span>Cash</span></option>
-                                                                                        <option value="Transfer"
-                                                                                            {{ $saving->payment_type == 'Transfer' ? 'selected' : '' }}>
-                                                                                            <span>Transfer</span></option>
-                                                                                    </select>
-                                                                                </div>
+                                                                                </div>                                                                                
                                                                         </div>
                                                                         <div class="modal-footer">
                                                                             <button type="button" class="btn btn-light waves-effect"

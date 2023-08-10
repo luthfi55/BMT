@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -146,8 +147,8 @@ class UserController extends Controller
         $savings->nominal = $user->mandatory_savings;
         $savings->start_date = $startDate;
         $savings->end_date = $endtDate;
-        $savings->status = true;
-        $savings->payment_status = true;
+        $savings->status = 'Completed';
+        $savings->payment_status = 'Completed';
         $savings->payment_type = 'Cash';
         $savings->payment_date = $startDate;
         $savings->save();
@@ -211,11 +212,8 @@ class UserController extends Controller
         return redirect()->route('admin.list-user');
     }
 
-    public function updateSavings(Request $request, $id)
-    {
-        $request->validate([
-            'status' => 'required',
-            'payment_status' => 'required',
+    public function paySavings(Request $request, $id){
+        $request->validate([                        
             'payment_type' => 'required'
         ]);
     
@@ -223,10 +221,41 @@ class UserController extends Controller
         if (!$saving) {
             return redirect()->route('admin.detail-user', ['id' => $id])->with('error', 'Savings not found.');
         }
-    
-        $saving->status =  $request->input('status');
-        $saving->payment_status = $request->input('payment_status');
+            
+        $currentTime = Carbon::now()->timezone('Asia/Jakarta');
         $saving->payment_type = $request->input('payment_type');
+        $saving->payment_status = 'Completed';
+        $saving->payment_date = $currentTime;
+        $saving->save();
+
+        $balance = Balance::all()->first();
+        $balance->nominal = $balance->nominal + $saving->nominal;
+        $balance->save() ;
+                
+        $balanceHistory = new BalanceHistory();
+        $balanceHistory->savings_id = $saving->id;
+        $balanceHistory->nominal = $saving->nominal;
+        $balanceHistory->description = "Mandatory Savings";
+        $balanceHistory->date = $currentTime->format('Y-m-d H:i:s');
+        $balanceHistory->save();        
+    
+        Session::flash('updateSuccess');
+    
+        return redirect()->route('admin.detail-user', ['id' => $saving->user_id]);
+    }
+
+    public function updateSavings(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required',            
+        ]);
+    
+        $saving = Savings::findOrFail($id);
+        if (!$saving) {
+            return redirect()->route('admin.detail-user', ['id' => $id])->with('error', 'Savings not found.');
+        }
+    
+        $saving->status =  $request->input('status');        
         $saving->save();
     
         Session::flash('updateSuccess');

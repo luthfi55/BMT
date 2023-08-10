@@ -194,7 +194,10 @@ class LoanFundController extends Controller
         $loanFund->month = 1;
         $loanFund->status = false;
 
-        if (!$this->updateBalance($loanFund->nominal)) {            
+        $balance = Balance::first();
+        $result = $balance->nominal - $loanFund->nominal;
+
+        if ($result < 0) {
             return false;
         }
 
@@ -211,12 +214,12 @@ class LoanFundController extends Controller
             $loanBill = new LoanBills();
             $loanBill->loan_fund_id = $loanFund->id;
             $loanBill->month = 1;
-            $loanBill->installment = $loanFund->installment;
+            $loanBill->type = 'Infaq';
             $loanBill->installment_amount = $loanFund->nominal * $loanFund->infaq / 100;            
             $loanBill->start_date = $startMonth;
             $loanBill->end_date = $startMonth;
-            $loanBill->status = true;
-            $loanBill->payment_status = true; 
+            $loanBill->status = 'Completed';
+            $loanBill->payment_status = 'Completed'; 
             $loanBill->save();
             
             $currentTime = Carbon::now()->timezone('Asia/Jakarta');
@@ -251,12 +254,12 @@ class LoanFundController extends Controller
             $loanBill = new LoanBills();
             $loanBill->loan_fund_id = $loanFund->id;
             $loanBill->month = $loanFund->installment;
-            $loanBill->installment = 0;
+            $loanBill->type = 'Infaq';
             $loanBill->installment_amount = $loanFund->nominal * $loanFund->infaq / 100;            
             $loanBill->start_date = $startMonth;
             $loanBill->end_date = $endMonth;
-            $loanBill->status = false;
-            $loanBill->payment_status = false; 
+            $loanBill->status = 'Overdue';
+            $loanBill->payment_status = 'Overdue'; 
             $loanBill->save();       
             return 0;
         } else if ($loanFund->infaq_type == 'installment') {
@@ -271,21 +274,21 @@ class LoanFundController extends Controller
         $installmentAmount = floor($totalLoanFund / $monthlength);
         $lastInstallmentAmount = $totalLoanFund - ($installmentAmount * ($monthlength - 1));
         $currentMonth = Carbon::now()->timezone('Asia/Jakarta');
-        $firstStatus = true;
+        $firstStatus = 'Active';
 
         for ($monthnow = 1; $monthnow <= $monthlength; $monthnow++) {            
             $loanBill = new LoanBills();
             $loanBill->loan_fund_id = $loanFund->id;            
             $loanBill->month = $monthnow;
-            $loanBill->installment = 1;
+            $loanBill->type = 'Installment';
             $loanBill->installment_amount = ($monthnow == $monthlength) ? $lastInstallmentAmount : $installmentAmount;
             $loanBill->start_date = $currentMonth->format('Y-m-d H:i');
             $currentMonth->addMinutes(1);
             $loanBill->end_date = $currentMonth->format('Y-m-d H:i');
             $loanBill->status = $firstStatus;
-            $loanBill->payment_status = false; 
+            $loanBill->payment_status = 'Overdue'; 
             $loanBill->save();
-            $firstStatus = false;
+            $firstStatus = 'Overdue';
         }
     }
 
@@ -363,55 +366,74 @@ class LoanFundController extends Controller
         return redirect()->route('admin.list-historyloanfund');
     }
 
-    public function updateFundBills(Request $request, $id)
+    public function payFUndBills(Request $request, $id)
     {
         $request->validate([
-            'status' => 'required',
-            'payment_status' => 'required',            
+            'payment_type' => 'required',             
         ]);
-    
+
         $loanBill = LoanBills::findOrFail($id);
         if (!$loanBill) {
             return redirect()->route('admin.detail-loanfund', ['id' => $id])->with('error', 'Loan bill not found.');
         }
 
         $currentTime = Carbon::now()->timezone('Asia/Jakarta');
-    
-        $loanBill->status =  $request->input('status');
-        $loanBill->payment_status = $request->input('payment_status');
-        $loanBill->payment_type = $request->input('payment_type');
-        $loanBill->payment_date = $currentTime;
+        $loanBill->payment_type =  $request->input('payment_type');
+        $loanBill->payment_status =  'Completed';
+        $loanBill->payment_date =  $currentTime;
         $loanBill->save();
 
-        if ($loanBill->payment_status == 1) {
-            $checkHistory = BalanceHistory::where('loan_bills_id',$loanBill->id)->first();
-            if(!$checkHistory){                
-                $balance = Balance::all()->first();
-                $balance->nominal = $balance->nominal + $loanBill->installment_amount;
-                $balance->save() ;
+        $balance = Balance::all()->first();
+        $balance->nominal = $balance->nominal + $loanBill->installment_amount;
+        $balance->save() ;
                 
-                $balanceHistory = new BalanceHistory();
-                $balanceHistory->loan_bills_id = $loanBill->id;
-                $balanceHistory->nominal = $loanBill->installment_amount;
-                $balanceHistory->description = "Loan Bills";
-                $balanceHistory->date = $currentTime->format('Y-m-d H:i:s');
-                $balanceHistory->save();
-            }
-        } elseif ($loanBill->payment_status == 0){
-            $balance = Balance::all()->first();
-            $balance->nominal = $balance->nominal - $loanBill->installment_amount;
-            $balance->save();
-
-            $balanceHistory = BalanceHistory::where('loan_bills_id',$loanBill->id)->first();
-            if ($balanceHistory){
-                $balanceHistory->delete();
-            }            
-        } 
+        $balanceHistory = new BalanceHistory();
+        $balanceHistory->loan_bills_id = $loanBill->id;
+        $balanceHistory->nominal = $loanBill->installment_amount;
+        $balanceHistory->description = "Loan Bills";
+        $balanceHistory->date = $currentTime->format('Y-m-d H:i:s');
+        $balanceHistory->save();        
 
         $loanFund = LoanFund::find($loanBill->loan_fund_id);
         if ($loanFund) {
             $billsChecker = LoanBills::where('loan_fund_id', $loanFund->id)
-                                    ->where('payment_status', 0)
+                                    ->where('payment_status', 'Overdue')
+                                    ->get();
+    
+            if ($billsChecker->isEmpty()) {                                
+                $loanFund->infaq_status = 1;
+                $loanFund->status = 1;
+                $loanFund->save();
+            } else {
+                $loanFund->status = 0;
+                $loanFund->save();
+            }
+        }    
+    
+        Session::flash('updateSuccess');
+    
+        return redirect()->route('admin.detail-loanfund', ['id' => $loanBill->loan_fund_id]);
+    }
+
+    public function updateFundBills(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required',             
+        ]);
+    
+        $loanBill = LoanBills::findOrFail($id);
+        if (!$loanBill) {
+            return redirect()->route('admin.detail-loanfund', ['id' => $id])->with('error', 'Loan bill not found.');
+        }        
+    
+        $loanBill->status =  $request->input('status');        
+        $loanBill->save();
+
+
+        $loanFund = LoanFund::find($loanBill->loan_fund_id);
+        if ($loanFund) {
+            $billsChecker = LoanBills::where('loan_fund_id', $loanFund->id)
+                                    ->where('payment_status', 'Overdue')
                                     ->get();
     
             if ($billsChecker->isEmpty()) {                                
@@ -435,20 +457,29 @@ class LoanFundController extends Controller
         try {
             $loanFund = LoanFund::findOrFail($id);
 
-            $loanBills = LoanBills::where('loan_fund_id', $id)->get();
+            $loanBills = LoanBills::where('loan_fund_id', $id)->get();            
 
+            // dd($loanBills);
             foreach ($loanBills as $loanBill) {
+                $balanceHistory = BalanceHistory::where('loan_bills_id', $loanBill->id)->first();
+                if ($balanceHistory){
+                    $balance = Balance::first();            
+                    $balance->nominal = $balance->nominal - $balanceHistory->nominal;
+                    $balance->save();          
+                    $balanceHistory->delete();
+                }
                 $loanBill->delete();
             }
-
             
             $balance = Balance::first();            
             $balance->nominal = $balance->nominal + $loanFund->nominal;
-            $balance->save();
-            
+            $balance->save();                
+                    
             $balanceHistory = BalanceHistory::where('loan_fund_id', $id)->first();
-            $balanceHistory->delete();
-    
+            if ($balanceHistory){
+                $balanceHistory->delete();            
+            }
+
             $loanFund->delete();
 
             Session::flash('deleteSuccess');
