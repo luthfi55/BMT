@@ -101,19 +101,19 @@ class DataController extends Controller
     {
         return LoanBills::whereHas('loanFund', function ($query) use ($userId) {
             $query->where('user_id', $userId);
-        })->where('status', true)->get();
+        })->where('status', 'Active')->get();
     }
 
     private function getGoodsLoanBills($userId)
     {
         return LoanBills::whereHas('goodsLoan', function ($query) use ($userId) {
             $query->where('user_id', $userId);
-        })->where('status', true)->get();
+        })->where('status', 'Active')->get();
     }
 
     private function getSavingsBills($userId)
     {
-        return Savings::where('user_id', $userId)->where('status', true)->get();
+        return Savings::where('user_id', $userId)->where('status', 'Active')->get();
     }
 
     public function checkout(Request $request)
