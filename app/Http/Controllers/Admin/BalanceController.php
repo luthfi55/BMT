@@ -37,14 +37,40 @@ class BalanceController extends Controller
         $balanceHistory->date = $currentTime->format('Y-m-d H:i:s');
 
         $balanceHistory->save();  
-        
-        // Update the 'Balance' table, assuming you want to add the 'nominal' value to the existing balance.
-        // Again, you may need to modify this part based on your application's requirements.
+                
         if ($balance) {
             $balance->nominal = $balance->nominal + $balanceHistory->nominal;
             $balance->save();
         }
-        Session::flash('success', 'Admin created successfully');
+        Session::flash('success', 'Add balance successfully');
+        
+        return redirect()->route('admin.balance-form');
+    }
+
+    public function subtract(Request $request)
+    {      
+        $request->validate([
+            'nominal' => 'required',
+            'description' => 'required',            
+        ]);  
+        
+        $currentTime = Carbon::now()->timezone('Asia/Jakarta');
+
+        $balance = Balance::first();
+        $balanceHistory = new BalanceHistory();        
+        $balance->nominal = $balance->nominal - $balanceHistory->nominal;
+        if ($balance->nominal < 0){
+            return false;
+        } else {
+            $balanceHistory = new BalanceHistory();        
+        }
+        
+        $balanceHistory->nominal = $request->input('nominal');
+        $balanceHistory->description = $request->input('description');
+        $balanceHistory->date = $currentTime->format('Y-m-d H:i:s');
+        $balanceHistory->save();                          
+
+        Session::flash('success', 'Subtract balance successfully');
         
         return redirect()->route('admin.balance-form');
     }
