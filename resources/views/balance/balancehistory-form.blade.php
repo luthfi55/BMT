@@ -9,9 +9,15 @@ $title = "Balance Form";
 <div class="main-content">
 
     <div class="page-content">
-        <div class="container-fluid">
-
+        <div class="container-fluid">                                    
             <div class="row">
+            <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">                            
+                            <h4 class="card-title">Balance : Rp.{{ number_format($balance->nominal, 2, ',', '.') }}</h4>                                                        
+                        </div>
+                    </div>
+                </div> 
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
@@ -74,10 +80,11 @@ $title = "Balance Form";
                 </div> <!-- end col -->
             </div>
             <!-- end row -->           
-            </div>
+            
 
 
             <!-- End Page-content -->
+            
             <div class="row">
                 <div class="col-12">
                     <div class="card">

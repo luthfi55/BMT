@@ -49,7 +49,7 @@ class UserController extends Controller
 
         $savings = Savings::with('user')->get();
 
-        $savings = Savings::where('user_id', $users->id)->get();
+        $savings = Savings::where('user_id', $users->id)->orderBy('start_date')->get();
 
         return view('user.detail-user', ['users' => $users, 'savings' => $savings],compact('balance'));
     }
@@ -140,8 +140,14 @@ class UserController extends Controller
         $startDate = Carbon::now()->timezone('Asia/Jakarta');
         $endtDate = Carbon::now()->timezone('Asia/Jakarta')->addMinutes(1);
         // ->addMonth()
+        
+        $uniqueId = 100000 + random_int(0, 99999);
+        while (Savings::where('id', $uniqueId)->exists()) {
+            $uniqueId = 300000 + random_int(0, 99999);
+        }      
 
         $savings = new Savings();
+        $savings->id = $uniqueId;
         $savings->user_id = $user->id;
         $savings->type = 'Mandatory';
         $savings->nominal = $user->mandatory_savings;

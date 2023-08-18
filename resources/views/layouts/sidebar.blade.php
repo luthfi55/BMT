@@ -228,7 +228,7 @@
                                 <span>Balance</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">                    
-                                <li><a href="/admin/balance-form">Add Balance</a></li>
+                                <li><a href="/admin/balance-form">Balance Adjustments</a></li>
                                 <li><a href="/admin/list-historybalance">History</a></li>                
                             </ul>
                         </li>                                   
@@ -301,7 +301,7 @@
                         <a class="dropdown-item" href="apps-chat.html"><i class="mdi mdi-message-text-outline text-muted font-size-16 align-middle me-1"></i> <span class="align-middle">Messages</span></a>
                         <a class="dropdown-item" href="pages-faq.html"><i class="mdi mdi-lifebuoy text-muted font-size-16 align-middle me-1"></i> <span class="align-middle">Help</span></a>
                         <div class="dropdown-divider"></div> -->
-                    <a class="dropdown-item" href="pages-profile.html"><i
+                    <a class="dropdown-item" href="/admin/balance-form"><i
                             class="mdi mdi-wallet text-muted font-size-16 align-middle me-1"></i> <span
                             class="align-middle">Rp.{{ number_format($balance->nominal, 2, ',', '.') }}</span></a>                    
                     <a class="dropdown-item" href="{{ route('admin.logout') }}" onclick="event.preventDefault();

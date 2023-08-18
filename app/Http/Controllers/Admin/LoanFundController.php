@@ -106,7 +106,7 @@ class LoanFundController extends Controller
             return redirect()->route('admin.list-loanfund')->with('error', 'Loan fund not found.');
         }
     
-        $loanBills = LoanBills::where('loan_fund_id', $loanFund->id)->get();
+        $loanBills = LoanBills::where('loan_fund_id', $loanFund->id)->orderBy('month')->get();
     
         return view('loan_fund.detail-loanfund', compact('loanFund', 'loanBills', 'balance'));
     }
@@ -276,8 +276,13 @@ class LoanFundController extends Controller
         $currentMonth = Carbon::now()->timezone('Asia/Jakarta');
         $firstStatus = 'Active';
 
-        for ($monthnow = 1; $monthnow <= $monthlength; $monthnow++) {            
+        for ($monthnow = 1; $monthnow <= $monthlength; $monthnow++) {    
+            $uniqueId = 200000 + random_int(0, 99999);
+            while (LoanBills::where('id', $uniqueId)->exists()) {
+                $uniqueId = 200000 + random_int(0, 99999);
+            }        
             $loanBill = new LoanBills();
+            $loanBill->id = $uniqueId;
             $loanBill->loan_fund_id = $loanFund->id;            
             $loanBill->month = $monthnow;
             $loanBill->type = 'Installment';

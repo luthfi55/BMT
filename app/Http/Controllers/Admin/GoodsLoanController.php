@@ -108,7 +108,7 @@ class GoodsLoanController extends Controller
             return redirect()->route('admin.list-goodsloan')->with('error', 'Loan bill not found.');
         }
 
-        $loanBills = LoanBills::where('goods_loan_id', $goodsLoan->id)->get();
+        $loanBills = LoanBills::where('goods_loan_id', $goodsLoan->id)->orderBy('month')->get();
 
         return view('goods_loan.detail-goodsloan', ['goodsLoan' => $goodsLoan, 'loanBills' => $loanBills],compact('balance'));
     }
@@ -274,7 +274,12 @@ class GoodsLoanController extends Controller
         $firstStatus = 'Active';
 
         for ($monthnow = 1; $monthnow <= $monthlength; $monthnow++) {            
+            $uniqueId = 300000 + random_int(0, 99999);
+            while (LoanBills::where('id', $uniqueId)->exists()) {
+                $uniqueId = 300000 + random_int(0, 99999);
+            }      
             $loanBill = new LoanBills();
+            $loanBill->id = $uniqueId;
             $loanBill->goods_loan_id = $goodsLoan->id;            
             $loanBill->month = $monthnow;
             $loanBill->type = 'Installment';
