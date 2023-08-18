@@ -19,8 +19,8 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
         // $client_key = config('midtrans.client_key');
-        $validatedData = $request->validate([
-            'user_id' => 'required|exists:users,id',
+        $validatedData = $request->validate([            
+            'user_id' => 'required',
             'bills_id' => 'required',
             'description' => 'required|string',
             'nominal' => 'required|integer',
@@ -43,13 +43,27 @@ class PaymentController extends Controller
 
     private function createPayment(array $data)
     {
-        return Payment::create([
-            'user_id' => $data['user_id'],
-            'bills_id' => $data['bills_id'],
-            'description' => $data['description'],
-            'nominal' => $data['nominal'],
-            'status' => $data['status'],
-        ]);
+        //exmaple
+        $uniqueId = 100000 + random_int(0, 99999);
+            while (LoanBills::where('id', $uniqueId)->exists()) {
+            $uniqueId = 100000 + random_int(0, 99999);
+        }    
+        //production
+        // $uniqueId = 1000000 + random_int(0, 999999);
+        //     while (LoanBills::where('id', $uniqueId)->exists()) {
+        //     $uniqueId = 1000000 + random_int(0, 999999);
+        // }    
+
+        $payment = new Payment();
+        $payment->id = $uniqueId;
+        $payment->user_id = $data['user_id'];
+        $payment->bills_id = $data['bills_id'];
+        $payment->description = $data['description'];
+        $payment->nominal = $data['nominal'];
+        $payment->status = $data['status'];
+        $payment->save();
+
+        return $payment;
     }
 
     private function generateSnapToken(Payment $payment)
@@ -98,8 +112,8 @@ class PaymentController extends Controller
 
                 if ($order->description === 'Mandatory Savings') {
                     $savings = Savings::find($order->bills_id);
-                    $savings->status = 0;
-                    $savings->payment_status = 1;
+                    $savings->status = 'Completed';
+                    $savings->payment_status = 'Completed';
                     $savings->payment_type = $request->payment_type;
                     $savings->payment_date = $request->transaction_time;
                     $savings->save();
@@ -107,8 +121,8 @@ class PaymentController extends Controller
                     $this->saveBalanceHistorySavings($order->bills_id, $request->gross_amount, $order->description, $request->transaction_time);        
                 } else {                    
                     $bills = LoanBills::find($order->bills_id);
-                    $bills->status = 0;
-                    $bills->payment_status = 1;
+                    $bills->status = 'Completed';
+                    $bills->payment_status = 'Completed';
                     $bills->payment_type = $request->payment_type;
                     $bills->payment_date = $request->transaction_time;
                     $bills->save();
@@ -117,7 +131,7 @@ class PaymentController extends Controller
                         $loanFund = LoanFund::find($bills->loan_fund_id);
                         if ($loanFund) {
                             $billsChecker = LoanBills::where('loan_fund_id', $loanFund->id)
-                                                    ->where('payment_status', 0)
+                                                    ->where('payment_status', 'Overdue')
                                                     ->get();
                     
                             if ($billsChecker->isEmpty()) {                                
@@ -130,7 +144,7 @@ class PaymentController extends Controller
                         $goodsLoan = GoodsLoan::find($bills->goods_loan_id);
                         if ($goodsLoan) {
                             $billsChecker = LoanBills::where('goods_loan_id', $goodsLoan->id)
-                                                    ->where('payment_status', 0)
+                                                    ->where('payment_status', 'Overdue')
                                                     ->get();
                     
                             if ($billsChecker->isEmpty()) {                                
