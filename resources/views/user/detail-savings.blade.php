@@ -42,9 +42,9 @@ $title = "Savings Detail";
                                     <h5 class="font-size-15">Nominal</h5>
                                     <p>Rp.{{ number_format($saving->nominal, 2, ',', '.') }}</p>
                                     <h5 class="font-size-15">Installment Start Date</h5>
-                                    <p>{{ $saving->start_date }}</p>
+                                    <p>{{ \Carbon\Carbon::parse($saving->start_date)->format('d M Y H:i:s') }}</p>
                                     <h5 class="font-size-15">Installment End Date</h5>
-                                    <p>{{ $saving->end_date }}</p>
+                                    <p>{{ \Carbon\Carbon::parse($saving->end_date)->format('d M Y H:i:s') }}</p>
                                     <h5 class="font-size-15">Status</h5>
                                     <p> @if ($saving->status == 1)
                                         <span style="color: green;">Completed</span>
@@ -69,8 +69,8 @@ $title = "Savings Detail";
                                     <h5 class="font-size-15">Payment Date</h5>
                                     <p>@if ($saving->payment_date == 0)
                                         -
-                                        @else
-                                        {{ $saving->payment_date}}
+                                        @else                                        
+                                        <p>{{ \Carbon\Carbon::parse($saving->payment_date)->format('d M Y H:i:s') }}</p>
                                         @endif
                                     </p>                                               
                                     </a>      
