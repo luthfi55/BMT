@@ -104,8 +104,8 @@ $title = "Goods Loan Detail";
                                                         <td>{{ $loanBill->month }}</td>
                                                         <td>Rp.{{ number_format($loanBill->installment_amount, 2, ',', '.') }}
                                                         </td>
-                                                        <td>{{ $loanBill->start_date }}</td>
-                                                        <td>{{ $loanBill->end_date }}</td>
+                                                        <td>{{ \Carbon\Carbon::parse($loanBill->start_date)->format('d M Y H:i:s') }}</td> 
+                                                        <td>{{ \Carbon\Carbon::parse($loanBill->end_date)->format('d M Y H:i:s') }}</td> 
                                                         <td>
                                                             {{ $loanBill->type }}
                                                         </td>
@@ -136,7 +136,7 @@ $title = "Goods Loan Detail";
                                                             @if ($loanBill->payment_date == 0)
                                                             -
                                                             @else
-                                                            {{ $loanBill->payment_date}}
+                                                            {{ \Carbon\Carbon::parse($loanBill->payment_date)->format('d M Y H:i:s') }}
                                                             @endif
                                                         </td>
                                                         <td>

@@ -282,7 +282,7 @@
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="d-flex align-items-center">
                         <div class="flex-shrink-0">
-                            <img src="/assets/images/users/avatar-2.jpg"
+                            <img src="/assets/images/users/avatar-3.jpg"
                                 class="img-fluid header-profile-user rounded-circle" alt="">
                         </div>
 

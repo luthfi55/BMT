@@ -124,7 +124,7 @@ $title = "Balance History";
 
                                             <td> {{$balanceHistorie->description}} </td>
 
-                                            <td>{{ ($balanceHistorie->date) }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($balanceHistorie->date)->format('d M Y H:i:s') }}</td>                                            
 
                                             <td>
                                                 <!-- Edit and Delete buttons -->
