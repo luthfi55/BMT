@@ -61,7 +61,7 @@ $title = "Loan Fund Form";
                                                 </td>
                                                 <td class="clickable" data-email="{{ $user->email }}">{{ $user->email }}</td>
                                                 <td>{{ $user->address }}</td>
-                                                <td>{{ $user->birth_date }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($user->birth_date)->format('d M Y') }}</td>
                                                 <td>{{ $user->phone_number }}</td>
                                                 <td>{{ $user->job }}</td>
                                                 <td>Rp.{{ number_format($user->mandatory_savings, 2, ',', '.') }}</td>
@@ -84,21 +84,6 @@ $title = "Loan Fund Form";
                                                                         <i class="ri-delete-bin-line font-size-18"></i>
                                                                     </button>
                                                                 </form>
-                                                            </div>
-                                                        </li>
-
-                                                        <li class="list-inline-item dropdown">
-                                                            <a class="dropdown-toggle font-size-18 px-2" href="#"
-                                                                role="button" data-bs-toggle="dropdown"
-                                                                aria-haspopup="true">
-                                                                <i class="ri-more-2-fill"></i>
-                                                            </a>
-
-                                                            <div class="dropdown-menu dropdown-menu-end">
-                                                                <a class="dropdown-item" href="#">Action</a>
-                                                                <a class="dropdown-item" href="#">Another action</a>
-                                                                <a class="dropdown-item" href="#">Something else
-                                                                    here</a>
                                                             </div>
                                                         </li>
                                                     </ul>

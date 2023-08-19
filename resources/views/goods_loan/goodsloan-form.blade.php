@@ -61,10 +61,10 @@ $title = "Goods Loan Form";
                                                 </td>
                                                 <td class="clickable" data-email="{{ $user->email }}">{{ $user->email }}</td>
                                                 <td>{{ $user->address }}</td>
-                                                <td>{{ $user->birth_date }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($user->birth_date)->format('d M Y') }}</td>
                                                 <td>{{ $user->phone_number }}</td>
                                                 <td>{{ $user->job }}</td>
-                                                <td>{{ $user->mandatory_savings }}</td>
+                                                <td>Rp.{{ number_format($user->mandatory_savings, 2, ',', '.') }}</td>
                                                 <td>
                                                     <!-- Edit and Delete buttons -->
                                                     <ul class="list-inline mb-0">
@@ -86,22 +86,7 @@ $title = "Goods Loan Form";
                                                                 </form>
                                                             </div>
                                                         </li>
-
-                                                        <li class="list-inline-item dropdown">
-                                                            <a class="dropdown-toggle font-size-18 px-2" href="#"
-                                                                role="button" data-bs-toggle="dropdown"
-                                                                aria-haspopup="true">
-                                                                <i class="ri-more-2-fill"></i>
-                                                            </a>
-
-                                                            <div class="dropdown-menu dropdown-menu-end">
-                                                                <a class="dropdown-item" href="#">Action</a>
-                                                                <a class="dropdown-item" href="#">Another action</a>
-                                                                <a class="dropdown-item" href="#">Something else
-                                                                    here</a>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
+                                                    </ul>   
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -160,7 +145,7 @@ $title = "Goods Loan Form";
                                     </div>
 
                                     <div class="row mb-3">
-                                        <label for="infaq" class="col-sm-2 col-form-label">Infaq</label>
+                                        <label for="infaq" class="col-sm-2 col-form-label">Infaq Nominal</label>
                                         <div class="col-sm-10">
                                             <input name="infaq" id="infaq" class="form-control" type="number"
                                                 placeholder="Infaq" required>
