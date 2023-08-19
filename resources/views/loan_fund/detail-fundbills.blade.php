@@ -42,9 +42,9 @@ $title = "Loan Bills Detail";
                                     <h5 class="font-size-15">Installment Month</h5>
                                     <p>Rp.{{ number_format($loanBill->installment_amount, 2, ',', '.') }}</p>
                                     <h5 class="font-size-15">Installment Start Date</h5>
-                                    <p>{{ $loanBill->start_date }}</p>
+                                    <p>{{ \Carbon\Carbon::parse($loanBill->start_date)->format('d M Y H:i:s') }}</p>                                     
                                     <h5 class="font-size-15">Installment End Date</h5>
-                                    <p>{{ $loanBill->end_date }}</p>
+                                    <p>{{ \Carbon\Carbon::parse($loanBill->end_date)->format('d M Y H:i:s') }}</p> 
                                     <h5 class="font-size-15">Status</h5>
                                     <p>
                                         @if ($loanBill->status == 'Overdue')
@@ -74,7 +74,7 @@ $title = "Loan Bills Detail";
                                     <p>@if ($loanBill->payment_date == 0)
                                         -
                                         @else
-                                        {{ $loanBill->payment_date}}
+                                        {{ \Carbon\Carbon::parse($loanBill->payment_date)->format('d M Y H:i:s') }}
                                         @endif
                                     </p>
                                     </a>

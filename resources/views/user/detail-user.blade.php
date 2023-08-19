@@ -40,7 +40,7 @@ $title = "User Detail";
                                     <h5 class="font-size-15">Address</h5>
                                     <p>{{ $users->address }}</p>
                                     <h5 class="font-size-15">Birth Date</h5>
-                                    <p>{{ $users->birth_date }}</p>
+                                    <p>{{ \Carbon\Carbon::parse($users->birth_date)->format('d M Y') }}</p> 
                                     <h5 class="font-size-15">Phone Number</h5>
                                     <p>{{ $users->phone_number }}</p>
                                     <h5 class="font-size-15">Job</h5>
@@ -100,9 +100,9 @@ $title = "User Detail";
                                                             <td>SV-{{ $saving->id }}</td>
                                                             <td>{{ $saving->type }}</td>
                                                             <td>Rp.{{ number_format($saving->nominal, 2, ',', '.') }}
-                                                            </td>
-                                                            <td>{{ $saving->start_date }}</td>
-                                                            <td>{{ $saving->end_date }}</td>
+                                                            </td>                                                            
+                                                            <td>{{ \Carbon\Carbon::parse($saving->start_date)->format('d M Y H:i:s') }}</td>
+                                                            <td>{{ \Carbon\Carbon::parse($saving->end_date)->format('d M Y H:i:s') }}</td>
                                                             <td>
                                                                 @if ($saving->status == 'Active')
                                                                 <span style="color: #FF6E31;">Active</span>                                        
@@ -127,8 +127,8 @@ $title = "User Detail";
                                                             <td>
                                                                 @if ($saving->payment_date == 0)
                                                                 -
-                                                                @else
-                                                                {{ $saving->payment_date}}
+                                                                @else                                                                
+                                                                {{ \Carbon\Carbon::parse($saving->payment_date)->format('d M Y H:i:s') }}
                                                                 @endif
                                                             </td>
                                                             <td>

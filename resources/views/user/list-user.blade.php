@@ -78,7 +78,7 @@ $title = "User List";
                                         </td>
                                         <td>{{ $user->email }}</td>
                                         <td>{{ $user->address }}</td>
-                                        <td>{{ $user->birth_date }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($user->birth_date)->format('d M Y') }}</td>                                        
                                         <td>{{ $user->phone_number }}</td>
                                         <td>{{ $user->job }}</td>
                                         <td>Rp.{{ number_format($user->mandatory_savings, 2, ',', '.') }}</td>
