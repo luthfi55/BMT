@@ -24,6 +24,7 @@ Route::middleware('auth:api', 'missing.token')->group(function () {
     Route::get('user', 'User\DataController@getUserData');
     Route::post('payments', 'User\PaymentController@store');
     Route::post('checkout', 'User\DataController@checkout')->name('checkout.pay');
+    Route::get('checkoutData', 'User\DataController@checkoutData')->name('checkout.data');
     Route::get('invoice/{id}', 'User\PaymentController@invoice')->name('invoice');
 });
 

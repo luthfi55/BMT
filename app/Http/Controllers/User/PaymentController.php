@@ -17,8 +17,7 @@ use Midtrans\Snap;
 class PaymentController extends Controller
 {
     public function store(Request $request)
-    {
-        // $client_key = config('midtrans.client_key');
+    {        
         $validatedData = $request->validate([            
             'user_id' => 'required',
             'bills_id' => 'required',
@@ -27,25 +26,8 @@ class PaymentController extends Controller
             'status' => 'required|in:Unpaid,Paid',
         ]);
 
-        $payment = $this->createPayment($validatedData);
-
-        $snapToken = $this->generateSnapToken($payment);
-
-        return response()->json([
-            'message' => 'Payment created successfully',
-            'data' => [
-                'payment' => $payment,
-                'snap_token' => $snapToken,
-                'client_key' => 'SB-Mid-client-T9jrTX0BmSV206rm',
-            ],
-        ], 201);
-    }
-
-    private function createPayment(array $data)
-    {
-        //exmaple
         $uniqueId = 100000 + random_int(0, 99999);
-            while (LoanBills::where('id', $uniqueId)->exists()) {
+            while (Payment::where('id', $uniqueId)->exists()) {
             $uniqueId = 100000 + random_int(0, 99999);
         }    
         //production
@@ -56,15 +38,25 @@ class PaymentController extends Controller
 
         $payment = new Payment();
         $payment->id = $uniqueId;
-        $payment->user_id = $data['user_id'];
-        $payment->bills_id = $data['bills_id'];
-        $payment->description = $data['description'];
-        $payment->nominal = $data['nominal'];
-        $payment->status = $data['status'];
-        $payment->save();
+        $payment->user_id = $validatedData['user_id'];
+        $payment->bills_id = $validatedData['bills_id'];
+        $payment->description = $validatedData['description'];
+        $payment->nominal = $validatedData['nominal'];
+        $payment->status = $validatedData['status'];
+        $snapToken = $this->generateSnapToken($payment);
+        $payment->snap_token = $snapToken;
+        $payment->save();        
+        
+        // $payment = $this->createPayment($validatedData);
 
-        return $payment;
-    }
+        return response()->json([
+            'message' => 'Payment created successfully',
+            'data' => [
+                'payment' => $payment,                
+                'client_key' => 'SB-Mid-client-T9jrTX0BmSV206rm',
+            ],
+        ], 201);
+    }    
 
     private function generateSnapToken(Payment $payment)
     {

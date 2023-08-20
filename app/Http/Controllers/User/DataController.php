@@ -8,6 +8,7 @@ use App\Models\LoanBills;
 use App\Models\LoanFund;
 use App\Models\Savings;
 use App\Models\User;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use Midtrans\Snap;
 
@@ -126,4 +127,28 @@ class DataController extends Controller
         
         return "Selected Bill ID: " . $billId;
     }
+
+    public function checkoutData(Request $request)
+    {        
+        if ($request == null){
+            return response()->json([
+                'message' => 'Failed',
+                  
+            ], 400);
+        } else {
+            $data = $request->user();
+            $userId = $data->id; 
+            $checkoutData = Payment::where('user_id', $userId)
+            ->latest('created_at')
+            ->first();
+
+            return response()->json([
+                'message' => 'Successfully',
+                'Data' => [
+                    'Data' => $checkoutData,                    
+                ],            
+            ], 200);
+        }
+    }
 }
+
