@@ -16,10 +16,11 @@ class CreatePaymentTable extends Migration
         Schema::create('payment', function (Blueprint $table) {
             $table->id();            
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('bills_id')->constrained('loan_bills');            
+            $table->integer('bills_id');            
             $table->string('description');
             $table->integer('nominal');
             $table->enum('status', ['Unpaid', 'Paid']);
+            $table->string('snap_token');
             $table->timestamps();
         });
     }
