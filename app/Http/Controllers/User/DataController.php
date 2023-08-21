@@ -142,12 +142,19 @@ class DataController extends Controller
             ->latest('created_at')
             ->first();
 
-            return response()->json([
-                'message' => 'Successfully',
-                'Data' => [
-                    'Data' => $checkoutData,                    
-                ],            
-            ], 200);
+            if ($checkoutData->created_at != $checkoutData->updated_at){
+                return response()->json([
+                    'message' => 'Failed',
+                      
+                ], 400);
+            } else {
+                return response()->json([
+                    'message' => 'Successfully',
+                    'Data' => [
+                        'Data' => $checkoutData,                    
+                    ],            
+                ], 200);
+            }
         }
     }
 }
