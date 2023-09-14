@@ -244,11 +244,11 @@ class LoanFundController extends Controller
             $endMonth = Carbon::now()->timezone('Asia/Jakarta');
 
             for ($monthnow = 1; $monthnow <= $monthlength; $monthnow++) {
-                $startMonth->addMinutes(1);
+                $startMonth->addMonth();
             }
 
             for ($monthnow = 1; $monthnow < $monthlength; $monthnow++) {
-                $endMonth->addMinutes(1);
+                $endMonth->addMonth();
             }
 
             $loanBill = new LoanBills();
@@ -288,7 +288,7 @@ class LoanFundController extends Controller
             $loanBill->type = 'Installment';
             $loanBill->installment_amount = ($monthnow == $monthlength) ? $lastInstallmentAmount : $installmentAmount;
             $loanBill->start_date = $currentMonth->format('Y-m-d H:i');
-            $currentMonth->addMinutes(1);
+            $currentMonth->addMonth();
             $loanBill->end_date = $currentMonth->format('Y-m-d H:i');
             $loanBill->status = $firstStatus;
             $loanBill->payment_status = 'Overdue'; 
