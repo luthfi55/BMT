@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## Installation and Usage Guide 
+## Installation
 
 - cp .env.example .env
 
@@ -18,3 +18,15 @@
 - php artisan passport:keys
 
 - php artisan serve
+
+## Usage Guide 
+
+<h4> Admin Account </h4>
+
+Admin 1
+Email        : admin@gmail.com        
+Password     : admin123
+
+Admin 2
+Email        : admin2@gmail.com        
+Password     : admin123
