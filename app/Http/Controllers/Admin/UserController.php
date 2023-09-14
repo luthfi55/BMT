@@ -271,12 +271,17 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
+        try {
+            $user = User::findOrFail($id);
+            $user->delete();
 
-        Session::flash('deleteSuccess');
+            Session::flash('deleteSuccess');
+        } catch (\Exception $e) {
+            Session::flash('deleteFailed');
+        }
 
         return redirect()->route('admin.list-user');
     }
+
 
 }

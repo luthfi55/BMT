@@ -27,49 +27,49 @@ $title = "User Form";
                                         <div class="row mb-3">
                                             <label for="example-text-input" class="col-sm-2 col-form-label">Name</label>
                                             <div class="col-sm-10">
-                                                <input name="name" id="name" class="form-control" type="text" placeholder="Name">
+                                                <input name="name" id="name" class="form-control" type="text" placeholder="Name" required>
                                             </div>
                                         </div>                                          
                                         <!-- end row -->
                                         <div class="row mb-3">
                                             <label for="example-email-input" class="col-sm-2 col-form-label">Email</label>
                                             <div class="col-sm-10">
-                                                <input name="email" id="email" class="form-control" type="email" placeholder="Email">
+                                                <input name="email" id="email" class="form-control" type="email" placeholder="Email" required>
                                             </div>
                                         </div>                                        
                                         <!-- end row -->
                                         <div class="row mb-3">
                                             <label for="example-text-input" class="col-sm-2 col-form-label">Address</label>
                                             <div class="col-sm-10">
-                                                <input name="address" id="address" class="form-control" type="text" placeholder="Address">
+                                                <input name="address" id="address" class="form-control" type="text" placeholder="Address" required>
                                             </div>
                                         </div>     
                                         <!-- end row -->
                                         <div class="row mb-3">
                                             <label for="example-text-input" class="col-sm-2 col-form-label">Birth Date</label>
                                             <div class="col-sm-10">
-                                                <input name="birth_date" id="birth_date" class="form-control" type="date" placeholder="Birth Date">
+                                                <input name="birth_date" id="birth_date" class="form-control" type="date" placeholder="Birth Date" required>
                                             </div>
                                         </div>     
                                         <!-- end row -->
                                         <div class="row mb-3">
                                             <label for="example-text-input" class="col-sm-2 col-form-label">Phone Number</label>
                                             <div class="col-sm-10">
-                                                <input name="phone_number" id="phone_number" class="form-control" type="number" placeholder="Phone Number">
+                                                <input name="phone_number" id="phone_number" class="form-control" type="number" placeholder="Phone Number" required>
                                             </div>
                                         </div>     
                                         <!-- end row -->
                                         <div class="row mb-3">
                                             <label for="example-text-input" class="col-sm-2 col-form-label">Job</label>
                                             <div class="col-sm-10">
-                                                <input name="job" id="job" class="form-control" type="text" placeholder="Job">
+                                                <input name="job" id="job" class="form-control" type="text" placeholder="Job" required>
                                             </div>
                                         </div>     
                                         <!-- end row -->
                                         <div class="row mb-3">
                                             <label for="example-text-input" class="col-sm-2 col-form-label">Mandatory Savings</label>
                                             <div class="col-sm-10">
-                                                <input name="mandatory_savings" id="mandatory_savings" class="form-control" type="text" placeholder="Mandatory Savings">
+                                                <input name="mandatory_savings" id="mandatory_savings" class="form-control" type="number" placeholder="Mandatory Savings" required> 
                                             </div>
                                         </div>                                             
                                         <!-- end row -->                                        
