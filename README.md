@@ -9,24 +9,41 @@
 
 ## Installation
 
-- cp .env.example .env
-
-- composer install
-
-- php artisan migrate --seed
-
-- php artisan passport:keys
-
-- php artisan serve
-
+- Copy env.example, paste it as .env, and customize it for your device.
+```
+cp .env.example .env
+```
+- Installing Dependencies with Composer
+```
+composer install
+```
+- Running Database Migrations and Seeding
+```
+php artisan migrate --seed
+```
+- Generating Passport Encryption Keys
+```
+php artisan passport:keys
+```
+- Starting the Development Server
+```
+php artisan serve
+```
 ## Usage Guide 
 
-<h4> Admin Account </h4>
+**<h4> Admin Account </h4>**
 
-Admin 1
+Admin 1 <br>
 Email        : admin@gmail.com        
 Password     : admin123
 
-Admin 2
+Admin 2 <br>
 Email        : admin2@gmail.com        
 Password     : admin123
+
+**<h4> Automatic Monthly Updates for Installations </h4>**
+
+Run          : <br>
+```
+php artisan schedule:work
+```
