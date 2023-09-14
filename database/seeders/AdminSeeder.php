@@ -17,16 +17,16 @@ class AdminSeeder extends Seeder
     {
         $admins = [
             [
-                'name' => 'Tes',
-                'username' => 'Tes',
-                'email' => 'tes@gmail.com',
-                'password' => Hash::make('11111111')
+                'name' => 'Admin',
+                'username' => 'Admin',
+                'email' => 'admin@gmail.com',
+                'password' => Hash::make('admin123')
             ],
             [
-                'name' => 'Tes1',
-                'username' => 'tes1',
-                'email' => 'tes1@gmail.com',
-                'password' => Hash::make('11111111')
+                'name' => 'Admin2',
+                'username' => 'Admin2',
+                'email' => 'admin2@gmail.com',
+                'password' => Hash::make('admin123')
             ],
         ];
         foreach ($admins as $admin) {
