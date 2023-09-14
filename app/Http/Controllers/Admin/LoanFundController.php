@@ -500,27 +500,38 @@ class LoanFundController extends Controller
     public function destroyHistory($id)
     {
         try {
-            // Cari data loan_fund berdasarkan ID
             $loanFund = LoanFund::findOrFail($id);
 
-            // Cari data loan_bills yang memiliki loan_fund_id yang sama dengan $id
             $loanBills = LoanBills::where('loan_fund_id', $id)->get();
 
-            // Hapus data loan_bills yang terkait dengan loan_fund_id
             foreach ($loanBills as $loanBill) {
+                $balanceHistory = BalanceHistory::where('loan_bills_id', $loanBill->id)->first();
+                if ($balanceHistory) {
+                    $balance = Balance::first();
+                    $balance->nominal = $balance->nominal - $balanceHistory->nominal;
+                    $balance->save();
+                    $balanceHistory->delete();
+                }
                 $loanBill->delete();
             }
 
-            // Hapus data loan_fund
+            $balance = Balance::first();
+            $balance->nominal = $balance->nominal + $loanFund->nominal;
+            $balance->save();
+
+            $balanceHistory = BalanceHistory::where('loan_fund_id', $id)->first();
+            if ($balanceHistory) {
+                $balanceHistory->delete();
+            }
+
             $loanFund->delete();
 
             Session::flash('deleteSuccess');
-
-            return redirect()->route('admin.list-historyloanfund');
         } catch (ModelNotFoundException $e) {
             Session::flash('deleteFailed');
-
-            return redirect()->route('admin.list-historyloanfund');
         }
+
+        return redirect()->route('admin.list-historyloanfund');
     }
+
 }

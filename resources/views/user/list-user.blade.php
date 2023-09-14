@@ -51,6 +51,10 @@ $title = "User List";
                         @elseif(session('deleteSuccess'))                        
                             <div class="alert alert-success alert-solid" role="alert">
                                 <span class="fw-medium">Delete Account Successfully </span>
+                            </div>    
+                        @elseif(session('deleteFailed'))                        
+                            <div class="alert alert-danger alert-solid" role="alert">
+                                <span class="fw-medium">Delete Account Faied </span>
                             </div>                        
                         @endif    
                         <!-- end row -->

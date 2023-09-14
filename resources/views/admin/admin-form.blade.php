@@ -27,27 +27,27 @@ $title = "Admin Form";
                                         <div class="row mb-3">
                                             <label for="example-text-input" class="col-sm-2 col-form-label">Name</label>
                                             <div class="col-sm-10">
-                                                <input name="name" id="name" class="form-control" type="text" placeholder="Name">
+                                                <input name="name" id="name" class="form-control" type="text" placeholder="Name" required>
                                             </div>
                                         </div>      
                                         <div class="row mb-3">
                                             <label for="example-text-input" class="col-sm-2 col-form-label">Username</label>
                                             <div class="col-sm-10">
-                                                <input name="username" id="username" class="form-control" type="text" placeholder="Username">
+                                                <input name="username" id="username" class="form-control" type="text" placeholder="Username" required>
                                             </div>
                                         </div>                                        
                                         <!-- end row -->
                                         <div class="row mb-3">
                                             <label for="example-email-input" class="col-sm-2 col-form-label">Email</label>
                                             <div class="col-sm-10">
-                                                <input name="email" id="email" class="form-control" type="email" placeholder="Email">
+                                                <input name="email" id="email" class="form-control" type="email" placeholder="Email" required>
                                             </div>
                                         </div>                                        
                                         <!-- end row -->
                                         <div class="row mb-3">
                                             <label for="example-password-input" class="col-sm-2 col-form-label">Password</label>
                                             <div class="col-sm-10">
-                                                <input name="password" id="password" class="form-control" type="password" placeholder="Password">
+                                                <input name="password" id="password" class="form-control" type="password" placeholder="Password" required>
                                             </div>
                                         </div>      
                                         <!-- end row -->

@@ -36,34 +36,6 @@ class DataController extends Controller
         }
     }
 
-    //testing payment
-    // public function getUserData($userId)
-    // {
-    //     $loanFundBills = $this->getLoanFundBills($userId);
-    //     $goodsLoanBills = $this->getGoodsLoanBills($userId);
-    //     $savingsBills = $this->getSavingsBills($userId);
-    
-    //         $loanFundBills = $this->getLoanFundBills($userId);
-    //         $goodsLoanBills = $this->getGoodsLoanBills($userId);
-    //         $savingsBills = $this->getSavingsBills($userId);
-    
-    //         if ($loanFundBills->isEmpty() && $goodsLoanBills->isEmpty() && $savingsBills->isEmpty()) {
-    //             return response()->json([
-    //                 'message' => Null,
-    //                 'Data' => [Null],                
-    //             ], 200);
-    //         }
-    
-    //         return response()->json([
-    //             'message' => 'Successfully',
-    //             'Data' => [
-    //                 'savings' => $savingsBills,
-    //                 'LoanFundsBills' => $loanFundBills,
-    //                 'GoodsLoanBills' => $goodsLoanBills,
-    //             ],            
-    //         ], 200);
-    //     }
-
     public function getUserData(Request $request)
     
     {
@@ -142,10 +114,31 @@ class DataController extends Controller
             ->latest('created_at')
             ->first();
 
-            if ($checkoutData->created_at != $checkoutData->updated_at){
+            return response()->json([
+                'message' => 'Successfully',
+                'Data' => [
+                    'Data' => $checkoutData,                    
+                ],            
+            ], 200);            
+        }
+    }
+
+    public function invoiceData(Request $request)
+    {        
+        if ($request == null){
+            return response()->json([
+                'message' => 'Failed',
+                  
+            ], 400);
+        } else {
+            $data = $request->user();
+            $userId = $data->id; 
+            $checkoutData = Payment::where('user_id', $userId)
+            ->latest('created_at')
+            ->first();
+            if ($checkoutData->status == "Unpaid"){
                 return response()->json([
-                    'message' => 'Failed',
-                      
+                    'message' => 'Failed',                    
                 ], 400);
             } else {
                 return response()->json([
@@ -153,9 +146,18 @@ class DataController extends Controller
                     'Data' => [
                         'Data' => $checkoutData,                    
                     ],            
-                ], 200);
+                ], 200);            
             }
+
         }
     }
 }
 
+// if ($checkoutData->created_at != $checkoutData->updated_at){
+            //     return response()->json([
+            //         'message' => 'Failed',
+                      
+            //     ], 400);
+            // } else {
+            // }
+            
