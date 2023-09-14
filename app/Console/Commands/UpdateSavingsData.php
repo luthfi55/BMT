@@ -25,8 +25,8 @@ class UpdateSavingsData extends Command
             $currentDateTime = Carbon::now()->timezone('Asia/Jakarta');
             if ($currentDateTime->format('H:i') == Carbon::parse($saving->end_date)->timezone('Asia/Jakarta')->format('H:i')) {               
                 $startDate = Carbon::now()->timezone('Asia/Jakarta');
-                $endtDate = Carbon::now()->timezone('Asia/Jakarta')->addMinutes(1);
-                // ->addMonth()
+                $endtDate = Carbon::now()->timezone('Asia/Jakarta')->addMonth();
+
                 $uniqueId = 100000 + random_int(0, 99999);
                 while (Savings::where('id', $uniqueId)->exists()) {
                     $uniqueId = 300000 + random_int(0, 99999);

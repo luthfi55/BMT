@@ -138,8 +138,7 @@ class UserController extends Controller
     private function createSavings(User $user)
     {
         $startDate = Carbon::now()->timezone('Asia/Jakarta');
-        $endtDate = Carbon::now()->timezone('Asia/Jakarta')->addMinutes(1);
-        // ->addMonth()
+        $endtDate = Carbon::now()->timezone('Asia/Jakarta')->addMonth();
         
         $uniqueId = 100000 + random_int(0, 99999);
         while (Savings::where('id', $uniqueId)->exists()) {
